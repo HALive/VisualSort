@@ -1,0 +1,561 @@
+package halive.visualsort.gui;
+
+import java.awt.event.*;
+import halive.visualsort.VisualSort;
+import halive.visualsort.core.SortingHandler;
+import halive.visualsort.core.datageneration.DataGenerator;
+import halive.visualsort.core.sorting.SortingAlgorithm;
+import halive.visualsort.gui.rendering.j2d.SortingRenderCanvas;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
+import java.awt.Adjustable;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.event.*;
+
+public class VisualSortUI extends JFrame {
+    private SortingRenderCanvas renderCanvas;
+    private SortingHandler sortingHandler;
+
+    public VisualSortUI() {
+        sortingHandler = new SortingHandler(this);
+        initComponents();
+        for(SortingAlgorithm a : SortingAlgorithm.ALGORTIHMS) {
+            algorithmSelector.addItem(a);
+        }
+        for(DataGenerator g : DataGenerator.DATAGGENS) {
+            dataGeneratorSelector.addItem(g);
+        }
+        Dimension defSize = new Dimension(600,600);
+        this.setSize(defSize);
+        this.setMinimumSize(defSize);
+        renderCanvas = new SortingRenderCanvas(this, sortingHandler);
+        renderPanel.add(renderCanvas, BorderLayout.CENTER);
+        renderCanvas.init();
+    }
+
+    private void onWindowsClosing(WindowEvent e) {
+        exit();
+    }
+
+    private void exitMenuItemActionPerformed(ActionEvent e) {
+        exit();
+    }
+
+    private void barWidthSpinnerStateChanged(ChangeEvent e) {
+        int newVal = (Integer) barWidthSpinner.getValue();
+        int amtVal = (Integer) entrySpinner.getValue();
+        if((VisualSort.MAX_ENTRIES/newVal) < amtVal) {
+            amtVal = VisualSort.MAX_ENTRIES/newVal;
+        }
+        entrySpinner.setModel(new SpinnerNumberModel(amtVal, 10, VisualSort.MAX_ENTRIES / newVal, 1));
+        sortingHandler.setRenderWidth(newVal);
+    }
+
+    private void startButtonActionPerformed(ActionEvent e) {
+        startButton.setEnabled(false);
+        barWidthSpinnerStateChanged(null);
+        entrySpinnerStateChanged(null);
+        delayMSSpinnerStateChanged(null);
+        this.enableAlgoritmSelection(false);
+        displayStatus("Initializing");
+        updateScrollbar();
+        sortingHandler.setSortingAlgorithm((SortingAlgorithm) algorithmSelector.getSelectedItem());
+        sortingHandler.setDataGenerator((DataGenerator) dataGeneratorSelector.getSelectedItem());
+        boolean delayOnSwap = applyDelayOnSwapCheckBox.isSelected();
+        boolean delayOnComp = applyDelayOnCompCheckBox.isSelected();
+        sortingHandler.setDelayOnComp(delayOnComp);
+        sortingHandler.setDelayOnSwap(delayOnSwap);
+        sortingHandler.init();
+    }
+
+    private void onComponentResized(ComponentEvent e) {
+        updateScrollbar();
+        toggleRedraw();
+    }
+
+    private void entrySpinnerStateChanged(ChangeEvent e) {
+        int val = (Integer) entrySpinner.getValue();
+        sortingHandler.setAmtEntries(val);
+    }
+
+    private void delayMSSpinnerStateChanged(ChangeEvent e) {
+        int val = (Integer) delayMSSpinner.getValue();
+        sortingHandler.setDelay(val);
+    }
+
+    private void fovScrollBarAdjustmentValueChanged(AdjustmentEvent e) {
+        int value = e.getValue();
+        renderCanvas.setRenderPos(value);
+    }
+
+    private void CheckBoxStateChanged(ChangeEvent e) {
+        JCheckBox checkBox = (JCheckBox) e.getSource();
+        sortingHandler.setDelayOnComp(checkBox.isSelected());
+    }
+
+    private void applyDelayOnSwapCheckBoxStateChanged(ChangeEvent e) {
+        JCheckBox checkBox = (JCheckBox) e.getSource();
+        sortingHandler.setDelayOnSwap(checkBox.isSelected());
+    }
+
+    private void toggleRedraw() {
+        this.repaint();
+    }
+
+    private void pauseOnNextSwapButtonActionPerformed(ActionEvent e) {
+        this.enableStopButtons(false);
+        sortingHandler.setStopOnNextSwap(true);
+        continuebuttomn.setEnabled(true);
+    }
+
+    private void pauseOnNextCompButtonActionPerformed(ActionEvent e) {
+        this.enableStopButtons(false);
+        sortingHandler.setStopOnNextComp(true);
+        continuebuttomn.setEnabled(true);
+    }
+
+    private void continuebuttomnActionPerformed(ActionEvent e) {
+        continuebuttomn.setEnabled(false);
+        sortingHandler.clearPause();
+        enableStopButtons(true);
+    }
+
+    private void initComponents() {
+        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
+        // Generated using JFormDesigner Evaluation license - chris MÃ¼ller
+        menuBar1 = new JMenuBar();
+        fileMenu = new JMenu();
+        exitMenuItem = new JMenuItem();
+        helpMenu = new JMenu();
+        AboutButton = new JMenuItem();
+        optionPanel = new JPanel();
+        algoLabel = new JLabel();
+        algorithmSelector = new JComboBox();
+        dataGenLabel = new JLabel();
+        dataGeneratorSelector = new JComboBox();
+        amtEntriesLabel = new JLabel();
+        entrySpinner = new JSpinner();
+        barWidthLabel = new JLabel();
+        barWidthSpinner = new JSpinner();
+        startButton = new JButton();
+        spacer2 = new JPanel(null);
+        delayLabel = new JLabel();
+        delayMSSpinner = new JSpinner();
+        delayInfoLabel = new JLabel();
+        applyDelayOnCompCheckBox = new JCheckBox();
+        applyDelayOnSwapCheckBox = new JCheckBox();
+        spacer1 = new JPanel(null);
+        statusInfoLabel = new JLabel();
+        statusLabel = new JLabel();
+        compInfoLabel = new JLabel();
+        compLabel = new JLabel();
+        swaapinfoLabel = new JLabel();
+        swpLabel = new JLabel();
+        elTimeInfoLabel = new JLabel();
+        elTimeLabel = new JLabel();
+        vSpacer1 = new JPanel(null);
+        label8 = new JLabel();
+        pauseOnNextSwapButton = new JButton();
+        pauseOnNextCompButton = new JButton();
+        continuebuttomn = new JButton();
+        renderPanel = new JPanel();
+        fovScrollBar = new JScrollBar();
+
+        //======== this ========
+        setTitle("VisualSort");
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowActivated(WindowEvent e) {
+                toggleRedraw();
+            }
+            @Override
+            public void windowClosing(WindowEvent e) {
+                onWindowsClosing(e);
+            }
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+                toggleRedraw();
+            }
+        });
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentMoved(ComponentEvent e) {
+                toggleRedraw();
+            }
+            @Override
+            public void componentResized(ComponentEvent e) {
+                onComponentResized(e);
+            }
+            @Override
+            public void componentShown(ComponentEvent e) {
+                toggleRedraw();
+            }
+        });
+        Container contentPane = getContentPane();
+        contentPane.setLayout(new BorderLayout(10, 10));
+
+        //======== menuBar1 ========
+        {
+
+            //======== fileMenu ========
+            {
+                fileMenu.setText("File");
+
+                //---- exitMenuItem ----
+                exitMenuItem.setText("Exit");
+                exitMenuItem.addActionListener(e -> exitMenuItemActionPerformed(e));
+                fileMenu.add(exitMenuItem);
+            }
+            menuBar1.add(fileMenu);
+
+            //======== helpMenu ========
+            {
+                helpMenu.setText("?");
+
+                //---- AboutButton ----
+                AboutButton.setText("About");
+                helpMenu.add(AboutButton);
+            }
+            menuBar1.add(helpMenu);
+        }
+        setJMenuBar(menuBar1);
+
+        //======== optionPanel ========
+        {
+
+            // JFormDesigner evaluation mark
+
+            optionPanel.setLayout(new GridBagLayout());
+            ((GridBagLayout)optionPanel.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+            ((GridBagLayout)optionPanel.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+            ((GridBagLayout)optionPanel.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+            ((GridBagLayout)optionPanel.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+
+            //---- algoLabel ----
+            algoLabel.setText("Select Algorithm");
+            optionPanel.add(algoLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+            optionPanel.add(algorithmSelector, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+
+            //---- dataGenLabel ----
+            dataGenLabel.setText("Data Generator");
+            optionPanel.add(dataGenLabel, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+            optionPanel.add(dataGeneratorSelector, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+
+            //---- amtEntriesLabel ----
+            amtEntriesLabel.setText("Amount of Entries");
+            optionPanel.add(amtEntriesLabel, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- entrySpinner ----
+            entrySpinner.setModel(new SpinnerNumberModel(600, 10, VisualSort.MAX_ENTRIES, 1));
+            entrySpinner.addChangeListener(e -> entrySpinnerStateChanged(e));
+            optionPanel.add(entrySpinner, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+
+            //---- barWidthLabel ----
+            barWidthLabel.setText("Bar width (px)");
+            optionPanel.add(barWidthLabel, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- barWidthSpinner ----
+            barWidthSpinner.setModel(new SpinnerNumberModel(1, 1, 10, 1));
+            barWidthSpinner.addChangeListener(e -> barWidthSpinnerStateChanged(e));
+            optionPanel.add(barWidthSpinner, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+
+            //---- startButton ----
+            startButton.setText("Start Sorting");
+            startButton.setPreferredSize(new Dimension(95, 56));
+            startButton.setMaximumSize(new Dimension(95, 56));
+            startButton.setMinimumSize(new Dimension(95, 56));
+            startButton.addActionListener(e -> startButtonActionPerformed(e));
+            optionPanel.add(startButton, new GridBagConstraints(1, 4, 2, 2, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+            optionPanel.add(spacer2, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- delayLabel ----
+            delayLabel.setText("Delay");
+            optionPanel.add(delayLabel, new GridBagConstraints(1, 6, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- delayMSSpinner ----
+            delayMSSpinner.setModel(new SpinnerNumberModel(5, 0, 100, 1));
+            delayMSSpinner.addChangeListener(e -> delayMSSpinnerStateChanged(e));
+            optionPanel.add(delayMSSpinner, new GridBagConstraints(2, 6, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+
+            //---- delayInfoLabel ----
+            delayInfoLabel.setText("Apply delay on..");
+            optionPanel.add(delayInfoLabel, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- applyDelayOnCompCheckBox ----
+            applyDelayOnCompCheckBox.setText("Comparing");
+            applyDelayOnCompCheckBox.addChangeListener(e -> CheckBoxStateChanged(e));
+            optionPanel.add(applyDelayOnCompCheckBox, new GridBagConstraints(2, 7, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+
+            //---- applyDelayOnSwapCheckBox ----
+            applyDelayOnSwapCheckBox.setText("Swaping");
+            applyDelayOnSwapCheckBox.setSelected(true);
+            applyDelayOnSwapCheckBox.addChangeListener(e -> applyDelayOnSwapCheckBoxStateChanged(e));
+            optionPanel.add(applyDelayOnSwapCheckBox, new GridBagConstraints(2, 8, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+
+            //---- spacer1 ----
+            spacer1.setPreferredSize(new Dimension(10, 40));
+            spacer1.setOpaque(false);
+            optionPanel.add(spacer1, new GridBagConstraints(1, 9, 1, 3, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- statusInfoLabel ----
+            statusInfoLabel.setText("Status");
+            optionPanel.add(statusInfoLabel, new GridBagConstraints(1, 12, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- statusLabel ----
+            statusLabel.setText("text");
+            statusLabel.setForeground(Color.black);
+            statusLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+            optionPanel.add(statusLabel, new GridBagConstraints(2, 12, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+
+            //---- compInfoLabel ----
+            compInfoLabel.setText("Comparisons");
+            optionPanel.add(compInfoLabel, new GridBagConstraints(1, 13, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- compLabel ----
+            compLabel.setText("text");
+            compLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+            optionPanel.add(compLabel, new GridBagConstraints(2, 13, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+
+            //---- swaapinfoLabel ----
+            swaapinfoLabel.setText("Swaps");
+            optionPanel.add(swaapinfoLabel, new GridBagConstraints(1, 14, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- swpLabel ----
+            swpLabel.setText("text");
+            swpLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+            optionPanel.add(swpLabel, new GridBagConstraints(2, 14, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+
+            //---- elTimeInfoLabel ----
+            elTimeInfoLabel.setText("Elapsed Time");
+            optionPanel.add(elTimeInfoLabel, new GridBagConstraints(1, 15, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- elTimeLabel ----
+            elTimeLabel.setText("text");
+            elTimeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+            optionPanel.add(elTimeLabel, new GridBagConstraints(2, 15, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+
+            //---- vSpacer1 ----
+            vSpacer1.setPreferredSize(new Dimension(10, 30));
+            optionPanel.add(vSpacer1, new GridBagConstraints(1, 16, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- label8 ----
+            label8.setText("Pause on...");
+            optionPanel.add(label8, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+
+            //---- pauseOnNextSwapButton ----
+            pauseOnNextSwapButton.setText("...next Swap");
+            pauseOnNextSwapButton.setEnabled(false);
+            pauseOnNextSwapButton.addActionListener(e -> pauseOnNextSwapButtonActionPerformed(e));
+            optionPanel.add(pauseOnNextSwapButton, new GridBagConstraints(2, 17, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+
+            //---- pauseOnNextCompButton ----
+            pauseOnNextCompButton.setText("...next Compare");
+            pauseOnNextCompButton.setEnabled(false);
+            pauseOnNextCompButton.addActionListener(e -> pauseOnNextCompButtonActionPerformed(e));
+            optionPanel.add(pauseOnNextCompButton, new GridBagConstraints(2, 18, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+
+            //---- continuebuttomn ----
+            continuebuttomn.setText("Continue");
+            continuebuttomn.setEnabled(false);
+            continuebuttomn.addActionListener(e -> continuebuttomnActionPerformed(e));
+            optionPanel.add(continuebuttomn, new GridBagConstraints(2, 19, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 0, 0), 0, 0));
+        }
+        contentPane.add(optionPanel, BorderLayout.EAST);
+
+        //======== renderPanel ========
+        {
+            renderPanel.setLayout(new BorderLayout());
+
+            //---- fovScrollBar ----
+            fovScrollBar.setOrientation(Adjustable.HORIZONTAL);
+            fovScrollBar.setEnabled(false);
+            fovScrollBar.addAdjustmentListener(e -> fovScrollBarAdjustmentValueChanged(e));
+            renderPanel.add(fovScrollBar, BorderLayout.SOUTH);
+        }
+        contentPane.add(renderPanel, BorderLayout.CENTER);
+        pack();
+        setLocationRelativeTo(getOwner());
+        // JFormDesigner - End of component initialization  //GEN-END:initComponents
+    }
+
+    private void updateScrollbar() {
+        try{
+            int entries = sortingHandler.getAmtEntries();
+            int barWidth = sortingHandler.getRenderWidth();
+            int canvasWidth = renderCanvas.getWidth();
+            int maxRenderable = canvasWidth/barWidth;
+            if(maxRenderable >= entries) {
+                fovScrollBar.setEnabled(false);
+                renderCanvas.setRenderPos(0);
+                fovScrollBar.setMaximum(1);
+            } else {
+                if(!algorithmSelector.isEnabled()) {
+                    fovScrollBar.setEnabled(true);
+                    fovScrollBar.setMaximum(entries - maxRenderable+11);
+                    renderCanvas.setMaxRenderable(maxRenderable);
+                    VisualSort.logger.info(maxRenderable);
+                }
+            }
+        } catch(Exception e) {
+            return;
+        }
+    }
+
+    public void displayStatus(String msg) {
+        statusLabel.setText(msg);
+        VisualSort.logger.info(msg);
+    }
+
+    private void exit() {
+        System.exit(0);
+    }
+
+    public void enableAlgoritmSelection(boolean b) {
+        JComponent[] c = new JComponent[] {algorithmSelector, dataGeneratorSelector, entrySpinner,
+                barWidthSpinner};
+        this.setStateOfJComponents(c, b);
+    }
+
+    public void enableStopButtons(boolean b) {
+        JComponent[] c = new JComponent[] {pauseOnNextCompButton, pauseOnNextSwapButton};
+        setStateOfJComponents(c, b);
+    }
+
+    private void setStateOfJComponents(JComponent[] comp, boolean b) {
+        for (int i = 0; i < comp.length; i++) {
+            comp[i].setEnabled(b);
+        }
+    }
+
+    public void updateStatusLabels(long comp, long swap, String time) {
+        compLabel.setText(""+comp);
+        swpLabel.setText(""+swap);
+        if(time != null)
+            elTimeLabel.setText(time);
+    }
+
+    public JButton getStartButton() {
+        return startButton;
+    }
+
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // Generated using JFormDesigner Evaluation license - chris MÃ¼ller
+    private JMenuBar menuBar1;
+    private JMenu fileMenu;
+    private JMenuItem exitMenuItem;
+    private JMenu helpMenu;
+    private JMenuItem AboutButton;
+    private JPanel optionPanel;
+    private JLabel algoLabel;
+    private JComboBox algorithmSelector;
+    private JLabel dataGenLabel;
+    private JComboBox dataGeneratorSelector;
+    private JLabel amtEntriesLabel;
+    private JSpinner entrySpinner;
+    private JLabel barWidthLabel;
+    private JSpinner barWidthSpinner;
+    private JButton startButton;
+    private JPanel spacer2;
+    private JLabel delayLabel;
+    private JSpinner delayMSSpinner;
+    private JLabel delayInfoLabel;
+    private JCheckBox applyDelayOnCompCheckBox;
+    private JCheckBox applyDelayOnSwapCheckBox;
+    private JPanel spacer1;
+    private JLabel statusInfoLabel;
+    private JLabel statusLabel;
+    private JLabel compInfoLabel;
+    private JLabel compLabel;
+    private JLabel swaapinfoLabel;
+    private JLabel swpLabel;
+    private JLabel elTimeInfoLabel;
+    private JLabel elTimeLabel;
+    private JPanel vSpacer1;
+    private JLabel label8;
+    private JButton pauseOnNextSwapButton;
+    private JButton pauseOnNextCompButton;
+    private JButton continuebuttomn;
+    private JPanel renderPanel;
+    private JScrollBar fovScrollBar;
+    // JFormDesigner - End of variables declaration  //GEN-END:variables
+}

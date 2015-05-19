@@ -1,0 +1,38 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'idea'
+
+def ant = new groovy.util.AntBuilder()
+
+//Configuratiion
+version = '1.0'
+ 
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven { url "http://b2s-repo.googlecode.com/svn/trunk/mvn-repo" }
+    maven { url "http://java.freehep.org/maven2" }
+    maven { url "http://download.java.net/maven/2" }
+}
+
+dependencies {
+    compile group: 'org.lwjgl.lwjgl', name: 'lwjgl', version: '2.+'
+    compile group: 'jcraft', name: 'jogg', version: '0.0.7'
+    compile group: 'jcraft', name: 'jorbis', version: '0.0.15'
+    compile group: 'javax.jnlp', name: 'jnlp', version: '1.2+'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.2'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.2'
+	compile files('lib/ibxm.jar')
+	compile files('lib/slick.jar')
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Visual Sort',
+                'Implementation-Version': version,
+                'Class-Path': '.',
+                'Main-Class': 'halive.visualsort.VisualSort'
+    }
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+}

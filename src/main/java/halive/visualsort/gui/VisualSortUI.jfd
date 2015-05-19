@@ -1,0 +1,290 @@
+JFDML JFormDesigner: "5.2.1.0.138" Java: "1.8.0_31" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.BorderLayout ) {
+			"hgap": 10
+			"vgap": 10
+		} ) {
+			name: "this"
+			"title": "VisualSort"
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosing", "onWindowsClosing", true ) )
+			addEvent( new FormEvent( "java.awt.event.ComponentListener", "componentResized", "onComponentResized", true ) )
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowDeiconified", "toggleRedraw", false ) )
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowActivated", "toggleRedraw", false ) )
+			addEvent( new FormEvent( "java.awt.event.ComponentListener", "componentMoved", "toggleRedraw", false ) )
+			addEvent( new FormEvent( "java.awt.event.ComponentListener", "componentShown", "toggleRedraw", false ) )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0, 0, 0"
+				"$rowSpecs": "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+				"$hGap": 5
+				"$vGap": 5
+				"$alignLeft": true
+				"$alignTop": true
+			} ) {
+				name: "optionPanel"
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "algoLabel"
+					"text": "Select Algorithm"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 1
+				} )
+				add( new FormComponent( "javax.swing.JComboBox" ) {
+					name: "algorithmSelector"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "dataGenLabel"
+					"text": "Data Generator"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 1
+					"gridx": 1
+				} )
+				add( new FormComponent( "javax.swing.JComboBox" ) {
+					name: "dataGeneratorSelector"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+					"gridy": 1
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "amtEntriesLabel"
+					"text": "Amount of Entries"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 2
+					"gridx": 1
+				} )
+				add( new FormComponent( "javax.swing.JSpinner" ) {
+					name: "entrySpinner"
+					"model": new javax.swing.SpinnerNumberModel( 600, 10, 6000, 1 )
+					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "entrySpinnerStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+					"gridy": 2
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "barWidthLabel"
+					"text": "Bar width (px)"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 1
+					"gridy": 3
+				} )
+				add( new FormComponent( "javax.swing.JSpinner" ) {
+					name: "barWidthSpinner"
+					"model": new javax.swing.SpinnerNumberModel( 1, 1, 10, 1 )
+					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "barWidthSpinnerStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+					"gridy": 3
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "startButton"
+					"text": "Start Sorting"
+					"preferredSize": new java.awt.Dimension( 95, 56 )
+					"maximumSize": new java.awt.Dimension( 95, 56 )
+					"minimumSize": new java.awt.Dimension( 95, 56 )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "startButtonActionPerformed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 4
+					"gridwidth": 2
+					"gridheight": 2
+					"gridx": 1
+				} )
+				add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+					name: "spacer2"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 6
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "delayLabel"
+					"text": "Delay"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 6
+					"gridx": 1
+				} )
+				add( new FormComponent( "javax.swing.JSpinner" ) {
+					name: "delayMSSpinner"
+					"model": new javax.swing.SpinnerNumberModel( 5, 0, 100, 1 )
+					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "delayMSSpinnerStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+					"gridy": 6
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "delayInfoLabel"
+					"text": "Apply delay on.."
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 7
+					"gridx": 1
+				} )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "applyDelayOnCompCheckBox"
+					"text": "Comparing"
+					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "CheckBoxStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+					"gridy": 7
+				} )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "applyDelayOnSwapCheckBox"
+					"text": "Swaping"
+					"selected": true
+					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "applyDelayOnSwapCheckBoxStateChanged", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+					"gridy": 8
+				} )
+				add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
+					name: "spacer1"
+					"preferredSize": new java.awt.Dimension( 10, 40 )
+					"opaque": false
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 9
+					"gridx": 1
+					"gridheight": 3
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "statusInfoLabel"
+					"text": "Status"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 12
+					"gridx": 1
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "statusLabel"
+					"text": "text"
+					"foreground": new java.awt.Color( 0, 0, 0, 255 )
+					"horizontalAlignment": 4
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+					"gridy": 12
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "compInfoLabel"
+					"text": "Comparisons"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 13
+					"gridx": 1
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "compLabel"
+					"text": "text"
+					"horizontalAlignment": 4
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+					"gridy": 13
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "swaapinfoLabel"
+					"text": "Swaps"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 14
+					"gridx": 1
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "swpLabel"
+					"text": "text"
+					"horizontalAlignment": 4
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+					"gridy": 14
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "elTimeInfoLabel"
+					"text": "Elapsed Time"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 15
+					"gridx": 1
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "elTimeLabel"
+					"text": "text"
+					"horizontalAlignment": 4
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+					"gridy": 15
+				} )
+				add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
+					name: "vSpacer1"
+					"preferredSize": new java.awt.Dimension( 10, 30 )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 1
+					"gridy": 16
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label8"
+					"text": "Pause on..."
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 1
+					"gridy": 17
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "pauseOnNextSwapButton"
+					"text": "...next Swap"
+					"enabled": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "pauseOnNextSwapButtonActionPerformed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+					"gridy": 17
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "pauseOnNextCompButton"
+					"text": "...next Compare"
+					"enabled": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "pauseOnNextCompButtonActionPerformed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+					"gridy": 18
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "continuebuttomn"
+					"text": "Continue"
+					"enabled": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "continuebuttomnActionPerformed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+					"gridy": 19
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "East"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+				name: "renderPanel"
+				add( new FormComponent( "javax.swing.JScrollBar" ) {
+					name: "fovScrollBar"
+					"orientation": 0
+					"enabled": false
+					addEvent( new FormEvent( "java.awt.event.AdjustmentListener", "adjustmentValueChanged", "fovScrollBarAdjustmentValueChanged", true ) )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "South"
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "Center"
+			} )
+			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
+				name: "menuBar1"
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "fileMenu"
+					"text": "File"
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "exitMenuItem"
+						"text": "Exit"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "exitMenuItemActionPerformed", true ) )
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "helpMenu"
+					"text": "?"
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "AboutButton"
+						"text": "About"
+					} )
+				} )
+			}
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 20, 0 )
+			"size": new java.awt.Dimension( 590, 570 )
+		} )
+	}
+}

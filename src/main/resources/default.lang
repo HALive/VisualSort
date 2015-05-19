@@ -1,0 +1,16 @@
+datagen.random.name=Random
+datagen.random.description=Genmerates random data using Javas Random class
+datagen.sine.name=Sine
+datagen.sine.description=Genmerates data using Javas Mazh.sin Method
+datagen.sawtooth.name=Sawtooth
+datagen.sawtooth.description=Genmerates data in a Sawtooth Pattern
+datagen.lineardesc.name=Linear descending
+datagen.lineardesc.description=Genmerates linerarly descending data
+datagen.linearasc.name=Linear ascending
+datagen.linearasc.description=Genmerates linerarly ascending data
+datagen.possquare.name=Positive parabola
+datagen.possquare.description=Genmerates data in the shape of a Positive parabola f(x) = x*x
+datagen.negsquare.name=Negative parabola
+datagen.negsquare.description=Genmerates data in the shape of a Negative parabola f(x) = -1*x*x
+sorter.bubblesort.name=Bubble Sort
+sorter.bubblesort.description=The basic BubbleSort Algortihm.

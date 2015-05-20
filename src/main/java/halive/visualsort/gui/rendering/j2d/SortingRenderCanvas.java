@@ -65,6 +65,11 @@ public class SortingRenderCanvas extends ActiveRenderingCanvas implements IVisua
         this.init();
     }
 
+    @Override
+    public void stop() {
+        System.exit(0);
+    }
+
     public int getRenderPos() {
         return renderPos;
     }

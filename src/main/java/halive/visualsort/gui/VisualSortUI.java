@@ -10,6 +10,7 @@ import halive.visualsort.gui.rendering.IVisualSortRenderer;
 import halive.visualsort.gui.rendering.j2d.ActiveRenderingCanvas;
 import halive.visualsort.gui.rendering.j2d.SortingRenderCanvas;
 import halive.visualsort.gui.rendering.slick2d.OpenGLRenderCanvas;
+import javafx.embed.swing.JFXPanel;
 import org.newdawn.slick.SlickException;
 
 import javax.swing.JButton;
@@ -59,7 +60,6 @@ public class VisualSortUI extends JFrame {
         Dimension defSize = new Dimension(600,600);
         this.setSize(defSize);
         this.setMinimumSize(defSize);
-
     }
 
     private void onWindowsClosing(WindowEvent e) {
@@ -98,8 +98,9 @@ public class VisualSortUI extends JFrame {
                     return;
                 }
             }
+            renderPanel.add(renderCanvas, BorderLayout.CENTER);
         }
-        renderPanel.add(renderCanvas, BorderLayout.CENTER);
+
         this.useOpenGLCheckBox.setEnabled(false);
         startButton.setEnabled(false);
         //Triggering Events
@@ -107,9 +108,11 @@ public class VisualSortUI extends JFrame {
         entrySpinnerStateChanged(null);
         delayMSSpinnerStateChanged(null);
         this.enableAlgoritmSelection(false);
-        displayStatus("Initializing");
         updateScrollbar();
-        if(!renderer.isRendering()) renderer.start();
+        displayStatus("Initializing");
+        if(!renderer.isRendering()) {
+            renderer.start();
+        }
         //Initializing the sorting Handler
         sortingHandler.setSortingAlgorithm((SortingAlgorithm) algorithmSelector.getSelectedItem());
         sortingHandler.setDataGenerator((DataGenerator) dataGeneratorSelector.getSelectedItem());
@@ -176,6 +179,11 @@ public class VisualSortUI extends JFrame {
         enableStopButtons(true);
     }
 
+    private void onWindowClosed(WindowEvent e) {
+        System.out.println("exiting");
+        System.exit(0);
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - chris MÃ¼ller
@@ -224,6 +232,10 @@ public class VisualSortUI extends JFrame {
             @Override
             public void windowActivated(WindowEvent e) {
                 toggleRedraw();
+            }
+            @Override
+            public void windowClosed(WindowEvent e) {
+                onWindowClosed(e);
             }
             @Override
             public void windowClosing(WindowEvent e) {
@@ -299,8 +311,8 @@ public class VisualSortUI extends JFrame {
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
             optionPanel.add(algorithmSelector, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
 
             //---- dataGenLabel ----
             dataGenLabel.setText("Data Generator");
@@ -308,8 +320,8 @@ public class VisualSortUI extends JFrame {
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
             optionPanel.add(dataGeneratorSelector, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
 
             //---- amtEntriesLabel ----
             amtEntriesLabel.setText("Amount of Entries");
@@ -321,8 +333,8 @@ public class VisualSortUI extends JFrame {
             entrySpinner.setModel(new SpinnerNumberModel(600, 10, 6000, 1));
             entrySpinner.addChangeListener(e -> entrySpinnerStateChanged(e));
             optionPanel.add(entrySpinner, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
 
             //---- barWidthLabel ----
             barWidthLabel.setText("Bar width (px)");
@@ -334,8 +346,8 @@ public class VisualSortUI extends JFrame {
             barWidthSpinner.setModel(new SpinnerNumberModel(1, 1, 10, 1));
             barWidthSpinner.addChangeListener(e -> barWidthSpinnerStateChanged(e));
             optionPanel.add(barWidthSpinner, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
 
             //---- useOpenGLCheckBox ----
             useOpenGLCheckBox.setText("Use OpenGL");
@@ -505,25 +517,25 @@ public class VisualSortUI extends JFrame {
     }
 
     private void updateScrollbar() {
-        try{
-            int entries = sortingHandler.getAmtEntries();
-            int barWidth = sortingHandler.getRenderWidth();
-            int canvasWidth = renderCanvas.getWidth();
-            int maxRenderable = canvasWidth/barWidth;
-            if(maxRenderable >= entries) {
-                fovScrollBar.setEnabled(false);
-                if(renderer != null) renderer.setRenderPos(0);
-                fovScrollBar.setMaximum(1);
-            } else {
-                if(!algorithmSelector.isEnabled()) {
-                    fovScrollBar.setEnabled(true);
-                    fovScrollBar.setMaximum(entries - maxRenderable+11);
-                    if(renderer != null) renderer.setMaxRenderable(maxRenderable);
-                    VisualSort.logger.info(maxRenderable);
+        if(renderCanvas != null && renderer != null) {
+            try{
+                int entries = sortingHandler.getAmtEntries();
+                int maxRenderable = renderer.getMaxRenderable();
+                if(maxRenderable >= entries) {
+                    fovScrollBar.setEnabled(false);
+                    renderer.setRenderPos(0);
+                    fovScrollBar.setMaximum(1);
+                } else {
+                    if(!algorithmSelector.isEnabled()) {
+                        fovScrollBar.setEnabled(true);
+                        fovScrollBar.setMaximum(entries - maxRenderable + 11);
+                        VisualSort.logger.info(maxRenderable);
+                    }
                 }
+            } catch(Exception e) {
+                VisualSort.logger.info("Error Updating Scrollbar",  e);
+                return;
             }
-        } catch(Exception e) {
-            return;
         }
     }
 
@@ -533,7 +545,12 @@ public class VisualSortUI extends JFrame {
     }
 
     private void exit() {
-        System.exit(0);
+        if(renderer != null) {
+            renderer.stop();
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {}
+        }
     }
 
     public void enableAlgoritmSelection(boolean b) {
@@ -560,14 +577,19 @@ public class VisualSortUI extends JFrame {
             elTimeLabel.setText(time);
     }
 
-    private void slickError(Exception e) {
+    public void slickError(Exception e) {
         VisualSort.logger.error("Error initializing Slick2D", e);
         allowResize = true;
         this.setResizable(true);
         this.setMinimumSize(new Dimension(600, 600));
         this.setMaximumSize(null);
         useOpenGLCheckBox.setSelected(false);
-        JOptionPane.showMessageDialog(this,"Could not use OpenGL for Rendering, forcing J2D\nPlease retry.");
+        JOptionPane.showMessageDialog(this, "Could not use OpenGL for Rendering, forcing J2D\nPlease retry.");
+    }
+
+    public void forceJavaDRendering() {
+        useOpenGLCheckBox.setSelected(false);
+        useOpenGLCheckBox.setEnabled(false);
     }
 
     public JButton getStartButton() {

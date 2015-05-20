@@ -19,7 +19,7 @@ public class NativeLoader {
     public NativeLoader(Class resourceClass, String[] resourceNames) throws IOException{
         String cName = resourceClass.getName();
         String resName = cName.replace('.', '/') + ".class";
-        String[] path = getClass().getClassLoader().getResource(resName).getPath().replace("file:/", "").split("!");
+        String[] path = getClass().getClassLoader().getResource(resName).getPath().replace("file:/", "").replace("%20", " ").split("!");
         if(path.length != 2) {
             throw new IOException("Invalid Resource Path or the program vas not started from a JAR");
         }

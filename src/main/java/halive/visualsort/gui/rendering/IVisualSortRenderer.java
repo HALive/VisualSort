@@ -7,5 +7,7 @@ public interface IVisualSortRenderer {
     void setRenderPos(int renderPos);
     void setMaxRenderable(int maxRenderable);
     String getRenderFunctionName();
+    int getMaxRenderable();
     void start();
+    void stop();
 }

@@ -20,6 +20,17 @@ public class VisualSort {
     public static void main(String[] args){
         initLogger();
         logger.info("Initialized Logger");
+        for(UIManager.LookAndFeelInfo i : UIManager.getInstalledLookAndFeels()) {
+            if(i.getName().equals("Nimbus")) {
+                try {
+                    UIManager.setLookAndFeel(i.getClassName());
+                } catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException e) {
+                    logger.error("Could not set look and feel", e);
+                }
+                break;
+            }
+        }
+        logger.info("Look and feel set.");
         try {
             ProgressMonitor mon = new ProgressMonitor(null, "Extracting natives...", "", 0,100);
             mon.setMillisToPopup(0);
@@ -32,18 +43,7 @@ public class VisualSort {
         } catch (Exception e) {
             logger.error("Could not extract natives", e);
         }
-        logger.info("Loaded Language file");
-        for(UIManager.LookAndFeelInfo i : UIManager.getInstalledLookAndFeels()) {
-            if(i.getName().equals("Nimbus")) {
-                try {
-                    UIManager.setLookAndFeel(i.getClassName());
-                } catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException e) {
-                    logger.error("Could not set look and feel", e);
-                }
-                break;
-            }
-        }
-        logger.info("Look and feel set.");
+        logger.info("Loaded native files");
         SwingUtilities.invokeLater(() -> {
             VisualSortUI ui = new VisualSortUI();
             ui.setVisible(true);

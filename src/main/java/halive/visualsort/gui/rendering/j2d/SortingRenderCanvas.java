@@ -2,11 +2,12 @@ package halive.visualsort.gui.rendering.j2d;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
+import halive.visualsort.gui.rendering.IVisualSortRenderer;
 
 import java.awt.Container;
 import java.awt.Graphics;
 
-public class SortingRenderCanvas extends ActiveRenderingCanvas{
+public class SortingRenderCanvas extends ActiveRenderingCanvas implements IVisualSortRenderer{
 
     private SortingHandler sortingHandler;
     private int renderPos=0;
@@ -36,12 +37,32 @@ public class SortingRenderCanvas extends ActiveRenderingCanvas{
         }
     }
 
+    @Override
+    public boolean allowResizeWhenRendeing() {
+        return true;
+    }
+
+    @Override
+    public boolean isRendering() {
+        return this.renderThread.isAlive();
+    }
+
     public void setRenderPos(int renderPos) {
         this.renderPos = renderPos;
     }
 
     public void setMaxRenderable(int maxRenderable) {
         this.maxRenderable = maxRenderable;
+    }
+
+    @Override
+    public String getRenderFunctionName() {
+        return "Java2D Rendering";
+    }
+
+    @Override
+    public void start() {
+        this.init();
     }
 
     public int getRenderPos() {

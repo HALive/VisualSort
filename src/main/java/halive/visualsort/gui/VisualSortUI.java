@@ -186,7 +186,6 @@ public class VisualSortUI extends JFrame {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - chris MÃ¼ller
         menuBar1 = new JMenuBar();
         fileMenu = new JMenu();
         exitMenuItem = new JMenuItem();
@@ -225,8 +224,6 @@ public class VisualSortUI extends JFrame {
         continuebuttomn = new JButton();
         renderPanel = new JPanel();
         fovScrollBar = new JScrollBar();
-
-        //======== this ========
         setTitle("VisualSort");
         addWindowListener(new WindowAdapter() {
             @Override
@@ -291,20 +288,6 @@ public class VisualSortUI extends JFrame {
 
         //======== optionPanel ========
         {
-
-            // JFormDesigner evaluation mark
-            optionPanel.setBorder(new javax.swing.border.CompoundBorder(
-                new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-                    "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-                    javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-                    java.awt.Color.red), optionPanel.getBorder())); optionPanel.addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
-
-            optionPanel.setLayout(new GridBagLayout());
-            ((GridBagLayout)optionPanel.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
-            ((GridBagLayout)optionPanel.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-            ((GridBagLayout)optionPanel.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
-            ((GridBagLayout)optionPanel.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
-
             //---- algoLabel ----
             algoLabel.setText("Select Algorithm");
             optionPanel.add(algoLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
@@ -550,6 +533,8 @@ public class VisualSortUI extends JFrame {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {}
+        }else {
+            System.exit(0);
         }
     }
 

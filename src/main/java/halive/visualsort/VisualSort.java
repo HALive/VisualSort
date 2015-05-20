@@ -21,6 +21,7 @@ public class VisualSort {
     public static Logger logger;
 
     public static void main(String[] args){
+        System.out.println(System.getProperty("os.name"));
         initLogger();
         boolean force;
         logger.info("Initialized Logger");
@@ -40,9 +41,6 @@ public class VisualSort {
             mon.setMillisToPopup(0);
             NativeLoader loader = new NativeLoader(VisualSort.class, null);
             File nativesFolder = new File("natives");
-            if(!nativesFolder.canWrite()) {
-                throw new Exception("Directory is Read-Only");
-            }
             loader.copyNatives(nativesFolder, mon);
             mon.setNote("Updating Library Path");
             NativeLoaderUtils.addLibraryPath(nativesFolder.getPath());

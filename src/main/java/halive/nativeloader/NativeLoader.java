@@ -24,6 +24,9 @@ public class NativeLoader {
             throw new IOException("Invalid Resource Path or the program vas not started from a JAR");
         }
         String jarPath = path[0];
+        if(!(System.getProperty("os.name").toLowerCase().contains("windows"))) {
+            jarPath = "/"+jarPath;
+        }
         File f = new File(jarPath);
         JarFile file = new JarFile(f);
         jarFile = file;

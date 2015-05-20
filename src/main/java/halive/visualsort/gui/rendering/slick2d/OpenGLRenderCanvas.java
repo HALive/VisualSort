@@ -99,9 +99,7 @@ public class OpenGLRenderCanvas implements IVisualSortRenderer, Game {
     }
 
     @Override
-    public void update(GameContainer gameContainer, int i) throws SlickException {
-
-    }
+    public void update(GameContainer gameContainer, int i) throws SlickException {}
 
     @Override
     public void render(GameContainer gameContainer, Graphics g) throws SlickException {
@@ -120,6 +118,10 @@ public class OpenGLRenderCanvas implements IVisualSortRenderer, Game {
                 int value = (int) ((double) e.getValue()*heightScale);
                 g.setColor(new Color(e.getRenderColor().getRGB()));
                 g.fillRect((i - renderPos) * e.getWidth(), height - value, e.getWidth(), value);
+                if(e.getWidth() > 2) {
+                    g.setColor(new Color(e.getInvertedColor().getRGB()));
+                    g.drawRect((i - renderPos) * e.getWidth(), height - value, e.getWidth(), value);
+                }
             }
         }
     }

@@ -15,9 +15,10 @@ new FormModel {
 			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowActivated", "toggleRedraw", false ) )
 			addEvent( new FormEvent( "java.awt.event.ComponentListener", "componentMoved", "toggleRedraw", false ) )
 			addEvent( new FormEvent( "java.awt.event.ComponentListener", "componentShown", "toggleRedraw", false ) )
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosed", "onWindowClosed", true ) )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 				"$columnSpecs": "0, 0, 0"
-				"$rowSpecs": "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+				"$rowSpecs": "0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
 				"$hGap": 5
 				"$vGap": 5
 				"$alignLeft": true
@@ -78,6 +79,13 @@ new FormModel {
 					"gridx": 2
 					"gridy": 3
 				} )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "useOpenGLCheckBox"
+					"text": "Use OpenGL"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+					"gridy": 4
+				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "startButton"
 					"text": "Start Sorting"
@@ -86,7 +94,7 @@ new FormModel {
 					"minimumSize": new java.awt.Dimension( 95, 56 )
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "startButtonActionPerformed", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridy": 4
+					"gridy": 5
 					"gridwidth": 2
 					"gridheight": 2
 					"gridx": 1
@@ -94,13 +102,13 @@ new FormModel {
 				add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
 					name: "spacer2"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridy": 6
+					"gridy": 7
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "delayLabel"
 					"text": "Delay"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridy": 6
+					"gridy": 7
 					"gridx": 1
 				} )
 				add( new FormComponent( "javax.swing.JSpinner" ) {
@@ -109,13 +117,13 @@ new FormModel {
 					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "delayMSSpinnerStateChanged", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 2
-					"gridy": 6
+					"gridy": 7
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "delayInfoLabel"
 					"text": "Apply delay on.."
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridy": 7
+					"gridy": 8
 					"gridx": 1
 				} )
 				add( new FormComponent( "javax.swing.JCheckBox" ) {
@@ -124,7 +132,7 @@ new FormModel {
 					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "CheckBoxStateChanged", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 2
-					"gridy": 7
+					"gridy": 8
 				} )
 				add( new FormComponent( "javax.swing.JCheckBox" ) {
 					name: "applyDelayOnSwapCheckBox"
@@ -133,14 +141,14 @@ new FormModel {
 					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "applyDelayOnSwapCheckBoxStateChanged", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 2
-					"gridy": 8
+					"gridy": 9
 				} )
 				add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
 					name: "spacer1"
 					"preferredSize": new java.awt.Dimension( 10, 40 )
 					"opaque": false
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridy": 9
+					"gridy": 10
 					"gridx": 1
 					"gridheight": 3
 				} )
@@ -148,7 +156,7 @@ new FormModel {
 					name: "statusInfoLabel"
 					"text": "Status"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridy": 12
+					"gridy": 13
 					"gridx": 1
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
@@ -158,13 +166,13 @@ new FormModel {
 					"horizontalAlignment": 4
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 2
-					"gridy": 12
+					"gridy": 13
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "compInfoLabel"
 					"text": "Comparisons"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridy": 13
+					"gridy": 14
 					"gridx": 1
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
@@ -173,13 +181,13 @@ new FormModel {
 					"horizontalAlignment": 4
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 2
-					"gridy": 13
+					"gridy": 14
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "swaapinfoLabel"
 					"text": "Swaps"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridy": 14
+					"gridy": 15
 					"gridx": 1
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
@@ -188,13 +196,13 @@ new FormModel {
 					"horizontalAlignment": 4
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 2
-					"gridy": 14
+					"gridy": 15
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "elTimeInfoLabel"
 					"text": "Elapsed Time"
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridy": 15
+					"gridy": 16
 					"gridx": 1
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
@@ -203,21 +211,21 @@ new FormModel {
 					"horizontalAlignment": 4
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 2
-					"gridy": 15
+					"gridy": 16
 				} )
 				add( new FormComponent( "com.jformdesigner.designer.wrapper.VSpacer" ) {
 					name: "vSpacer1"
 					"preferredSize": new java.awt.Dimension( 10, 30 )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 1
-					"gridy": 16
+					"gridy": 17
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "label8"
 					"text": "Pause on..."
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 1
-					"gridy": 17
+					"gridy": 18
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "pauseOnNextSwapButton"
@@ -226,7 +234,7 @@ new FormModel {
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "pauseOnNextSwapButtonActionPerformed", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 2
-					"gridy": 17
+					"gridy": 18
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "pauseOnNextCompButton"
@@ -235,7 +243,7 @@ new FormModel {
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "pauseOnNextCompButtonActionPerformed", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 2
-					"gridy": 18
+					"gridy": 19
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "continuebuttomn"
@@ -244,7 +252,7 @@ new FormModel {
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "continuebuttomnActionPerformed", true ) )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 					"gridx": 2
-					"gridy": 19
+					"gridy": 20
 				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "East"
@@ -284,7 +292,7 @@ new FormModel {
 			}
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 20, 0 )
-			"size": new java.awt.Dimension( 590, 570 )
+			"size": new java.awt.Dimension( 590, 610 )
 		} )
 	}
 }

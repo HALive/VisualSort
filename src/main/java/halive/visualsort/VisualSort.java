@@ -6,7 +6,10 @@ import halive.visualsort.gui.VisualSortUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.swing.*;
+import javax.swing.ProgressMonitor;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import java.io.File;
 
 public class VisualSort {
@@ -18,21 +21,10 @@ public class VisualSort {
     public static Logger logger;
 
     public static void main(String[] args){
+        System.out.println(System.getProperty("os.name"));
         initLogger();
+        boolean force;
         logger.info("Initialized Logger");
-        try {
-            ProgressMonitor mon = new ProgressMonitor(null, "Extracting natives...", "", 0,100);
-            mon.setMillisToPopup(0);
-            NativeLoader loader = new NativeLoader(VisualSort.class, null);
-            File nativesFolder = new File("natives");
-            loader.copyNatives(nativesFolder, mon);
-            mon.setNote("Updating Library Path");
-            NativeLoaderUtils.addLibraryPath(nativesFolder.getPath());
-            mon.close();
-        } catch (Exception e) {
-            logger.error("Could not extract natives", e);
-        }
-        logger.info("Loaded Language file");
         for(UIManager.LookAndFeelInfo i : UIManager.getInstalledLookAndFeels()) {
             if(i.getName().equals("Nimbus")) {
                 try {
@@ -44,9 +36,26 @@ public class VisualSort {
             }
         }
         logger.info("Look and feel set.");
+        try {
+            ProgressMonitor mon = new ProgressMonitor(null, "Extracting natives...", "", 0,100);
+            mon.setMillisToPopup(0);
+            NativeLoader loader = new NativeLoader(VisualSort.class, null);
+            File nativesFolder = new File("natives");
+            loader.copyNatives(nativesFolder, mon);
+            mon.setNote("Updating Library Path");
+            NativeLoaderUtils.addLibraryPath(nativesFolder.getPath());
+            mon.close();
+            force = false;
+        } catch (Exception e) {
+            logger.error("Could not extract natives, Forcing J2D...", e);
+            force = !(args.length > 0 && args[0].toLowerCase().equals("-no-native-check"));
+        }
+        logger.info("Loaded native files");
+        final boolean finalForce = force;
         SwingUtilities.invokeLater(() -> {
             VisualSortUI ui = new VisualSortUI();
             ui.setVisible(true);
+            if (finalForce) ui.forceJavaDRendering();
         });
     }
 

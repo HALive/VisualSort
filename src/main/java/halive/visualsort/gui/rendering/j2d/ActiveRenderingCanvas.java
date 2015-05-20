@@ -9,7 +9,7 @@ import java.awt.image.BufferStrategy;
 
 public abstract class ActiveRenderingCanvas extends Canvas implements Runnable {
     protected Container parent;
-    private Thread renderThread = new Thread(this, "Rendering Canvas");
+    protected Thread renderThread = new Thread(this, "Rendering Canvas");
 
     private boolean running = true;
     private boolean debug = false;

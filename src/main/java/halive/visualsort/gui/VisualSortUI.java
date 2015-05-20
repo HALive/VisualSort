@@ -1,11 +1,17 @@
 package halive.visualsort.gui;
 
+import java.awt.Canvas;
 import java.awt.event.*;
 import halive.visualsort.VisualSort;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.datageneration.DataGenerator;
 import halive.visualsort.core.sorting.SortingAlgorithm;
+import halive.visualsort.gui.rendering.IVisualSortRenderer;
+import halive.visualsort.gui.rendering.j2d.ActiveRenderingCanvas;
 import halive.visualsort.gui.rendering.j2d.SortingRenderCanvas;
+import halive.visualsort.gui.rendering.slick2d.OpenGLRenderCanvas;
+import javafx.embed.swing.JFXPanel;
+import org.newdawn.slick.SlickException;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -16,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JSpinner;
@@ -35,8 +42,11 @@ import java.awt.event.WindowEvent;
 import javax.swing.event.*;
 
 public class VisualSortUI extends JFrame {
-    private SortingRenderCanvas renderCanvas;
+    private Canvas renderCanvas;
+    private IVisualSortRenderer renderer;
     private SortingHandler sortingHandler;
+
+    private boolean allowResize = true;
 
     public VisualSortUI() {
         sortingHandler = new SortingHandler(this);
@@ -50,9 +60,6 @@ public class VisualSortUI extends JFrame {
         Dimension defSize = new Dimension(600,600);
         this.setSize(defSize);
         this.setMinimumSize(defSize);
-        renderCanvas = new SortingRenderCanvas(this, sortingHandler);
-        renderPanel.add(renderCanvas, BorderLayout.CENTER);
-        renderCanvas.init();
     }
 
     private void onWindowsClosing(WindowEvent e) {
@@ -74,13 +81,39 @@ public class VisualSortUI extends JFrame {
     }
 
     private void startButtonActionPerformed(ActionEvent e) {
+        if(renderer == null) {
+            if(!this.useOpenGLCheckBox.isSelected()) {
+                renderCanvas = new SortingRenderCanvas(this, sortingHandler);
+                renderer = (IVisualSortRenderer) renderCanvas;
+            } else {
+                allowResize = false;
+                this.setResizable(false);
+                this.setMinimumSize(getSize());
+                this.setMaximumSize(getSize());
+                renderer = new OpenGLRenderCanvas(sortingHandler, this);
+                try {
+                    renderCanvas =((OpenGLRenderCanvas) renderer).createCanvas();
+                } catch (Exception e1) {
+                    slickError(e1);
+                    return;
+                }
+            }
+            renderPanel.add(renderCanvas, BorderLayout.CENTER);
+        }
+
+        this.useOpenGLCheckBox.setEnabled(false);
         startButton.setEnabled(false);
+        //Triggering Events
         barWidthSpinnerStateChanged(null);
         entrySpinnerStateChanged(null);
         delayMSSpinnerStateChanged(null);
         this.enableAlgoritmSelection(false);
-        displayStatus("Initializing");
         updateScrollbar();
+        displayStatus("Initializing");
+        if(!renderer.isRendering()) {
+            renderer.start();
+        }
+        //Initializing the sorting Handler
         sortingHandler.setSortingAlgorithm((SortingAlgorithm) algorithmSelector.getSelectedItem());
         sortingHandler.setDataGenerator((DataGenerator) dataGeneratorSelector.getSelectedItem());
         boolean delayOnSwap = applyDelayOnSwapCheckBox.isSelected();
@@ -91,8 +124,10 @@ public class VisualSortUI extends JFrame {
     }
 
     private void onComponentResized(ComponentEvent e) {
-        updateScrollbar();
-        toggleRedraw();
+        if(allowResize) {
+            updateScrollbar();
+            toggleRedraw();
+        }
     }
 
     private void entrySpinnerStateChanged(ChangeEvent e) {
@@ -106,8 +141,10 @@ public class VisualSortUI extends JFrame {
     }
 
     private void fovScrollBarAdjustmentValueChanged(AdjustmentEvent e) {
-        int value = e.getValue();
-        renderCanvas.setRenderPos(value);
+        if(renderer != null) {
+            int value = e.getValue();
+            renderer.setRenderPos(value);
+        }
     }
 
     private void CheckBoxStateChanged(ChangeEvent e) {
@@ -142,9 +179,13 @@ public class VisualSortUI extends JFrame {
         enableStopButtons(true);
     }
 
+    private void onWindowClosed(WindowEvent e) {
+        System.out.println("exiting");
+        System.exit(0);
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - chris MÃ¼ller
         menuBar1 = new JMenuBar();
         fileMenu = new JMenu();
         exitMenuItem = new JMenuItem();
@@ -159,6 +200,7 @@ public class VisualSortUI extends JFrame {
         entrySpinner = new JSpinner();
         barWidthLabel = new JLabel();
         barWidthSpinner = new JSpinner();
+        useOpenGLCheckBox = new JCheckBox();
         startButton = new JButton();
         spacer2 = new JPanel(null);
         delayLabel = new JLabel();
@@ -182,13 +224,15 @@ public class VisualSortUI extends JFrame {
         continuebuttomn = new JButton();
         renderPanel = new JPanel();
         fovScrollBar = new JScrollBar();
-
-        //======== this ========
         setTitle("VisualSort");
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowActivated(WindowEvent e) {
                 toggleRedraw();
+            }
+            @Override
+            public void windowClosed(WindowEvent e) {
+                onWindowClosed(e);
             }
             @Override
             public void windowClosing(WindowEvent e) {
@@ -244,15 +288,6 @@ public class VisualSortUI extends JFrame {
 
         //======== optionPanel ========
         {
-
-            // JFormDesigner evaluation mark
-
-            optionPanel.setLayout(new GridBagLayout());
-            ((GridBagLayout)optionPanel.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
-            ((GridBagLayout)optionPanel.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-            ((GridBagLayout)optionPanel.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
-            ((GridBagLayout)optionPanel.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
-
             //---- algoLabel ----
             algoLabel.setText("Select Algorithm");
             optionPanel.add(algoLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
@@ -278,7 +313,7 @@ public class VisualSortUI extends JFrame {
                 new Insets(0, 0, 5, 5), 0, 0));
 
             //---- entrySpinner ----
-            entrySpinner.setModel(new SpinnerNumberModel(600, 10, VisualSort.MAX_ENTRIES, 1));
+            entrySpinner.setModel(new SpinnerNumberModel(600, 10, 6000, 1));
             entrySpinner.addChangeListener(e -> entrySpinnerStateChanged(e));
             optionPanel.add(entrySpinner, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -297,42 +332,48 @@ public class VisualSortUI extends JFrame {
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
 
+            //---- useOpenGLCheckBox ----
+            useOpenGLCheckBox.setText("Use OpenGL");
+            optionPanel.add(useOpenGLCheckBox, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+
             //---- startButton ----
             startButton.setText("Start Sorting");
             startButton.setPreferredSize(new Dimension(95, 56));
             startButton.setMaximumSize(new Dimension(95, 56));
             startButton.setMinimumSize(new Dimension(95, 56));
             startButton.addActionListener(e -> startButtonActionPerformed(e));
-            optionPanel.add(startButton, new GridBagConstraints(1, 4, 2, 2, 0.0, 0.0,
+            optionPanel.add(startButton, new GridBagConstraints(1, 5, 2, 2, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
-            optionPanel.add(spacer2, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0,
+            optionPanel.add(spacer2, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
 
             //---- delayLabel ----
             delayLabel.setText("Delay");
-            optionPanel.add(delayLabel, new GridBagConstraints(1, 6, 1, 1, 0.0, 0.0,
+            optionPanel.add(delayLabel, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
 
             //---- delayMSSpinner ----
             delayMSSpinner.setModel(new SpinnerNumberModel(5, 0, 100, 1));
             delayMSSpinner.addChangeListener(e -> delayMSSpinnerStateChanged(e));
-            optionPanel.add(delayMSSpinner, new GridBagConstraints(2, 6, 1, 1, 0.0, 0.0,
+            optionPanel.add(delayMSSpinner, new GridBagConstraints(2, 7, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
 
             //---- delayInfoLabel ----
             delayInfoLabel.setText("Apply delay on..");
-            optionPanel.add(delayInfoLabel, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0,
+            optionPanel.add(delayInfoLabel, new GridBagConstraints(1, 8, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
 
             //---- applyDelayOnCompCheckBox ----
             applyDelayOnCompCheckBox.setText("Comparing");
             applyDelayOnCompCheckBox.addChangeListener(e -> CheckBoxStateChanged(e));
-            optionPanel.add(applyDelayOnCompCheckBox, new GridBagConstraints(2, 7, 1, 1, 0.0, 0.0,
+            optionPanel.add(applyDelayOnCompCheckBox, new GridBagConstraints(2, 8, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
 
@@ -340,20 +381,20 @@ public class VisualSortUI extends JFrame {
             applyDelayOnSwapCheckBox.setText("Swaping");
             applyDelayOnSwapCheckBox.setSelected(true);
             applyDelayOnSwapCheckBox.addChangeListener(e -> applyDelayOnSwapCheckBoxStateChanged(e));
-            optionPanel.add(applyDelayOnSwapCheckBox, new GridBagConstraints(2, 8, 1, 1, 0.0, 0.0,
+            optionPanel.add(applyDelayOnSwapCheckBox, new GridBagConstraints(2, 9, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
 
             //---- spacer1 ----
             spacer1.setPreferredSize(new Dimension(10, 40));
             spacer1.setOpaque(false);
-            optionPanel.add(spacer1, new GridBagConstraints(1, 9, 1, 3, 0.0, 0.0,
+            optionPanel.add(spacer1, new GridBagConstraints(1, 10, 1, 3, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
 
             //---- statusInfoLabel ----
             statusInfoLabel.setText("Status");
-            optionPanel.add(statusInfoLabel, new GridBagConstraints(1, 12, 1, 1, 0.0, 0.0,
+            optionPanel.add(statusInfoLabel, new GridBagConstraints(1, 13, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
 
@@ -361,58 +402,58 @@ public class VisualSortUI extends JFrame {
             statusLabel.setText("text");
             statusLabel.setForeground(Color.black);
             statusLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-            optionPanel.add(statusLabel, new GridBagConstraints(2, 12, 1, 1, 0.0, 0.0,
+            optionPanel.add(statusLabel, new GridBagConstraints(2, 13, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
 
             //---- compInfoLabel ----
             compInfoLabel.setText("Comparisons");
-            optionPanel.add(compInfoLabel, new GridBagConstraints(1, 13, 1, 1, 0.0, 0.0,
+            optionPanel.add(compInfoLabel, new GridBagConstraints(1, 14, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
 
             //---- compLabel ----
             compLabel.setText("text");
             compLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-            optionPanel.add(compLabel, new GridBagConstraints(2, 13, 1, 1, 0.0, 0.0,
+            optionPanel.add(compLabel, new GridBagConstraints(2, 14, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
 
             //---- swaapinfoLabel ----
             swaapinfoLabel.setText("Swaps");
-            optionPanel.add(swaapinfoLabel, new GridBagConstraints(1, 14, 1, 1, 0.0, 0.0,
+            optionPanel.add(swaapinfoLabel, new GridBagConstraints(1, 15, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
 
             //---- swpLabel ----
             swpLabel.setText("text");
             swpLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-            optionPanel.add(swpLabel, new GridBagConstraints(2, 14, 1, 1, 0.0, 0.0,
+            optionPanel.add(swpLabel, new GridBagConstraints(2, 15, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
 
             //---- elTimeInfoLabel ----
             elTimeInfoLabel.setText("Elapsed Time");
-            optionPanel.add(elTimeInfoLabel, new GridBagConstraints(1, 15, 1, 1, 0.0, 0.0,
+            optionPanel.add(elTimeInfoLabel, new GridBagConstraints(1, 16, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
 
             //---- elTimeLabel ----
             elTimeLabel.setText("text");
             elTimeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-            optionPanel.add(elTimeLabel, new GridBagConstraints(2, 15, 1, 1, 0.0, 0.0,
+            optionPanel.add(elTimeLabel, new GridBagConstraints(2, 16, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
 
             //---- vSpacer1 ----
             vSpacer1.setPreferredSize(new Dimension(10, 30));
-            optionPanel.add(vSpacer1, new GridBagConstraints(1, 16, 1, 1, 0.0, 0.0,
+            optionPanel.add(vSpacer1, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
 
             //---- label8 ----
             label8.setText("Pause on...");
-            optionPanel.add(label8, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0,
+            optionPanel.add(label8, new GridBagConstraints(1, 18, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
 
@@ -420,7 +461,7 @@ public class VisualSortUI extends JFrame {
             pauseOnNextSwapButton.setText("...next Swap");
             pauseOnNextSwapButton.setEnabled(false);
             pauseOnNextSwapButton.addActionListener(e -> pauseOnNextSwapButtonActionPerformed(e));
-            optionPanel.add(pauseOnNextSwapButton, new GridBagConstraints(2, 17, 1, 1, 0.0, 0.0,
+            optionPanel.add(pauseOnNextSwapButton, new GridBagConstraints(2, 18, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
 
@@ -428,7 +469,7 @@ public class VisualSortUI extends JFrame {
             pauseOnNextCompButton.setText("...next Compare");
             pauseOnNextCompButton.setEnabled(false);
             pauseOnNextCompButton.addActionListener(e -> pauseOnNextCompButtonActionPerformed(e));
-            optionPanel.add(pauseOnNextCompButton, new GridBagConstraints(2, 18, 1, 1, 0.0, 0.0,
+            optionPanel.add(pauseOnNextCompButton, new GridBagConstraints(2, 19, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
 
@@ -436,7 +477,7 @@ public class VisualSortUI extends JFrame {
             continuebuttomn.setText("Continue");
             continuebuttomn.setEnabled(false);
             continuebuttomn.addActionListener(e -> continuebuttomnActionPerformed(e));
-            optionPanel.add(continuebuttomn, new GridBagConstraints(2, 19, 1, 1, 0.0, 0.0,
+            optionPanel.add(continuebuttomn, new GridBagConstraints(2, 20, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 0, 0), 0, 0));
         }
@@ -459,25 +500,25 @@ public class VisualSortUI extends JFrame {
     }
 
     private void updateScrollbar() {
-        try{
-            int entries = sortingHandler.getAmtEntries();
-            int barWidth = sortingHandler.getRenderWidth();
-            int canvasWidth = renderCanvas.getWidth();
-            int maxRenderable = canvasWidth/barWidth;
-            if(maxRenderable >= entries) {
-                fovScrollBar.setEnabled(false);
-                renderCanvas.setRenderPos(0);
-                fovScrollBar.setMaximum(1);
-            } else {
-                if(!algorithmSelector.isEnabled()) {
-                    fovScrollBar.setEnabled(true);
-                    fovScrollBar.setMaximum(entries - maxRenderable+11);
-                    renderCanvas.setMaxRenderable(maxRenderable);
-                    VisualSort.logger.info(maxRenderable);
+        if(renderCanvas != null && renderer != null) {
+            try{
+                int entries = sortingHandler.getAmtEntries();
+                int maxRenderable = renderer.getMaxRenderable();
+                if(maxRenderable >= entries) {
+                    fovScrollBar.setEnabled(false);
+                    renderer.setRenderPos(0);
+                    fovScrollBar.setMaximum(1);
+                } else {
+                    if(!algorithmSelector.isEnabled()) {
+                        fovScrollBar.setEnabled(true);
+                        fovScrollBar.setMaximum(entries - maxRenderable + 11);
+                        VisualSort.logger.info(maxRenderable);
+                    }
                 }
+            } catch(Exception e) {
+                VisualSort.logger.info("Error Updating Scrollbar",  e);
+                return;
             }
-        } catch(Exception e) {
-            return;
         }
     }
 
@@ -487,7 +528,14 @@ public class VisualSortUI extends JFrame {
     }
 
     private void exit() {
-        System.exit(0);
+        if(renderer != null) {
+            renderer.stop();
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {}
+        }else {
+            System.exit(0);
+        }
     }
 
     public void enableAlgoritmSelection(boolean b) {
@@ -514,6 +562,21 @@ public class VisualSortUI extends JFrame {
             elTimeLabel.setText(time);
     }
 
+    public void slickError(Exception e) {
+        VisualSort.logger.error("Error initializing Slick2D", e);
+        allowResize = true;
+        this.setResizable(true);
+        this.setMinimumSize(new Dimension(600, 600));
+        this.setMaximumSize(null);
+        useOpenGLCheckBox.setSelected(false);
+        JOptionPane.showMessageDialog(this, "Could not use OpenGL for Rendering, forcing J2D\nPlease retry.");
+    }
+
+    public void forceJavaDRendering() {
+        useOpenGLCheckBox.setSelected(false);
+        useOpenGLCheckBox.setEnabled(false);
+    }
+
     public JButton getStartButton() {
         return startButton;
     }
@@ -534,6 +597,7 @@ public class VisualSortUI extends JFrame {
     private JSpinner entrySpinner;
     private JLabel barWidthLabel;
     private JSpinner barWidthSpinner;
+    private JCheckBox useOpenGLCheckBox;
     private JButton startButton;
     private JPanel spacer2;
     private JLabel delayLabel;

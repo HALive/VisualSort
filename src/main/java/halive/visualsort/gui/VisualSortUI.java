@@ -224,6 +224,8 @@ public class VisualSortUI extends JFrame {
         continuebuttomn = new JButton();
         renderPanel = new JPanel();
         fovScrollBar = new JScrollBar();
+
+        //======== this ========
         setTitle("VisualSort");
         addWindowListener(new WindowAdapter() {
             @Override
@@ -288,6 +290,13 @@ public class VisualSortUI extends JFrame {
 
         //======== optionPanel ========
         {
+
+            optionPanel.setLayout(new GridBagLayout());
+            ((GridBagLayout)optionPanel.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+            ((GridBagLayout)optionPanel.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+            ((GridBagLayout)optionPanel.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
+            ((GridBagLayout)optionPanel.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+
             //---- algoLabel ----
             algoLabel.setText("Select Algorithm");
             optionPanel.add(algoLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
@@ -533,8 +542,6 @@ public class VisualSortUI extends JFrame {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {}
-        }else {
-            System.exit(0);
         }
     }
 

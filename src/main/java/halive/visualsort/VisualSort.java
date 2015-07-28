@@ -2,10 +2,10 @@ package halive.visualsort;
 
 import halive.nativeloader.NativeLoader;
 import halive.nativeloader.NativeLoaderUtils;
+import halive.visualsort.core.PluginHandler;
 import halive.visualsort.gui.VisualSortUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import javax.swing.ProgressMonitor;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -19,6 +19,8 @@ public class VisualSort {
     public static int MAX_ENTRIES = 100000;
 
     public static Logger logger;
+
+    public static PluginHandler pluginHandler;
 
     public static void main(String[] args){
         System.out.println(System.getProperty("os.name"));
@@ -51,12 +53,29 @@ public class VisualSort {
             force = !(args.length > 0 && args[0].toLowerCase().equals("-no-native-check"));
         }
         logger.info("Loaded native files");
+        logger.info("Looking for plugins");
+        loadPlugins();
+
         final boolean finalForce = force;
         SwingUtilities.invokeLater(() -> {
             VisualSortUI ui = new VisualSortUI();
             ui.setVisible(true);
             if (finalForce) ui.forceJavaDRendering();
         });
+    }
+
+    private static void loadPlugins() {
+        File pluginFolder = new File("plugins");
+        pluginHandler = new PluginHandler();
+        if(!pluginFolder.exists()) {
+            pluginFolder.mkdir();
+            logger.info("Created Plugins folder");
+            return;
+        } else if (pluginFolder.isFile()) {
+            logger.info("Could not load plugins. The plugin folder is a File.");
+            return;
+        }
+
     }
 
     private static void initLogger() {

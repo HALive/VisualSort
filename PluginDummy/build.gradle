@@ -1,0 +1,38 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+def ant = new groovy.util.AntBuilder()
+
+//Configuratiion
+def name = 'VSPluginDummy'
+
+version = '1.0'
+sourceCompatibility = 1.8
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/'
+        }
+        resources {
+            srcDir 'res/'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	compile files('lib/vs-1.0.jar')
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': name,
+                'Implementation-Version': version
+    }
+}

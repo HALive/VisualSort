@@ -1,13 +1,12 @@
 package halive.visualsort.core.sorting;
 
 import halive.visualsort.core.DataEntry;
+import halive.visualsort.core.INamable;
 import halive.visualsort.core.SortingHandler;
 
-public abstract class SortingAlgorithm {
+public abstract class SortingAlgorithm implements INamable{
 
-    public final static SortingAlgorithm[] ALGORTIHMS = {new BubbleSort(), new BiDiBubbleSort(), new GnomeSort(),
-            new SelectionSort(), new QuickSortR1(),
-            new QuickSortR2(), new MergeSort(), new BitonicMergeSort()};
+    public static SortingAlgorithm[] ALGORTIHMS;
 
     private String name;
     private String description;
@@ -25,6 +24,11 @@ public abstract class SortingAlgorithm {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void addToName(String s) {
+        name+=" ("+s+")";
     }
 
     @Override

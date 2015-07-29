@@ -2,10 +2,11 @@ package halive.visualsort;
 
 import halive.nativeloader.NativeLoader;
 import halive.nativeloader.NativeLoaderUtils;
+import halive.visualsort.core.plugins.CorePlugin;
+import halive.visualsort.core.plugins.PluginHandler;
 import halive.visualsort.gui.VisualSortUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import javax.swing.ProgressMonitor;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -19,6 +20,8 @@ public class VisualSort {
     public static int MAX_ENTRIES = 100000;
 
     public static Logger logger;
+
+    public static PluginHandler pluginHandler;
 
     public static void main(String[] args){
         System.out.println(System.getProperty("os.name"));
@@ -51,12 +54,36 @@ public class VisualSort {
             force = !(args.length > 0 && args[0].toLowerCase().equals("-no-native-check"));
         }
         logger.info("Loaded native files");
+        logger.info("Loading Plugins");
+        loadPlugins();
+        logger.info("Initializing Plugins");
+        pluginHandler.initializePlugins();
         final boolean finalForce = force;
         SwingUtilities.invokeLater(() -> {
             VisualSortUI ui = new VisualSortUI();
             ui.setVisible(true);
             if (finalForce) ui.forceJavaDRendering();
         });
+    }
+
+    private static void loadPlugins() {
+        File pluginFolder = new File("plugins");
+        pluginHandler = new PluginHandler();
+        try {
+            pluginHandler.addPlugin(CorePlugin.class);
+        } catch (IllegalAccessException | InstantiationException e) {
+            logger.fatal("Could not load Core Plugin. Aborting", e);
+            System.exit(-1);
+        }
+        if(!pluginFolder.exists()) {
+            pluginFolder.mkdir();
+            logger.info("Created Plugins folder");
+            return;
+        } else if (pluginFolder.isFile()) {
+            logger.info("Could not load plugins. The plugin folder is a File.");
+            return;
+        }
+        pluginHandler.searchFolder(pluginFolder, true);
     }
 
     private static void initLogger() {

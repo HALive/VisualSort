@@ -1,17 +1,11 @@
 package halive.visualsort.core.datageneration;
 
 import halive.visualsort.core.DataEntry;
+import halive.visualsort.core.INamable;
 
-public abstract class DataGenerator {
+public abstract class DataGenerator implements INamable{
 
-    public static final DataGenerator[] DATAGGENS;
-
-    static {
-        DATAGGENS = new DataGenerator[]{new RandomDataGenerator(), new SineGenerator(),
-                new SawtoohGenerator(), new LinearAscendingGnerator(), new LinearDescendingGnerator(),
-                new PositiveParabolicGenerator(), new NegativeParabolicGenerator(),
-                new TriangleGenerator(), new InvertedTriangleGenerator()};
-    }
+    public static DataGenerator[] DATAGGENS;
 
     private String name;
     private String description;
@@ -23,6 +17,11 @@ public abstract class DataGenerator {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void addToName(String s) {
+        name+=" ("+s+")";
     }
 
     public String getDescription() {

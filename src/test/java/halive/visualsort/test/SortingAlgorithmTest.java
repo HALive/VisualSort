@@ -2,9 +2,9 @@ package halive.visualsort.test;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
-import halive.visualsort.core.datageneration.RandomDataGenerator;
+import halive.visualsort.core.datageneration.impl.RandomDataGenerator;
 import halive.visualsort.core.plugins.CorePlugin;
-import halive.visualsort.core.sorting.SlowSort;
+import halive.visualsort.core.sorting.impl.SlowSort;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 import org.junit.Before;
 import org.junit.Test;

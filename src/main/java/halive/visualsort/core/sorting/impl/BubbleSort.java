@@ -1,7 +1,8 @@
-package halive.visualsort.core.sorting;
+package halive.visualsort.core.sorting.impl;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
+import halive.visualsort.core.sorting.SortingAlgorithm;
 
 import java.awt.Color;
 

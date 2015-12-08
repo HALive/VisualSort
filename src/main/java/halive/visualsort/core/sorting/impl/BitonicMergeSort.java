@@ -1,4 +1,4 @@
-package halive.visualsort.core.sorting;
+package halive.visualsort.core.sorting.impl;
 
 import halive.visualsort.core.SortingHandler;
 

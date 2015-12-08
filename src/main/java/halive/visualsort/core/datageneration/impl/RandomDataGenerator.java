@@ -1,6 +1,7 @@
-package halive.visualsort.core.datageneration;
+package halive.visualsort.core.datageneration.impl;
 
 import halive.visualsort.core.DataEntry;
+import halive.visualsort.core.datageneration.DataGenerator;
 
 import java.util.Random;
 

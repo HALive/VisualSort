@@ -1,7 +1,8 @@
-package halive.visualsort.core.datageneration;
+package halive.visualsort.core.datageneration.impl;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
+import halive.visualsort.core.datageneration.DataGenerator;
 
 public class SineGenerator extends DataGenerator {
     public SineGenerator() {

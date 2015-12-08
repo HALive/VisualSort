@@ -1,4 +1,6 @@
-package halive.visualsort.core.datageneration;
+package halive.visualsort.core.datageneration.impl;
+
+import halive.visualsort.core.datageneration.FunctionGenerator;
 
 public class PositiveParabolicGenerator extends FunctionGenerator {
     public PositiveParabolicGenerator() {

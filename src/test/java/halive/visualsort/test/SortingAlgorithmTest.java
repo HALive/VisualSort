@@ -4,8 +4,8 @@ import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.datageneration.impl.RandomDataGenerator;
 import halive.visualsort.core.plugins.CorePlugin;
-import halive.visualsort.core.sorting.impl.SlowSort;
 import halive.visualsort.core.sorting.SortingAlgorithm;
+import halive.visualsort.core.sorting.impl.SlowSort;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +16,9 @@ import java.util.Collection;
 
 import static org.junit.Assert.assertTrue;
 
+/**
+ * This test tests if every SortingAlgorithm sorts Properly
+ */
 @RunWith(Parameterized.class)
 public class SortingAlgorithmTest {
     private SortingAlgorithm algo;
@@ -26,13 +29,13 @@ public class SortingAlgorithmTest {
             throws IllegalAccessException, InstantiationException {
         this.algo = algo.newInstance();
         //Reduce the amount of entries for SlowSort due to its horrible performance
-        if(this.algo instanceof SlowSort) {
+        if (this.algo instanceof SlowSort) {
             dataEntries = new DataEntry[100];
         }
     }
 
     @Before
-    public void stUp() {
+    public void setUp() {
         handler = new SortingHandler(null);
         handler.setDelay(0);
         handler.setDataGenerator(new RandomDataGenerator());
@@ -49,16 +52,15 @@ public class SortingAlgorithmTest {
         //Sort the generated Array
         handler.getCurrentAlgorithm().doSort(dataEntries, handler);
         //Check if the Array is Sorted
-        assertTrue(handler.getCurrentAlgorithm().getName() + " Did not sort Properly", isSorted());
+        isSorted(dataEntries, handler);
     }
 
-    private boolean isSorted() {
+    public static void isSorted(DataEntry[] dataEntries, SortingHandler handler) {
         for (int i = 0; i < dataEntries.length - 1; i++) {
-            if (dataEntries[i].getValue() > dataEntries[i + 1].getValue()) {
-                return false;
-            }
+            assertTrue(handler.getCurrentAlgorithm().getName() + ": Has not sorted Properly" +
+                            "at Index " + i,
+                    !(dataEntries[i].getValue() > dataEntries[i + 1].getValue()));
         }
-        return true;
     }
 
     @Parameterized.Parameters(name = "{index}: {0}")

@@ -13,6 +13,9 @@ import java.util.Collection;
 
 import static org.junit.Assert.assertTrue;
 
+/**
+ * This test is ued to test he Validity of a data Generator
+ */
 @RunWith(Parameterized.class)
 public class DataGeneratorTest {
 
@@ -36,10 +39,10 @@ public class DataGeneratorTest {
     @Test
     public void testDataGenerators() throws Exception {
         dataGen.generateData(dataEntries, MAX_VALUE);
-        assertTrue(dataGen.getName() + " Did not generate valid data!", isDataValid());
+        assertTrue(dataGen.getName() + " Did not generate valid data!", isDataValid(dataEntries));
     }
 
-    public boolean isDataValid() {
+    public static boolean isDataValid(DataEntry[] dataEntries) {
         for (int i = 0; i < dataEntries.length; i++) {
             DataEntry e = dataEntries[i];
             if (e.getValue() > MAX_VALUE || e.getValue() < 0) {

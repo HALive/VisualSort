@@ -6,6 +6,9 @@ import halive.visualsort.core.sorting.SortingAlgorithm;
 
 import java.awt.Color;
 
+/**
+ * This Class implements Bubble sort.
+ */
 public class BubbleSort extends SortingAlgorithm {
 
     public BubbleSort() {

@@ -6,6 +6,9 @@ import halive.visualsort.core.sorting.SortingAlgorithm;
 
 import java.awt.Color;
 
+/**
+ * This Class Implements Bidirectonal BubbleSort also known as CocktailShakerSort
+ */
 public class BiDiBubbleSort extends SortingAlgorithm {
     public BiDiBubbleSort() {
         super("Shaker sort", " ");

@@ -16,12 +16,14 @@ import halive.visualsort.core.sorting.impl.BitonicMergeSort;
 import halive.visualsort.core.sorting.impl.BubbleSort;
 import halive.visualsort.core.sorting.impl.CountingSort;
 import halive.visualsort.core.sorting.impl.GnomeSort;
+import halive.visualsort.core.sorting.impl.InsertionSort;
 import halive.visualsort.core.sorting.impl.MergeSort;
 import halive.visualsort.core.sorting.impl.QuickSortR1;
 import halive.visualsort.core.sorting.impl.QuickSortR2;
 import halive.visualsort.core.sorting.impl.SelectionSort;
 import halive.visualsort.core.sorting.impl.SlowSort;
 import halive.visualsort.core.sorting.SortingAlgorithm;
+import halive.visualsort.core.sorting.impl.StoogeSort;
 
 /**
  * This class Represents the CorePlugin containing the default Datagenerators and Sorting algorithms
@@ -36,7 +38,7 @@ public class CorePlugin implements IVisualSortPlugin {
 
     @Override
     public Class<? extends DataGenerator>[] getDataGeneratorClasses() {
-        return new Class[] {InvertedTriangleGenerator.class,
+        Class[] datagens = new Class[] {InvertedTriangleGenerator.class,
                 LinearAscendingGenerator.class,
                 LinearDescendingGenerator.class,
                 NegativeParabolicGenerator.class,
@@ -44,22 +46,25 @@ public class CorePlugin implements IVisualSortPlugin {
                 RandomDataGenerator.class,
                 SawtoothGenerator.class,
                 SineGenerator.class,
-                TriangleGenerator.class};
+                TriangleGenerator.class};;
+        return datagens;
     }
 
     @Override
     public Class<? extends SortingAlgorithm>[] getSortingAlgorithmClasses() {
-        Class<? extends SortingAlgorithm>[] algorithms = new Class[] {
+        Class[] algorithms = new Class[] {
                 QuickSortR1.class,
                 QuickSortR2.class,
                 MergeSort.class,
                 BitonicMergeSort.class,
                 GnomeSort.class,
+                InsertionSort.class,
                 SelectionSort.class,
                 BiDiSelectionSort.class,
                 BubbleSort.class,
                 BiDiBubbleSort.class,
                 SlowSort.class,
+                StoogeSort.class,
                 CountingSort.class};
         return algorithms;
     }

@@ -2,6 +2,9 @@ package halive.visualsort.core.sorting.impl;
 
 import halive.visualsort.core.SortingHandler;
 
+/**
+ * This CLass implements Bitonic Merge Sort.
+ */
 public class BitonicMergeSort extends MergeSort {
 
     @Override

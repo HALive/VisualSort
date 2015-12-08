@@ -6,6 +6,9 @@ import halive.visualsort.core.sorting.SortingAlgorithm;
 
 import java.awt.Color;
 
+/**
+ * This class implements CouningSort
+ */
 public class CountingSort extends SortingAlgorithm {
 
     public CountingSort() {
@@ -14,7 +17,7 @@ public class CountingSort extends SortingAlgorithm {
 
     @Override
     public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
-        int[] valueCount = new int[sortingHandler.getMaxValue()];
+        int[] valueCount = new int[sortingHandler.getMaxValue()+1];
         //count the Values
         for (int i = 0; i < data.length; i++) {
             data[i].setRenderColor(Color.blue);
@@ -25,9 +28,7 @@ public class CountingSort extends SortingAlgorithm {
             if(i > 0 && i < data.length-1) {
                 data[i-1].setRenderColor(Color.BLACK);
             }
-            try {
-                Thread.sleep(sortingHandler.getDelay());
-            } catch (InterruptedException e) {}
+            sortingHandler.incrementSwapsAndDelay();
             valueCount[val]++;
         }
         //Recreate the array
@@ -37,9 +38,7 @@ public class CountingSort extends SortingAlgorithm {
             for (int j = 0; j < v; j++) {
                 data[ptr].setValue(i);
                 data[ptr].setRenderColor(Color.green);
-                try {
-                    Thread.sleep(sortingHandler.getDelay());
-                } catch (InterruptedException e) {}
+                sortingHandler.incrementSwapsAndDelay();
                 ptr++;
             }
         }

@@ -19,6 +19,7 @@ public class SelectionSortUtils {
         }
         return minp;
     }
+
     public static int getMaximumPos(DataEntry[] d, int startPos, int endPos, SortingHandler h) {
         int maxp = startPos;
         for (int i = startPos; h.compare(i <= endPos); i++) {

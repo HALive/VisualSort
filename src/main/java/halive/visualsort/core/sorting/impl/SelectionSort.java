@@ -22,5 +22,4 @@ public class SelectionSort extends SortingAlgorithm {
     }
 
 
-
 }

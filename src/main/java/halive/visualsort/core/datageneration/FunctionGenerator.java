@@ -21,7 +21,7 @@ public abstract class FunctionGenerator extends DataGenerator {
     @Override
     public void generateData(DataEntry[] entries, int maxvalue) {
         for (int i = 0; i < entries.length; i++) {
-            entries[i].setValue((int) func(i, entries.length));
+            entries[i].setValue((int) func(i, entries.length, maxvalue));
         }
     }
 
@@ -33,5 +33,5 @@ public abstract class FunctionGenerator extends DataGenerator {
      * @param max the Maximum Value
      * @return the Calculated value
      */
-    public abstract double func(int x, int max);
+    public abstract double func(int x, int len, int maxHeight);
 }

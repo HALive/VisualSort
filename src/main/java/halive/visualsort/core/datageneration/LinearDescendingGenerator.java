@@ -9,8 +9,7 @@ public class LinearDescendingGenerator extends FunctionGenerator {
     }
 
     @Override
-    public double func(int x, int max) {
-        int topVal = SortingHandler.MAX_HEIGHT_VAL;
-        return topVal - x * topVal / max;
+    public double func(int x, int len, int max) {
+        return max - x * max / len;
     }
 }

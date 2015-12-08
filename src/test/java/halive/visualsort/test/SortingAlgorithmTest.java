@@ -4,6 +4,7 @@ import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.datageneration.RandomDataGenerator;
 import halive.visualsort.core.plugins.CorePlugin;
+import halive.visualsort.core.sorting.SlowSort;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +25,10 @@ public class SortingAlgorithmTest {
     public SortingAlgorithmTest(Class<? extends SortingAlgorithm> algo)
             throws IllegalAccessException, InstantiationException {
         this.algo = algo.newInstance();
+        //Reduce the amount of entries for SlowSort due to its horrible performance
+        if(this.algo instanceof SlowSort) {
+            dataEntries = new DataEntry[100];
+        }
     }
 
     @Before

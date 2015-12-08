@@ -47,6 +47,7 @@ public class SortingHandler implements Runnable {
 
     private VisualSortUI gui;
     private int amtEntries;
+    private int maxValue = SortingHandler.MAX_HEIGHT_VAL;
 
     public SortingHandler(VisualSortUI ui) {
         this.gui = ui;
@@ -218,6 +219,14 @@ public class SortingHandler implements Runnable {
 
     public void setEntries(DataEntry[] entries) {
         this.entries = entries;
+    }
+
+    public int getMaxValue() {
+        return maxValue;
+    }
+
+    public int getDelay() {
+        return delay;
     }
 
     private static class StatusUpdater extends TimerTask {

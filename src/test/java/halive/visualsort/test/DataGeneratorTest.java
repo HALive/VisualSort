@@ -1,18 +1,17 @@
-package halive.visualsort.core.datageneration;
+package halive.visualsort.test;
 
 import halive.visualsort.core.DataEntry;
+import halive.visualsort.core.datageneration.DataGenerator;
 import halive.visualsort.core.plugins.CorePlugin;
-import halive.visualsort.core.sorting.SortingAlgorithm;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import javax.xml.crypto.Data;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
 public class DataGeneratorTest {
@@ -37,13 +36,13 @@ public class DataGeneratorTest {
     @Test
     public void testDataGenerators() throws Exception {
         dataGen.generateData(dataEntries, MAX_VALUE);
-        assertTrue(dataGen.getName()+" Did not generate valid data!", isDataValid());
+        assertTrue(dataGen.getName() + " Did not generate valid data!", isDataValid());
     }
 
     public boolean isDataValid() {
         for (int i = 0; i < dataEntries.length; i++) {
             DataEntry e = dataEntries[i];
-            if(e.getValue() > MAX_VALUE || e.getValue() < 0) {
+            if (e.getValue() > MAX_VALUE || e.getValue() < 0) {
                 return false;
             }
         }

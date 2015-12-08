@@ -1,17 +1,12 @@
 package halive.visualsort.gui;
 
-import java.awt.Canvas;
-import java.awt.event.*;
 import halive.visualsort.VisualSort;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.datageneration.DataGenerator;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 import halive.visualsort.gui.rendering.IVisualSortRenderer;
-import halive.visualsort.gui.rendering.j2d.ActiveRenderingCanvas;
 import halive.visualsort.gui.rendering.j2d.SortingRenderCanvas;
 import halive.visualsort.gui.rendering.slick2d.OpenGLRenderCanvas;
-import javafx.embed.swing.JFXPanel;
-import org.newdawn.slick.SlickException;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -28,8 +23,10 @@ import javax.swing.JScrollBar;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
 import java.awt.Adjustable;
 import java.awt.BorderLayout;
+import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -37,9 +34,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.event.*;
+
 
 public class VisualSortUI extends JFrame {
     private Canvas renderCanvas;
@@ -51,13 +51,13 @@ public class VisualSortUI extends JFrame {
     public VisualSortUI() {
         sortingHandler = new SortingHandler(this);
         initComponents();
-        for(SortingAlgorithm a : SortingAlgorithm.ALGORTIHMS) {
+        for (SortingAlgorithm a : SortingAlgorithm.ALGORTIHMS) {
             algorithmSelector.addItem(a);
         }
-        for(DataGenerator g : DataGenerator.DATAGGENS) {
+        for (DataGenerator g : DataGenerator.DATAGGENS) {
             dataGeneratorSelector.addItem(g);
         }
-        Dimension defSize = new Dimension(600,600);
+        Dimension defSize = new Dimension(600, 600);
         this.setSize(defSize);
         this.setMinimumSize(defSize);
     }
@@ -73,16 +73,16 @@ public class VisualSortUI extends JFrame {
     private void barWidthSpinnerStateChanged(ChangeEvent e) {
         int newVal = (Integer) barWidthSpinner.getValue();
         int amtVal = (Integer) entrySpinner.getValue();
-        if((VisualSort.MAX_ENTRIES/newVal) < amtVal) {
-            amtVal = VisualSort.MAX_ENTRIES/newVal;
+        if ((VisualSort.MAX_ENTRIES / newVal) < amtVal) {
+            amtVal = VisualSort.MAX_ENTRIES / newVal;
         }
         entrySpinner.setModel(new SpinnerNumberModel(amtVal, 10, VisualSort.MAX_ENTRIES / newVal, 1));
         sortingHandler.setRenderWidth(newVal);
     }
 
     private void startButtonActionPerformed(ActionEvent e) {
-        if(renderer == null) {
-            if(!this.useOpenGLCheckBox.isSelected()) {
+        if (renderer == null) {
+            if (!this.useOpenGLCheckBox.isSelected()) {
                 renderCanvas = new SortingRenderCanvas(this, sortingHandler);
                 renderer = (IVisualSortRenderer) renderCanvas;
             } else {
@@ -92,7 +92,7 @@ public class VisualSortUI extends JFrame {
                 this.setMaximumSize(getSize());
                 renderer = new OpenGLRenderCanvas(sortingHandler, this);
                 try {
-                    renderCanvas =((OpenGLRenderCanvas) renderer).createCanvas();
+                    renderCanvas = ((OpenGLRenderCanvas) renderer).createCanvas();
                 } catch (Exception e1) {
                     slickError(e1);
                     return;
@@ -110,7 +110,7 @@ public class VisualSortUI extends JFrame {
         this.enableAlgoritmSelection(false);
         updateScrollbar();
         displayStatus("Initializing");
-        if(!renderer.isRendering()) {
+        if (!renderer.isRendering()) {
             renderer.start();
         }
         //Initializing the sorting Handler
@@ -124,7 +124,7 @@ public class VisualSortUI extends JFrame {
     }
 
     private void onComponentResized(ComponentEvent e) {
-        if(allowResize) {
+        if (allowResize) {
             updateScrollbar();
             toggleRedraw();
         }
@@ -141,7 +141,7 @@ public class VisualSortUI extends JFrame {
     }
 
     private void fovScrollBarAdjustmentValueChanged(AdjustmentEvent e) {
-        if(renderer != null) {
+        if (renderer != null) {
             int value = e.getValue();
             renderer.setRenderPos(value);
         }
@@ -232,14 +232,17 @@ public class VisualSortUI extends JFrame {
             public void windowActivated(WindowEvent e) {
                 toggleRedraw();
             }
+
             @Override
             public void windowClosed(WindowEvent e) {
                 onWindowClosed(e);
             }
+
             @Override
             public void windowClosing(WindowEvent e) {
                 onWindowsClosing(e);
             }
+
             @Override
             public void windowDeiconified(WindowEvent e) {
                 toggleRedraw();
@@ -250,10 +253,12 @@ public class VisualSortUI extends JFrame {
             public void componentMoved(ComponentEvent e) {
                 toggleRedraw();
             }
+
             @Override
             public void componentResized(ComponentEvent e) {
                 onComponentResized(e);
             }
+
             @Override
             public void componentShown(ComponentEvent e) {
                 toggleRedraw();
@@ -292,60 +297,60 @@ public class VisualSortUI extends JFrame {
         {
 
             optionPanel.setLayout(new GridBagLayout());
-            ((GridBagLayout)optionPanel.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
-            ((GridBagLayout)optionPanel.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-            ((GridBagLayout)optionPanel.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
-            ((GridBagLayout)optionPanel.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+            ((GridBagLayout) optionPanel.getLayout()).columnWidths = new int[]{0, 0, 0, 0};
+            ((GridBagLayout) optionPanel.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+            ((GridBagLayout) optionPanel.getLayout()).columnWeights = new double[]{0.0, 0.0, 0.0, 1.0E-4};
+            ((GridBagLayout) optionPanel.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
             //---- algoLabel ----
             algoLabel.setText("Select Algorithm");
             optionPanel.add(algoLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
             optionPanel.add(algorithmSelector, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
             //---- dataGenLabel ----
             dataGenLabel.setText("Data Generator");
             optionPanel.add(dataGenLabel, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
             optionPanel.add(dataGeneratorSelector, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
             //---- amtEntriesLabel ----
             amtEntriesLabel.setText("Amount of Entries");
             optionPanel.add(amtEntriesLabel, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
 
             //---- entrySpinner ----
             entrySpinner.setModel(new SpinnerNumberModel(600, 10, 6000, 1));
             entrySpinner.addChangeListener(e -> entrySpinnerStateChanged(e));
             optionPanel.add(entrySpinner, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
             //---- barWidthLabel ----
             barWidthLabel.setText("Bar width (px)");
             optionPanel.add(barWidthLabel, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
 
             //---- barWidthSpinner ----
             barWidthSpinner.setModel(new SpinnerNumberModel(1, 1, 10, 1));
             barWidthSpinner.addChangeListener(e -> barWidthSpinnerStateChanged(e));
             optionPanel.add(barWidthSpinner, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
             //---- useOpenGLCheckBox ----
             useOpenGLCheckBox.setText("Use OpenGL");
             optionPanel.add(useOpenGLCheckBox, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
             //---- startButton ----
             startButton.setText("Start Sorting");
@@ -354,141 +359,141 @@ public class VisualSortUI extends JFrame {
             startButton.setMinimumSize(new Dimension(95, 56));
             startButton.addActionListener(e -> startButtonActionPerformed(e));
             optionPanel.add(startButton, new GridBagConstraints(1, 5, 2, 2, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
             optionPanel.add(spacer2, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
 
             //---- delayLabel ----
             delayLabel.setText("Delay");
             optionPanel.add(delayLabel, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
 
             //---- delayMSSpinner ----
             delayMSSpinner.setModel(new SpinnerNumberModel(5, 0, 100, 1));
             delayMSSpinner.addChangeListener(e -> delayMSSpinnerStateChanged(e));
             optionPanel.add(delayMSSpinner, new GridBagConstraints(2, 7, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
             //---- delayInfoLabel ----
             delayInfoLabel.setText("Apply delay on..");
             optionPanel.add(delayInfoLabel, new GridBagConstraints(1, 8, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
 
             //---- applyDelayOnCompCheckBox ----
             applyDelayOnCompCheckBox.setText("Comparing");
             applyDelayOnCompCheckBox.addChangeListener(e -> CheckBoxStateChanged(e));
             optionPanel.add(applyDelayOnCompCheckBox, new GridBagConstraints(2, 8, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
             //---- applyDelayOnSwapCheckBox ----
             applyDelayOnSwapCheckBox.setText("Swaping");
             applyDelayOnSwapCheckBox.setSelected(true);
             applyDelayOnSwapCheckBox.addChangeListener(e -> applyDelayOnSwapCheckBoxStateChanged(e));
             optionPanel.add(applyDelayOnSwapCheckBox, new GridBagConstraints(2, 9, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
             //---- spacer1 ----
             spacer1.setPreferredSize(new Dimension(10, 40));
             spacer1.setOpaque(false);
             optionPanel.add(spacer1, new GridBagConstraints(1, 10, 1, 3, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
 
             //---- statusInfoLabel ----
             statusInfoLabel.setText("Status");
             optionPanel.add(statusInfoLabel, new GridBagConstraints(1, 13, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
 
             //---- statusLabel ----
             statusLabel.setText("text");
             statusLabel.setForeground(Color.black);
             statusLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             optionPanel.add(statusLabel, new GridBagConstraints(2, 13, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
             //---- compInfoLabel ----
             compInfoLabel.setText("Comparisons");
             optionPanel.add(compInfoLabel, new GridBagConstraints(1, 14, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
 
             //---- compLabel ----
             compLabel.setText("text");
             compLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             optionPanel.add(compLabel, new GridBagConstraints(2, 14, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
             //---- swaapinfoLabel ----
             swaapinfoLabel.setText("Swaps");
             optionPanel.add(swaapinfoLabel, new GridBagConstraints(1, 15, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
 
             //---- swpLabel ----
             swpLabel.setText("text");
             swpLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             optionPanel.add(swpLabel, new GridBagConstraints(2, 15, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
             //---- elTimeInfoLabel ----
             elTimeInfoLabel.setText("Elapsed Time");
             optionPanel.add(elTimeInfoLabel, new GridBagConstraints(1, 16, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
 
             //---- elTimeLabel ----
             elTimeLabel.setText("text");
             elTimeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             optionPanel.add(elTimeLabel, new GridBagConstraints(2, 16, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
             //---- vSpacer1 ----
             vSpacer1.setPreferredSize(new Dimension(10, 30));
             optionPanel.add(vSpacer1, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
 
             //---- label8 ----
             label8.setText("Pause on...");
             optionPanel.add(label8, new GridBagConstraints(1, 18, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
 
             //---- pauseOnNextSwapButton ----
             pauseOnNextSwapButton.setText("...next Swap");
             pauseOnNextSwapButton.setEnabled(false);
             pauseOnNextSwapButton.addActionListener(e -> pauseOnNextSwapButtonActionPerformed(e));
             optionPanel.add(pauseOnNextSwapButton, new GridBagConstraints(2, 18, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
             //---- pauseOnNextCompButton ----
             pauseOnNextCompButton.setText("...next Compare");
             pauseOnNextCompButton.setEnabled(false);
             pauseOnNextCompButton.addActionListener(e -> pauseOnNextCompButtonActionPerformed(e));
             optionPanel.add(pauseOnNextCompButton, new GridBagConstraints(2, 19, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
             //---- continuebuttomn ----
             continuebuttomn.setText("Continue");
             continuebuttomn.setEnabled(false);
             continuebuttomn.addActionListener(e -> continuebuttomnActionPerformed(e));
             optionPanel.add(continuebuttomn, new GridBagConstraints(2, 20, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 0, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0));
         }
         contentPane.add(optionPanel, BorderLayout.EAST);
 
@@ -509,23 +514,23 @@ public class VisualSortUI extends JFrame {
     }
 
     private void updateScrollbar() {
-        if(renderCanvas != null && renderer != null) {
-            try{
+        if (renderCanvas != null && renderer != null) {
+            try {
                 int entries = sortingHandler.getAmtEntries();
                 int maxRenderable = renderer.getMaxRenderable();
-                if(maxRenderable >= entries) {
+                if (maxRenderable >= entries) {
                     fovScrollBar.setEnabled(false);
                     renderer.setRenderPos(0);
                     fovScrollBar.setMaximum(1);
                 } else {
-                    if(!algorithmSelector.isEnabled()) {
+                    if (!algorithmSelector.isEnabled()) {
                         fovScrollBar.setEnabled(true);
                         fovScrollBar.setMaximum(entries - maxRenderable + 11);
                         VisualSort.logger.info(maxRenderable);
                     }
                 }
-            } catch(Exception e) {
-                VisualSort.logger.info("Error Updating Scrollbar",  e);
+            } catch (Exception e) {
+                VisualSort.logger.info("Error Updating Scrollbar", e);
                 return;
             }
         }
@@ -537,22 +542,23 @@ public class VisualSortUI extends JFrame {
     }
 
     private void exit() {
-        if(renderer != null) {
+        if (renderer != null) {
             renderer.stop();
             try {
                 Thread.sleep(50);
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+            }
         }
     }
 
     public void enableAlgoritmSelection(boolean b) {
-        JComponent[] c = new JComponent[] {algorithmSelector, dataGeneratorSelector, entrySpinner,
+        JComponent[] c = new JComponent[]{algorithmSelector, dataGeneratorSelector, entrySpinner,
                 barWidthSpinner};
         this.setStateOfJComponents(c, b);
     }
 
     public void enableStopButtons(boolean b) {
-        JComponent[] c = new JComponent[] {pauseOnNextCompButton, pauseOnNextSwapButton};
+        JComponent[] c = new JComponent[]{pauseOnNextCompButton, pauseOnNextSwapButton};
         setStateOfJComponents(c, b);
     }
 
@@ -563,9 +569,9 @@ public class VisualSortUI extends JFrame {
     }
 
     public void updateStatusLabels(long comp, long swap, String time) {
-        compLabel.setText(""+comp);
-        swpLabel.setText(""+swap);
-        if(time != null)
+        compLabel.setText("" + comp);
+        swpLabel.setText("" + swap);
+        if (time != null)
             elTimeLabel.setText(time);
     }
 

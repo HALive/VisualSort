@@ -14,6 +14,8 @@ import java.util.TimerTask;
 /**
  * This class is Responsible for Handling/invoking the DataGeneration and sorting.
  * It also counts the swaps and comparisons.
+ * <p>
+ * This class can be used In testing mode when the given gui is null.
  */
 public class SortingHandler implements Runnable {
 
@@ -54,7 +56,9 @@ public class SortingHandler implements Runnable {
         statusUpdater = new Timer("Status Updater");
         sortingThread = new Thread(this, "Sorting Handler");
         sortingThread.start();
+
         gui.displayStatus("Generating Data");
+
     }
 
     @Override
@@ -68,20 +72,26 @@ public class SortingHandler implements Runnable {
         for (int i = 0; i < entries.length; i++) {
             entries[i] = new DataEntry(this.renderWidth);
         }
+
         gui.displayStatus("Created array with " + entries.length + " Entries");
         dataGenerator.generateData(entries, MAX_HEIGHT_VAL);
+
         gui.displayStatus("Data generated");
         this.allowRendering = true;
+
         gui.enableStopButtons(true);
         statusUpdater.schedule(new StatusUpdater(this, gui), 0, TIMER_INTERVALL);
         gui.displayStatus("Sorting");
+
         currentAlgorithm.doSort(entries, this);
+
         statusUpdater.cancel();
         gui.displayStatus("Done");
         this.manualDataUptdate();
         gui.getStartButton().setEnabled(true);
         gui.enableAlgoritmSelection(true);
         gui.enableStopButtons(false);
+
         currentAlgorithm = null;
         dataGenerator = null;
     }
@@ -196,6 +206,18 @@ public class SortingHandler implements Runnable {
         while (stopOnNextSwap) {
             Thread.yield();
         }
+    }
+
+    public SortingAlgorithm getCurrentAlgorithm() {
+        return currentAlgorithm;
+    }
+
+    public DataGenerator getDataGenerator() {
+        return dataGenerator;
+    }
+
+    public void setEntries(DataEntry[] entries) {
+        this.entries = entries;
     }
 
     private static class StatusUpdater extends TimerTask {

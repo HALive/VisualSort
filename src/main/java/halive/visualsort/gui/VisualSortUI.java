@@ -190,7 +190,7 @@ public class VisualSortUI extends JFrame {
         fileMenu = new JMenu();
         exitMenuItem = new JMenuItem();
         helpMenu = new JMenu();
-        AboutButton = new JMenuItem();
+        aboutButton = new JMenuItem();
         optionPanel = new JPanel();
         algoLabel = new JLabel();
         algorithmSelector = new JComboBox();
@@ -285,9 +285,9 @@ public class VisualSortUI extends JFrame {
             {
                 helpMenu.setText("?");
 
-                //---- AboutButton ----
-                AboutButton.setText("About");
-                helpMenu.add(AboutButton);
+                //---- aboutButton ----
+                aboutButton.setText("About");
+                helpMenu.add(aboutButton);
             }
             menuBar1.add(helpMenu);
         }
@@ -511,6 +511,14 @@ public class VisualSortUI extends JFrame {
         pack();
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
+
+        exitMenuItem.addActionListener((e) -> System.exit(0));
+        aboutButton.addActionListener((e) -> showAboutDialog());
+    }
+
+    private void showAboutDialog() {
+        AboutDialog dialog = new AboutDialog();
+        dialog.setVisible(true);
     }
 
     private void updateScrollbar() {
@@ -600,7 +608,7 @@ public class VisualSortUI extends JFrame {
     private JMenu fileMenu;
     private JMenuItem exitMenuItem;
     private JMenu helpMenu;
-    private JMenuItem AboutButton;
+    private JMenuItem aboutButton;
     private JPanel optionPanel;
     private JLabel algoLabel;
     private JComboBox algorithmSelector;

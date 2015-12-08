@@ -7,7 +7,7 @@ import halive.visualsort.core.datageneration.LinearDescendingGenerator;
 import halive.visualsort.core.datageneration.NegativeParabolicGenerator;
 import halive.visualsort.core.datageneration.PositiveParabolicGenerator;
 import halive.visualsort.core.datageneration.RandomDataGenerator;
-import halive.visualsort.core.datageneration.SawtoohGenerator;
+import halive.visualsort.core.datageneration.SawtoothGenerator;
 import halive.visualsort.core.datageneration.SineGenerator;
 import halive.visualsort.core.datageneration.TriangleGenerator;
 import halive.visualsort.core.sorting.BiDiBubbleSort;
@@ -20,6 +20,11 @@ import halive.visualsort.core.sorting.QuickSortR2;
 import halive.visualsort.core.sorting.SelectionSort;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 
+/**
+ * This class Represents the CorePlugin containing the default Datagenerators and Sorting algorithms
+ *
+ * @author HALive
+ */
 public class CorePlugin implements IVisualSortPlugin {
     @Override
     public String getPluginName() {
@@ -30,7 +35,7 @@ public class CorePlugin implements IVisualSortPlugin {
     public Class<? extends DataGenerator>[] getDataGeneratorClasses() {
         return new Class[] {InvertedTriangleGenerator.class, LinearAscendingGenerator.class,
                 LinearDescendingGenerator.class, NegativeParabolicGenerator.class, PositiveParabolicGenerator.class,
-                RandomDataGenerator.class, SawtoohGenerator.class, SineGenerator.class, TriangleGenerator.class};
+                RandomDataGenerator.class, SawtoothGenerator.class, SineGenerator.class, TriangleGenerator.class};
     }
 
     @Override

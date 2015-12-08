@@ -8,7 +8,7 @@ public class Localizer {
 
     private static Properties langFile;
 
-    public static void init(InputStream in)throws IOException{
+    public static void init(InputStream in) throws IOException {
         langFile = new Properties();
         langFile.load(in);
     }

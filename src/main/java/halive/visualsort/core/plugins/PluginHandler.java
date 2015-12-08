@@ -41,7 +41,8 @@ public class PluginHandler {
     }
 
     private void searchJARForPlugins(File f, File parentFolder) {
-        VisualSort.logger.info("Searching for Plugins in " + (f.getAbsolutePath().replace(parentFolder.getAbsolutePath(), "")));
+        VisualSort.logger.info("Searching for Plugins in " +
+                (f.getAbsolutePath().replace(parentFolder.getAbsolutePath(), "")));
         try {
             JarFile file = new JarFile(f);
             URLClassLoader loader = new URLClassLoader(new URL[]{f.toURI().toURL()}, getClass().getClassLoader());
@@ -68,7 +69,8 @@ public class PluginHandler {
         }
     }
 
-    public void addPlugin(Class<? extends IVisualSortPlugin> c) throws IllegalAccessException, InstantiationException {
+    public void addPlugin(Class<? extends IVisualSortPlugin> c) throws IllegalAccessException,
+            InstantiationException {
         Object inst = c.newInstance();
         if (inst instanceof IVisualSortPlugin) {
             addPlugin((IVisualSortPlugin) inst);
@@ -119,7 +121,8 @@ public class PluginHandler {
                     outList.add(o);
                 }
             } catch (InstantiationException | IllegalAccessException e) {
-                VisualSort.logger.fatal("Could not Instantiate DataGen/SortingAlgorithm. Plugin: " + p.getPluginName(), e);
+                VisualSort.logger.fatal("Could not Instantiate DataGen/SortingAlgorithm. " +
+                        "Plugin: " + p.getPluginName(), e);
             }
         }
     }

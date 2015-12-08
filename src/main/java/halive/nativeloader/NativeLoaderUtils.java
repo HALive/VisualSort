@@ -20,17 +20,17 @@ public class NativeLoaderUtils {
         method.invoke(urlClassLoader, u.toURL());
     }
 
-    public static void addLibraryPath(String pathToAdd) throws Exception{
+    public static void addLibraryPath(String pathToAdd) throws Exception {
         final Field usrPathsField = ClassLoader.class.getDeclaredField("usr_paths");
         usrPathsField.setAccessible(true);
-        final String[] paths = (String[])usrPathsField.get(null);
-        for(String path : paths) {
-            if(path.equals(pathToAdd)) {
+        final String[] paths = (String[]) usrPathsField.get(null);
+        for (String path : paths) {
+            if (path.equals(pathToAdd)) {
                 return;
             }
         }
         final String[] newPaths = Arrays.copyOf(paths, paths.length + 1);
-        newPaths[newPaths.length-1] = pathToAdd;
+        newPaths[newPaths.length - 1] = pathToAdd;
         usrPathsField.set(null, newPaths);
     }
 

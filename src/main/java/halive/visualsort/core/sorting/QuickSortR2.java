@@ -3,7 +3,7 @@ package halive.visualsort.core.sorting;
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 
-public class QuickSortR2 extends QuickSortBase{
+public class QuickSortR2 extends QuickSortBase {
 
     public QuickSortR2() {
         super("Quick Sort - Variant 2", " ");

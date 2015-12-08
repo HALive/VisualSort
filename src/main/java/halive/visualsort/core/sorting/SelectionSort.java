@@ -5,7 +5,7 @@ import halive.visualsort.core.SortingHandler;
 
 import java.awt.Color;
 
-public class SelectionSort extends SortingAlgorithm{
+public class SelectionSort extends SortingAlgorithm {
     public SelectionSort() {
         super("Selection sort", " ");
     }
@@ -24,7 +24,7 @@ public class SelectionSort extends SortingAlgorithm{
         for (int i = startPos; h.compare(i <= endPos); i++) {
             //d[i].setRenderColor(Color.cyan);
             if (h.compare(i > 0)) {
-               //d[i-1].setRenderColor(Color.blue);
+                //d[i-1].setRenderColor(Color.blue);
             }
             if (h.compare(d[i].getValue() < d[minp].getValue())) {
                 minp = i;

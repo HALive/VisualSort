@@ -13,7 +13,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 import java.awt.Canvas;
-import java.awt.Component;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -99,26 +98,27 @@ public class OpenGLRenderCanvas implements IVisualSortRenderer, Game {
     }
 
     @Override
-    public void update(GameContainer gameContainer, int i) throws SlickException {}
+    public void update(GameContainer gameContainer, int i) throws SlickException {
+    }
 
     @Override
     public void render(GameContainer gameContainer, Graphics g) throws SlickException {
         g.setColor(Color.white);
         g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        if(handler != null && handler.isAllowRendering()) {
-            maxRenderable = canvas.getWidth()/handler.getRenderWidth();
-            int max = handler.getEntries().length > renderPos+maxRenderable ?
-                    renderPos+maxRenderable : handler.getEntries().length;
+        if (handler != null && handler.isAllowRendering()) {
+            maxRenderable = canvas.getWidth() / handler.getRenderWidth();
+            int max = handler.getEntries().length > renderPos + maxRenderable ?
+                    renderPos + maxRenderable : handler.getEntries().length;
             int height = canvas.getHeight();
-            VisualSort.logger.info(String.format("Height: %d Width: %d Max: %d MaxRenderable: %d",height, canvas.getWidth(), max, maxRenderable));
-            double heightScale = (double) height/SortingHandler.MAX_HEIGHT_VAL;
+            VisualSort.logger.info(String.format("Height: %d Width: %d Max: %d MaxRenderable: %d", height, canvas.getWidth(), max, maxRenderable));
+            double heightScale = (double) height / SortingHandler.MAX_HEIGHT_VAL;
             for (int i = renderPos; i < max; i++) {
                 //VisualSort.logger.info("Rendering "+i);
                 DataEntry e = handler.getEntries()[i];
-                int value = (int) ((double) e.getValue()*heightScale);
+                int value = (int) ((double) e.getValue() * heightScale);
                 g.setColor(new Color(e.getRenderColor().getRGB()));
                 g.fillRect((i - renderPos) * e.getWidth(), height - value, e.getWidth(), value);
-                if(e.getWidth() > 2) {
+                if (e.getWidth() > 2) {
                     g.setColor(new Color(e.getInvertedColor().getRGB()));
                     g.drawRect((i - renderPos) * e.getWidth(), height - value, e.getWidth(), value);
                 }

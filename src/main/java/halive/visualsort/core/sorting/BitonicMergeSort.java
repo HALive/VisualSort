@@ -2,7 +2,7 @@ package halive.visualsort.core.sorting;
 
 import halive.visualsort.core.SortingHandler;
 
-public class BitonicMergeSort extends MergeSort{
+public class BitonicMergeSort extends MergeSort {
 
     @Override
     public void merge(int lo, int hi, int m, int[] a, int[] b, SortingHandler h) {

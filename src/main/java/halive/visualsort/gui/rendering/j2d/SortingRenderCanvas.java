@@ -7,10 +7,10 @@ import halive.visualsort.gui.rendering.IVisualSortRenderer;
 import java.awt.Container;
 import java.awt.Graphics;
 
-public class SortingRenderCanvas extends ActiveRenderingCanvas implements IVisualSortRenderer{
+public class SortingRenderCanvas extends ActiveRenderingCanvas implements IVisualSortRenderer {
 
     private SortingHandler sortingHandler;
-    private int renderPos=0;
+    private int renderPos = 0;
     private int maxRenderable;
 
     public SortingRenderCanvas(Container frame, SortingHandler handler) {
@@ -20,16 +20,16 @@ public class SortingRenderCanvas extends ActiveRenderingCanvas implements IVisua
 
     @Override
     public void draw(Graphics g) {
-        if(sortingHandler != null && sortingHandler.isAllowRendering()) {
-            int max = sortingHandler.getEntries().length > renderPos+getMaxRenderable() ? renderPos+getMaxRenderable() : sortingHandler.getEntries().length;
+        if (sortingHandler != null && sortingHandler.isAllowRendering()) {
+            int max = sortingHandler.getEntries().length > renderPos + getMaxRenderable() ? renderPos + getMaxRenderable() : sortingHandler.getEntries().length;
             int height = this.getHeight();
-            double heightScale = (double) height/SortingHandler.MAX_HEIGHT_VAL;
+            double heightScale = (double) height / SortingHandler.MAX_HEIGHT_VAL;
             for (int i = renderPos; i < max; i++) {
                 DataEntry e = sortingHandler.getEntries()[i];
                 g.setColor(e.getRenderColor());
-                int value = (int) ((double) e.getValue()*heightScale);
-                g.fillRect((i-renderPos)*e.getWidth(), height-value, e.getWidth(), value);
-                if(e.getWidth() > 2){
+                int value = (int) ((double) e.getValue() * heightScale);
+                g.fillRect((i - renderPos) * e.getWidth(), height - value, e.getWidth(), value);
+                if (e.getWidth() > 2) {
                     g.setColor(e.getInvertedColor());
                     g.drawRect((i - renderPos) * e.getWidth(), height - value, e.getWidth(), value);
                 }
@@ -75,6 +75,6 @@ public class SortingRenderCanvas extends ActiveRenderingCanvas implements IVisua
     }
 
     public int getMaxRenderable() {
-        return this.getWidth()/sortingHandler.getRenderWidth();
+        return this.getWidth() / sortingHandler.getRenderWidth();
     }
 }

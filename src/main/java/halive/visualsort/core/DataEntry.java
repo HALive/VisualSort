@@ -1,6 +1,6 @@
 package halive.visualsort.core;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class DataEntry {
     private int value;

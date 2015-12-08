@@ -7,6 +7,7 @@ import halive.visualsort.core.plugins.PluginHandler;
 import halive.visualsort.gui.VisualSortUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import javax.swing.ProgressMonitor;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -23,13 +24,13 @@ public class VisualSort {
 
     public static PluginHandler pluginHandler;
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         System.out.println(System.getProperty("os.name"));
         initLogger();
         boolean force;
         logger.info("Initialized Logger");
-        for(UIManager.LookAndFeelInfo i : UIManager.getInstalledLookAndFeels()) {
-            if(i.getName().equals("Nimbus")) {
+        for (UIManager.LookAndFeelInfo i : UIManager.getInstalledLookAndFeels()) {
+            if (i.getName().equals("Nimbus")) {
                 try {
                     UIManager.setLookAndFeel(i.getClassName());
                 } catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException e) {
@@ -40,7 +41,7 @@ public class VisualSort {
         }
         logger.info("Look and feel set.");
         try {
-            ProgressMonitor mon = new ProgressMonitor(null, "Extracting natives...", "", 0,100);
+            ProgressMonitor mon = new ProgressMonitor(null, "Extracting natives...", "", 0, 100);
             mon.setMillisToPopup(0);
             NativeLoader loader = new NativeLoader(VisualSort.class, null);
             File nativesFolder = new File("natives");
@@ -75,7 +76,7 @@ public class VisualSort {
             logger.fatal("Could not load Core Plugin. Aborting", e);
             System.exit(-1);
         }
-        if(!pluginFolder.exists()) {
+        if (!pluginFolder.exists()) {
             pluginFolder.mkdir();
             logger.info("Created Plugins folder");
             return;

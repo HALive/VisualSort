@@ -5,14 +5,14 @@ import halive.visualsort.core.SortingHandler;
 
 import java.awt.Color;
 
-public abstract class QuickSortBase extends SortingAlgorithm{
+public abstract class QuickSortBase extends SortingAlgorithm {
     public QuickSortBase(String name, String description) {
         super(name, description);
     }
 
     @Override
     public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
-        quicksort(0, data.length-1,data, sortingHandler);
+        quicksort(0, data.length - 1, data, sortingHandler);
     }
 
     public void quicksort(int left, int right, DataEntry[] data, SortingHandler c) {

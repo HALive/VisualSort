@@ -11,16 +11,20 @@ import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class SortingHandler implements Runnable{
+/**
+ * This class is Responsible for Handling/invoking the DataGeneration and sorting.
+ * It also counts the swaps and comparisons.
+ */
+public class SortingHandler implements Runnable {
 
     private static final int TIMER_INTERVALL = 20;
     public static final int MAX_HEIGHT_VAL = 1000;
 
     private Timer statusUpdater;
 
-    private long swaps=0;
-    private long comparisons=0;
-    private long elapsedTime=0;
+    private long swaps = 0;
+    private long comparisons = 0;
+    private long elapsedTime = 0;
 
     private SortingAlgorithm currentAlgorithm;
     private DataGenerator dataGenerator;
@@ -64,12 +68,12 @@ public class SortingHandler implements Runnable{
         for (int i = 0; i < entries.length; i++) {
             entries[i] = new DataEntry(this.renderWidth);
         }
-        gui.displayStatus("Created array with "+ entries.length+ " Entries");
+        gui.displayStatus("Created array with " + entries.length + " Entries");
         dataGenerator.generateData(entries, MAX_HEIGHT_VAL);
         gui.displayStatus("Data generated");
         this.allowRendering = true;
         gui.enableStopButtons(true);
-        statusUpdater.schedule(new StatusUpdater(this, gui),0, TIMER_INTERVALL);
+        statusUpdater.schedule(new StatusUpdater(this, gui), 0, TIMER_INTERVALL);
         gui.displayStatus("Sorting");
         currentAlgorithm.doSort(entries, this);
         statusUpdater.cancel();
@@ -91,10 +95,11 @@ public class SortingHandler implements Runnable{
 
     public boolean compare(boolean b) {
         comparisons++;
-        if(delayOnComp) {
+        if (delayOnComp) {
             try {
                 Thread.sleep(delay);
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+            }
         }
         while (stopOnNextComp) {
             Thread.yield();
@@ -108,7 +113,7 @@ public class SortingHandler implements Runnable{
 
     public void setRenderWidth(int renderWidth) {
         this.renderWidth = renderWidth;
-        if(entries != null) {
+        if (entries != null) {
             for (int i = 0; i < entries.length; i++) {
                 entries[i].setWidth(renderWidth);
             }
@@ -173,7 +178,7 @@ public class SortingHandler implements Runnable{
     }
 
     private void manualDataUptdate() {
-        gui.updateStatusLabels(comparisons,swaps, null);
+        gui.updateStatusLabels(comparisons, swaps, null);
     }
 
     public boolean isRunning() {
@@ -182,12 +187,13 @@ public class SortingHandler implements Runnable{
 
     public void incrementSwapsAndDelay() {
         swaps++;
-        if(delayOnSwap) {
+        if (delayOnSwap) {
             try {
                 Thread.sleep(delay);
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+            }
         }
-        while(stopOnNextSwap) {
+        while (stopOnNextSwap) {
             Thread.yield();
         }
     }
@@ -204,7 +210,7 @@ public class SortingHandler implements Runnable{
 
         @Override
         public void run() {
-            if(handler.isRunning()) {
+            if (handler.isRunning()) {
                 handler.elapsedTime += TIMER_INTERVALL;
                 DateFormat outFormat = new SimpleDateFormat("HH:mm:ss.SS");
                 outFormat.setTimeZone(TimeZone.getTimeZone("UTC"));

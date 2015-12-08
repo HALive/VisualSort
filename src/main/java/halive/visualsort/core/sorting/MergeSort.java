@@ -5,7 +5,7 @@ import halive.visualsort.core.SortingHandler;
 
 import java.awt.Color;
 
-public class MergeSort extends SortingAlgorithm{
+public class MergeSort extends SortingAlgorithm {
 
     public MergeSort() {
         super("Merge sort", " ");
@@ -24,17 +24,20 @@ public class MergeSort extends SortingAlgorithm{
         ValueUpdater updater = new ValueUpdater(data, a);
         Thread t = new Thread(updater, "VisualSort Value Updater");
         t.start();
-        mergesort(0, data.length-1,a,b,sortingHandler);
-        try {Thread.sleep(20);} catch (InterruptedException e) {}
+        mergesort(0, data.length - 1, a, b, sortingHandler);
+        try {
+            Thread.sleep(20);
+        } catch (InterruptedException e) {
+        }
         t.interrupt();
     }
 
-    public void mergesort(int l, int r,int[] a, int[] b, SortingHandler h) {
+    public void mergesort(int l, int r, int[] a, int[] b, SortingHandler h) {
         if (h.compare(l < r)) {
             int q = (l + r) / 2;
-            mergesort(l, q,a,b,h);
-            mergesort(q + 1, r,a,b,h);
-            merge(l, r, q, a, b ,h);
+            mergesort(l, q, a, b, h);
+            mergesort(q + 1, r, a, b, h);
+            merge(l, r, q, a, b, h);
         }
     }
 
@@ -75,14 +78,18 @@ public class MergeSort extends SortingAlgorithm{
 
         @Override
         public void run() {
-            try {Thread.sleep(5);} catch (InterruptedException e) {}
-            while(!Thread.currentThread().isInterrupted()) {
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+            }
+            while (!Thread.currentThread().isInterrupted()) {
                 for (int i = 0; i < updateFrom.length; i++) {
                     toUpdate[i].setValue(updateFrom[i]);
                 }
                 try {
                     Thread.sleep(5);
-                } catch (InterruptedException e) {}
+                } catch (InterruptedException e) {
+                }
             }
         }
     }

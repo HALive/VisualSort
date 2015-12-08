@@ -2,7 +2,18 @@ package halive.visualsort.core.datageneration;
 
 import halive.visualsort.core.DataEntry;
 
-public abstract class FunctionGenerator extends DataGenerator{
+/**
+ * This Abstract Subclass Generates Data from a Mathematical Function like f(x) = x
+ *
+ * @author HALive
+ */
+public abstract class FunctionGenerator extends DataGenerator {
+    /**
+     * See DataGenerator
+     *
+     * @param name
+     * @param description
+     */
     public FunctionGenerator(String name, String description) {
         super(name, description);
     }
@@ -14,5 +25,13 @@ public abstract class FunctionGenerator extends DataGenerator{
         }
     }
 
+    /**
+     * This method returns a doubleValue for a specific x > 0.
+     * the Returned value can be anything as long as it is greater or equal to zero and is not larger then max
+     *
+     * @param x   the current x to calculate from
+     * @param max the Maximum Value
+     * @return the Calculated value
+     */
     public abstract double func(int x, int max);
 }

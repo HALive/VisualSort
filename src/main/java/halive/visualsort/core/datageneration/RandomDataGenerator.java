@@ -1,7 +1,6 @@
 package halive.visualsort.core.datageneration;
 
 import halive.visualsort.core.DataEntry;
-import halive.visualsort.local.LocalizationEntries;
 
 import java.util.Random;
 

@@ -5,7 +5,7 @@ import halive.visualsort.core.SortingHandler;
 
 import java.awt.Color;
 
-public class BiDiBubbleSort extends SortingAlgorithm{
+public class BiDiBubbleSort extends SortingAlgorithm {
     public BiDiBubbleSort() {
         super("Shaker sort", " ");
     }

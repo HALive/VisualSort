@@ -16,7 +16,6 @@ import halive.visualsort.core.sorting.impl.BitonicMergeSort;
 import halive.visualsort.core.sorting.impl.BubbleSort;
 import halive.visualsort.core.sorting.impl.CountingSort;
 import halive.visualsort.core.sorting.impl.GnomeSort;
-import halive.visualsort.core.sorting.impl.HeapSort;
 import halive.visualsort.core.sorting.impl.InsertionSort;
 import halive.visualsort.core.sorting.impl.MergeSort;
 import halive.visualsort.core.sorting.impl.QuickSortR1;
@@ -25,6 +24,7 @@ import halive.visualsort.core.sorting.impl.SelectionSort;
 import halive.visualsort.core.sorting.impl.SlowSort;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 import halive.visualsort.core.sorting.impl.StoogeSort;
+import halive.visualsort.core.sorting.impl.BinaryTreeSort;
 
 /**
  * This class Represents the CorePlugin containing the default Datagenerators and Sorting algorithms
@@ -58,7 +58,8 @@ public class CorePlugin implements IVisualSortPlugin {
                 QuickSortR2.class,
                 MergeSort.class,
                 BitonicMergeSort.class,
-                HeapSort.class,
+                //HeapSort.class,
+                BinaryTreeSort.class,
                 GnomeSort.class,
                 InsertionSort.class,
                 SelectionSort.class,

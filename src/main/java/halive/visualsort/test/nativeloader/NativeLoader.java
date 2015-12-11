@@ -1,4 +1,4 @@
-package halive.nativeloader;
+package halive.visualsort.test.nativeloader;
 
 import javax.swing.ProgressMonitor;
 import java.io.File;
@@ -16,14 +16,26 @@ public class NativeLoader {
 
     private JarFile jarFile;
 
-    public NativeLoader(Class resourceClass, String[] resourceNames) throws IOException {
+    public NativeLoader(Class resourceClass) throws IOException {
         String cName = resourceClass.getName();
         String resName = cName.replace('.', '/') + ".class";
         String[] path = getClass().getClassLoader().getResource(resName).getPath().replace("file:/", "").replace("%20", " ").split("!");
         if (path.length != 2) {
             throw new IOException("Invalid Resource Path or the program vas not started from a JAR");
         }
-        String jarPath = path[0];
+        loadFromString(path[0]);
+    }
+
+    public NativeLoader(File nativesFile) throws IOException {
+        loadFromString(nativesFile.getPath());
+    }
+
+    public NativeLoader(String filePath) throws IOException {
+        loadFromString(filePath);
+    }
+
+    private void loadFromString(String path) throws IOException {
+        String jarPath = path;
         if (!(System.getProperty("os.name").toLowerCase().contains("windows"))) {
             jarPath = "/" + jarPath;
         }

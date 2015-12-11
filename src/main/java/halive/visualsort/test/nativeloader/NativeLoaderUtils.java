@@ -1,4 +1,4 @@
-package halive.nativeloader;
+package halive.visualsort.test.nativeloader;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -32,6 +32,20 @@ public class NativeLoaderUtils {
         final String[] newPaths = Arrays.copyOf(paths, paths.length + 1);
         newPaths[newPaths.length - 1] = pathToAdd;
         usrPathsField.set(null, newPaths);
+    }
+
+    public static void deleteFolder(File folder) {
+        File[] files = folder.listFiles();
+        if(files!=null) { //some JVMs return null for empty dirs
+            for(File f: files) {
+                if(f.isDirectory()) {
+                    deleteFolder(f);
+                } else {
+                    f.delete();
+                }
+            }
+        }
+        folder.delete();
     }
 
 }

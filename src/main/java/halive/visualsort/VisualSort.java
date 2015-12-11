@@ -1,7 +1,7 @@
 package halive.visualsort;
 
-import halive.nativeloader.NativeLoader;
-import halive.nativeloader.NativeLoaderUtils;
+import halive.visualsort.test.nativeloader.NativeLoader;
+import halive.visualsort.test.nativeloader.NativeLoaderUtils;
 import halive.visualsort.core.plugins.CorePlugin;
 import halive.visualsort.core.plugins.PluginHandler;
 import halive.visualsort.gui.VisualSortUI;
@@ -43,7 +43,7 @@ public class VisualSort {
         try {
             ProgressMonitor mon = new ProgressMonitor(null, "Extracting natives...", "", 0, 100);
             mon.setMillisToPopup(0);
-            NativeLoader loader = new NativeLoader(VisualSort.class, null);
+            NativeLoader loader = new NativeLoader(VisualSort.class);
             File nativesFolder = new File("natives");
             loader.copyNatives(nativesFolder, mon);
             mon.setNote("Updating Library Path");

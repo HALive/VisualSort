@@ -4,14 +4,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import static org.junit.Assert.assertTrue;
 
@@ -21,9 +25,10 @@ public class NativeLoaderTest {
             "rnd.dylib", "test.dll", "test-dy.dylib",
             "test-so.so", "xyz.so"};
 
-    private File inputJarFile = new File("src/test/resources/nativeloader/nltest.zip");
-    private File hashFile = new File("src/test/resources/nativeloader/fileHashes.txt");
-    private File outputFolder = new File("nltest");
+    private String inputJarFile = "nativeloader/nltest.zip";
+    private String hashFile = "nativeloader/fileHashes.txt";
+    private File workingDir = new File("nl_Workingdir");
+    private File nativesOutputFolder = new File(workingDir, "nltest");
     private NativeLoader loader;
 
     private Map<String, String> fileHashes = new HashMap<>();
@@ -32,12 +37,26 @@ public class NativeLoaderTest {
     public void setUp() throws Exception {
         File file = new File("test");
         String s = file.getAbsolutePath();
-        if (outputFolder.exists()) {
+        if (workingDir.exists() || nativesOutputFolder.exists()) {
             throw new IOException("The NativeLoader Test Directory already Exists");
         }
-        outputFolder.mkdir();
-        loader = new NativeLoader(inputJarFile);
-        List<String> hashLines = Files.readAllLines(hashFile.toPath());
+        workingDir.mkdir();
+        nativesOutputFolder.mkdir();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        InputStream in = getClass().getClassLoader().getResourceAsStream(inputJarFile);
+        int d = 0;
+        while ((d = in.read()) != -1) {
+            out.write(d);
+        }
+        File jar = new File(workingDir, "test.jar");
+        jar.deleteOnExit();
+        Files.write(jar.toPath(), out.toByteArray());
+        loader = new NativeLoader(jar);
+        List<String> hashLines = new ArrayList<>();
+        Scanner scn = new Scanner(getClass().getClassLoader().getResourceAsStream(hashFile));
+        while (scn.hasNextLine()) {
+            hashLines.add(scn.nextLine());
+        }
         for (String line : hashLines) {
             String[] vals = line.split(":");
             if (vals.length != 2) {
@@ -49,14 +68,16 @@ public class NativeLoaderTest {
 
     @After
     public void tearDown() throws Exception {
-        NativeLoaderUtils.deleteFolder(outputFolder);
+        File jar = new File(workingDir, "test.jar");
+        boolean s = jar.delete();
+        NativeLoaderUtils.deleteFolder(workingDir);
     }
 
     @Test
     public void testNativeLoader() throws Exception {
-        loader.copyNatives(outputFolder);
+        loader.copyNatives(nativesOutputFolder);
         int cntValidFiles = 0;
-        for (File file : outputFolder.listFiles()) {
+        for (File file : nativesOutputFolder.listFiles()) {
             for (String name : TEST_CONTENTS) {
                 if (file.getName().contains(name)) {
                     cntValidFiles++;
@@ -64,7 +85,7 @@ public class NativeLoaderTest {
             }
         }
         assertTrue("Not all Valid Items have Been Copied", cntValidFiles == TEST_CONTENTS.length);
-        for (File f : outputFolder.listFiles()) {
+        for (File f : nativesOutputFolder.listFiles()) {
             byte[] data = Files.readAllBytes(f.toPath());
             String hash = getSHAHash(data);
             String h2 = fileHashes.get(f.getName());

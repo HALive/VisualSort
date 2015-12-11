@@ -1,5 +1,0 @@
-Paste the jar files of SLick2D and IBXM in this folder.
-
-The jars should be named as following:
-ibxm: ibxm.jar
-slick2d: slick.jar

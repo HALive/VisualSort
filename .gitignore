@@ -5,12 +5,13 @@ build/
 .gradle/
 .idea/
 
+lib/*.jar
+PluginDummy/lib/*.jar
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.ear
 

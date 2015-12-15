@@ -514,6 +514,8 @@ public class VisualSortUI extends JFrame {
 
         exitMenuItem.addActionListener((e) -> System.exit(0));
         aboutButton.addActionListener((e) -> showAboutDialog());
+
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private void showAboutDialog() {

@@ -5,6 +5,7 @@ import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 
 public class HeapSort extends SortingAlgorithm {
+
     public HeapSort() {
         super("HeapSort", " ");
     }
@@ -15,6 +16,14 @@ public class HeapSort extends SortingAlgorithm {
         for (int i = data.length - 1; i > 0; i--) {
             sortingHandler.swap(0, i);
             createHeapK(data, 0, i - 1, sortingHandler);
+        }
+        //For Some Reason the First 2 values and the last 2 might be in the wrong
+        //Order this is to prevent taht.
+        if (data[0].getValue() > data[1].getValue()) {
+            sortingHandler.swap(0, 1);
+        }
+        if (data[data.length - 2].getValue() > data[data.length - 1].getValue()) {
+            sortingHandler.swap(data.length - 2, data.length - 1);
         }
     }
 
@@ -39,6 +48,5 @@ public class HeapSort extends SortingAlgorithm {
                 createHeapK(data, middle, size, a);
             }
         }
-
     }
 }

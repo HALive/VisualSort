@@ -1,8 +1,8 @@
-package halive.visualsort.test;
+package halive.visualsort.visualsort;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
-import halive.visualsort.core.datageneration.impl.RandomDataGenerator;
+import halive.visualsort.core.datageneration.impl.SineGenerator;
 import halive.visualsort.core.plugins.CorePlugin;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 import halive.visualsort.core.sorting.impl.SlowSort;
@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
  */
 @RunWith(Parameterized.class)
 public class SortingAlgorithmTest {
+
     private SortingAlgorithm algo;
     private SortingHandler handler;
     private DataEntry[] dataEntries = new DataEntry[1000];
@@ -38,7 +39,7 @@ public class SortingAlgorithmTest {
     public void setUp() {
         handler = new SortingHandler(null);
         handler.setDelay(0);
-        handler.setDataGenerator(new RandomDataGenerator());
+        handler.setDataGenerator(new SineGenerator());
         handler.setSortingAlgorithm(algo);
         for (int i = 0; i < dataEntries.length; i++) {
             dataEntries[i] = new DataEntry(1);

@@ -1,4 +1,4 @@
-package halive.visualsort.test;
+package halive.visualsort.visualsort;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.datageneration.DataGenerator;

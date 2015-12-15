@@ -1,7 +1,7 @@
 package halive.visualsort;
 
 import halive.visualsort.test.nativeloader.NativeLoader;
-import halive.visualsort.test.nativeloader.NativeLoaderUtils;
+import halive.visualsort.nativeloader.NativeLoaderUtils;
 import halive.visualsort.core.plugins.CorePlugin;
 import halive.visualsort.core.plugins.PluginHandler;
 import halive.visualsort.gui.VisualSortUI;

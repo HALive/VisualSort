@@ -49,7 +49,6 @@ public class NativeLoaderTest {
             out.write(d);
         }
         File jar = new File(workingDir, "test.jar");
-        jar.deleteOnExit();
         Files.write(jar.toPath(), out.toByteArray());
         loader = new NativeLoader(jar);
         List<String> hashLines = new ArrayList<>();

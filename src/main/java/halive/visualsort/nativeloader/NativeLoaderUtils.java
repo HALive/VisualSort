@@ -50,4 +50,23 @@ public class NativeLoaderUtils {
         newPaths[newPaths.length - 1] = pathToAdd;
         usrPathsField.set(null, newPaths);
     }
+
+    /**
+     * This Recursively Removes the GIven folder
+     *
+     * @param folder the Folder to delete
+     */
+    public static void deleteFolder(File folder) {
+        File[] files = folder.listFiles();
+        if (files != null) { //some JVMs return null for empty dirs
+            for (File f : files) {
+                if (f.isDirectory()) {
+                    deleteFolder(f);
+                } else {
+                    f.delete();
+                }
+            }
+        }
+        folder.delete();
+    }
 }

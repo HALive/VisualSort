@@ -1,10 +1,10 @@
 package halive.visualsort;
 
-import halive.visualsort.test.nativeloader.NativeLoader;
-import halive.visualsort.nativeloader.NativeLoaderUtils;
 import halive.visualsort.core.plugins.CorePlugin;
 import halive.visualsort.core.plugins.PluginHandler;
 import halive.visualsort.gui.VisualSortUI;
+import halive.visualsort.nativeloader.NativeLoader;
+import halive.visualsort.nativeloader.NativeLoaderUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -63,7 +63,9 @@ public class VisualSort {
         SwingUtilities.invokeLater(() -> {
             VisualSortUI ui = new VisualSortUI();
             ui.setVisible(true);
-            if (finalForce) ui.forceJavaDRendering();
+            if (finalForce) {
+                ui.forceJavaDRendering();
+            }
         });
     }
 

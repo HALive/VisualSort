@@ -2,7 +2,9 @@ package halive.visualsort.nativeloader;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,9 +27,12 @@ public class NativeLoaderTest {
             "rnd.dylib", "test.dll", "test-dy.dylib",
             "test-so.so", "xyz.so"};
 
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
+
     private String inputJarFile = "nativeloader/nltest.zip";
     private String hashFile = "nativeloader/fileHashes.txt";
-    private File workingDir = new File("nl_Workingdir");
+    private File workingDir = null;
     private File nativesOutputFolder = new File(workingDir, "nltest");
     private NativeLoader loader;
 
@@ -35,8 +40,7 @@ public class NativeLoaderTest {
 
     @Before
     public void setUp() throws Exception {
-        File file = new File("test");
-        String s = file.getAbsolutePath();
+        workingDir = new File(folder.newFolder(), "nlt");
         if (workingDir.exists() || nativesOutputFolder.exists()) {
             throw new IOException("The NativeLoader Test Directory already Exists");
         }
@@ -67,9 +71,7 @@ public class NativeLoaderTest {
 
     @After
     public void tearDown() throws Exception {
-        File jar = new File(workingDir, "test.jar");
-        boolean s = jar.delete();
-        NativeLoaderUtils.deleteFolder(workingDir);
+
     }
 
     @Test

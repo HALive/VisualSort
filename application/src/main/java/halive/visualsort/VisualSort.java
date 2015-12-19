@@ -5,13 +5,11 @@
 
 package halive.visualsort;
 
-import halive.visualsort.core.plugins.CorePlugin;
+import halive.nativeloader.NativeLoader;
+import halive.nativeloader.NativeLoaderUtils;
+import halive.visualsort.core.VSLog;
 import halive.visualsort.core.plugins.PluginHandler;
 import halive.visualsort.gui.VisualSortUI;
-import halive.visualsort.nativeloader.NativeLoader;
-import halive.visualsort.nativeloader.NativeLoaderUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.swing.ProgressMonitor;
 import javax.swing.SwingUtilities;
@@ -25,26 +23,23 @@ public class VisualSort {
 
     public static int MAX_ENTRIES = 100000;
 
-    public static Logger logger;
-
     public static PluginHandler pluginHandler;
 
     public static void main(String[] args) {
         System.out.println(System.getProperty("os.name"));
-        initLogger();
         boolean force;
-        logger.info("Initialized Logger");
+        VSLog.logger.info("Initialized Logger");
         for (UIManager.LookAndFeelInfo i : UIManager.getInstalledLookAndFeels()) {
             if (i.getName().equals("Nimbus")) {
                 try {
                     UIManager.setLookAndFeel(i.getClassName());
                 } catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException e) {
-                    logger.error("Could not set look and feel", e);
+                    VSLog.logger.error("Could not set look and feel", e);
                 }
                 break;
             }
         }
-        logger.info("Look and feel set.");
+        VSLog.logger.info("Look and feel set.");
         try {
             ProgressMonitor mon = new ProgressMonitor(null, "Extracting natives...", "", 0, 100);
             mon.setMillisToPopup(0);
@@ -56,13 +51,13 @@ public class VisualSort {
             mon.close();
             force = false;
         } catch (Exception e) {
-            logger.error("Could not extract natives, Forcing J2D...", e);
+            VSLog.logger.error("Could not extract natives, Forcing J2D...", e);
             force = !(args.length > 0 && args[0].toLowerCase().equals("-no-native-check"));
         }
-        logger.info("Loaded native files");
-        logger.info("Loading Plugins");
+        VSLog.logger.info("Loaded native files");
+        VSLog.logger.info("Loading Plugins");
         loadPlugins();
-        logger.info("Initializing Plugins");
+        VSLog.logger.info("Initializing Plugins");
         pluginHandler.initializePlugins();
         final boolean finalForce = force;
         SwingUtilities.invokeLater(() -> {
@@ -80,21 +75,17 @@ public class VisualSort {
         try {
             pluginHandler.addPlugin(CorePlugin.class);
         } catch (IllegalAccessException | InstantiationException e) {
-            logger.fatal("Could not load Core Plugin. Aborting", e);
+            VSLog.logger.fatal("Could not load Core Plugin. Aborting", e);
             System.exit(-1);
         }
         if (!pluginFolder.exists()) {
             pluginFolder.mkdir();
-            logger.info("Created Plugins folder");
+            VSLog.logger.info("Created Plugins folder");
             return;
         } else if (pluginFolder.isFile()) {
-            logger.info("Could not load plugins. The plugin folder is a File.");
+            VSLog.logger.info("Could not load plugins. The plugin folder is a File.");
             return;
         }
         pluginHandler.searchFolder(pluginFolder, true);
-    }
-
-    private static void initLogger() {
-        logger = LogManager.getLogger(APPLICATION_NAME);
     }
 }

@@ -17,14 +17,27 @@ subprojects {
     apply plugin: 'java'
 
     dependencies {
+        testCompile 'junit:junit:4.12'
+    }
+}
+
+project(":core") {
+    dependencies {
         compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.2'
         compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.2'
-        testCompile 'junit:junit:4.12'
+    }
+}
+
+project (":corePlugin") {
+    dependencies {
+        compile project(":core")
     }
 }
 
 project(":application") {
     dependencies {
+        compile project(":core")
+        compile project(":corePlugin")
         compile 'org.slick2d:slick2d-core:1.0.1'
     }
 }

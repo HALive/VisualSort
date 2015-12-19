@@ -5,9 +5,9 @@
 
 package halive.visualsort.gui.rendering.slick2d;
 
-import halive.visualsort.VisualSort;
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
+import halive.visualsort.core.VSLog;
 import halive.visualsort.gui.VisualSortUI;
 import halive.visualsort.gui.rendering.IVisualSortRenderer;
 import org.newdawn.slick.CanvasGameContainer;
@@ -74,7 +74,7 @@ public class OpenGLRenderCanvas implements IVisualSortRenderer, Game {
             canvas.start();
             canvas.getContainer().enableSharedContext();
         } catch (SlickException e) {
-            VisualSort.logger.error("Error Launching Slick 2d", e);
+            VSLog.logger.error("Error Launching Slick 2d", e);
             this.ui.slickError(e);
             return;
         }
@@ -115,10 +115,10 @@ public class OpenGLRenderCanvas implements IVisualSortRenderer, Game {
             int max = handler.getEntries().length > renderPos + maxRenderable ?
                     renderPos + maxRenderable : handler.getEntries().length;
             int height = canvas.getHeight();
-            VisualSort.logger.info(String.format("Height: %d Width: %d Max: %d MaxRenderable: %d", height, canvas.getWidth(), max, maxRenderable));
+            VSLog.logger.info(String.format("Height: %d Width: %d Max: %d MaxRenderable: %d", height, canvas.getWidth(), max, maxRenderable));
             double heightScale = (double) height / SortingHandler.MAX_HEIGHT_VAL;
             for (int i = renderPos; i < max; i++) {
-                //VisualSort.logger.info("Rendering "+i);
+                //VSLog.logger.info("Rendering "+i);
                 DataEntry e = handler.getEntries()[i];
                 int value = (int) ((double) e.getValue() * heightScale);
                 g.setColor(new Color(e.getRenderColor().getRGB()));

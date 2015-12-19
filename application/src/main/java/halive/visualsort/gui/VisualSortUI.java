@@ -6,7 +6,9 @@
 package halive.visualsort.gui;
 
 import halive.visualsort.VisualSort;
+import halive.visualsort.core.IVisualSortUI;
 import halive.visualsort.core.SortingHandler;
+import halive.visualsort.core.VSLog;
 import halive.visualsort.core.datageneration.DataGenerator;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 import halive.visualsort.gui.rendering.IVisualSortRenderer;
@@ -46,7 +48,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 
-public class VisualSortUI extends JFrame {
+public class VisualSortUI extends JFrame implements IVisualSortUI {
 
     private Canvas renderCanvas;
     private IVisualSortRenderer renderer;
@@ -519,11 +521,11 @@ public class VisualSortUI extends JFrame {
                     if (!algorithmSelector.isEnabled()) {
                         fovScrollBar.setEnabled(true);
                         fovScrollBar.setMaximum(entries - maxRenderable + 11);
-                        VisualSort.logger.info(maxRenderable);
+                        VSLog.logger.info(maxRenderable);
                     }
                 }
             } catch (Exception e) {
-                VisualSort.logger.info("Error Updating Scrollbar", e);
+                VSLog.logger.info("Error Updating Scrollbar", e);
                 return;
             }
         }
@@ -531,7 +533,7 @@ public class VisualSortUI extends JFrame {
 
     public void displayStatus(String msg) {
         statusLabel.setText(msg);
-        VisualSort.logger.info(msg);
+        VSLog.logger.info(msg);
     }
 
     private void exit() {
@@ -570,7 +572,7 @@ public class VisualSortUI extends JFrame {
     }
 
     public void slickError(Exception e) {
-        VisualSort.logger.error("Error initializing Slick2D", e);
+        VSLog.logger.error("Error initializing Slick2D", e);
         allowResize = true;
         this.setResizable(true);
         this.setMinimumSize(new Dimension(600, 600));

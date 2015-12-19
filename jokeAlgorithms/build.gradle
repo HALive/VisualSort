@@ -1,0 +1,14 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
+apply plugin: 'java'
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'JokeAlgos for VisualSort',
+                'Implementation-Version': '1.0'
+    }
+    exclude("halive/visualsort/*")
+}

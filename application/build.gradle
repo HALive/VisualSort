@@ -1,0 +1,15 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+apply plugin: 'java'
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Visual Sort',
+                'Implementation-Version': '1.0',
+                'Class-Path': '.',
+                'Main-Class': 'halive.visualsort.VisualSort'
+    }
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+}

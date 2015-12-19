@@ -42,7 +42,7 @@ public class CorePlugin implements IVisualSortPlugin {
 
     @Override
     public String getPluginName() {
-        return "VSCore";
+        return "Core";
     }
 
     @Override

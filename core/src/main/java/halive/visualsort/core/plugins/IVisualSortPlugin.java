@@ -5,8 +5,6 @@
 
 package halive.visualsort.core.plugins;
 
-import halive.visualsort.core.sorting.SortingAlgorithm;
-
 /**
  * Classes implementing this Interface can be loaded by the PluginLoader to add More
  * Datagenerators and SortingAlgortihms
@@ -29,5 +27,5 @@ public interface IVisualSortPlugin {
      */
     Class[] getDataGeneratorClasses();
 
-    Class<? extends SortingAlgorithm>[] getSortingAlgorithmClasses();
+    Class[] getSortingAlgorithmClasses();
 }

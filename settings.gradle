@@ -2,3 +2,4 @@ rootProject.name = 'VisualSort'
 include ":core"
 include ":corePlugin"
 include ":application"
+include ":jokeAlgorithms"

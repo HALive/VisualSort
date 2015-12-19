@@ -41,3 +41,9 @@ project(":application") {
         compile 'org.slick2d:slick2d-core:1.0.1'
     }
 }
+
+project(":jokeAlgorithms") {
+    dependencies {
+        compile project(":core")
+    }
+}

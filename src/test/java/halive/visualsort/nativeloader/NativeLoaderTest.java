@@ -1,10 +1,11 @@
 package halive.visualsort.nativeloader;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -14,6 +15,8 @@ import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +24,7 @@ import java.util.Scanner;
 
 import static org.junit.Assert.assertTrue;
 
+@RunWith(Parameterized.class)
 public class NativeLoaderTest {
 
     private static String[] TEST_CONTENTS = {"random.dll",
@@ -33,14 +37,21 @@ public class NativeLoaderTest {
     private String inputJarFile = "nativeloader/nltest.zip";
     private String hashFile = "nativeloader/fileHashes.txt";
     private File workingDir = null;
-    private File nativesOutputFolder = new File(workingDir, "nltest");
+    private File nativesOutputFolder = null;
     private NativeLoader loader;
 
     private Map<String, String> fileHashes = new HashMap<>();
 
+    private String foldername;
+
+    public NativeLoaderTest(String foldername) {
+        this.foldername = foldername;
+    }
+
     @Before
     public void setUp() throws Exception {
-        workingDir = new File(folder.newFolder(), "nlt");
+        workingDir = new File(folder.newFolder(), foldername);
+        nativesOutputFolder = new File(workingDir, "natives");
         if (workingDir.exists() || nativesOutputFolder.exists()) {
             throw new IOException("The NativeLoader Test Directory already Exists");
         }
@@ -69,11 +80,6 @@ public class NativeLoaderTest {
         }
     }
 
-    @After
-    public void tearDown() throws Exception {
-
-    }
-
     @Test
     public void testNativeLoader() throws Exception {
         //TODO Fix nativeLoader test. it is failing in CI
@@ -98,5 +104,11 @@ public class NativeLoaderTest {
     private String getSHAHash(byte[] data) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         return String.format("%064x", new java.math.BigInteger(1, md.digest(data)));
+    }
+
+    @Parameterized.Parameters(name = "{index}: Folder: \"{0}\"")
+    public static Collection<String> getFolderNamesToTest() {
+        return Arrays.asList("TestFolder", "ÄTestFolder",
+                "ÜTestFolder", "ÜTestFolder", "Test Folder");
     }
 }

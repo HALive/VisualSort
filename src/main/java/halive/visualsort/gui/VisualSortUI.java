@@ -87,6 +87,7 @@ public class VisualSortUI extends JFrame {
     }
 
     private void startButtonActionPerformed(ActionEvent e) {
+        //<editor-fold desc="Instantiate the Renderer">
         if (renderer == null) {
             if (!this.useOpenGLCheckBox.isSelected()) {
                 renderCanvas = new SortingRenderCanvas(this, sortingHandler);
@@ -106,20 +107,23 @@ public class VisualSortUI extends JFrame {
             }
             renderPanel.add(renderCanvas, BorderLayout.CENTER);
         }
+        //</editor-fold>
 
         this.useOpenGLCheckBox.setEnabled(false);
         startButton.setEnabled(false);
-        //Triggering Events
+        //Trigger Events to Update their state
         barWidthSpinnerStateChanged(null);
         entrySpinnerStateChanged(null);
         delayMSSpinnerStateChanged(null);
-        this.enableAlgoritmSelection(false);
+        //Disable Algorthm Selction
+        this.enableAlgorithmSelection(false);
         updateScrollbar();
         displayStatus("Initializing");
+        //Launch the Renderer
         if (!renderer.isRendering()) {
             renderer.start();
         }
-        //Initializing the sorting Handler
+        //<editor-fold desc="Initialize the SortingHandler">
         sortingHandler.setSortingAlgorithm((SortingAlgorithm) algorithmSelector.getSelectedItem());
         sortingHandler.setDataGenerator((DataGenerator) dataGeneratorSelector.getSelectedItem());
         boolean delayOnSwap = applyDelayOnSwapCheckBox.isSelected();
@@ -127,6 +131,7 @@ public class VisualSortUI extends JFrame {
         sortingHandler.setDelayOnComp(delayOnComp);
         sortingHandler.setDelayOnSwap(delayOnSwap);
         sortingHandler.init();
+        //</editor-fold>
     }
 
     private void onComponentResized(ComponentEvent e) {
@@ -170,17 +175,17 @@ public class VisualSortUI extends JFrame {
     private void pauseOnNextSwapButtonActionPerformed(ActionEvent e) {
         this.enableStopButtons(false);
         sortingHandler.setStopOnNextSwap(true);
-        continuebuttomn.setEnabled(true);
+        continueButton.setEnabled(true);
     }
 
     private void pauseOnNextCompButtonActionPerformed(ActionEvent e) {
         this.enableStopButtons(false);
         sortingHandler.setStopOnNextComp(true);
-        continuebuttomn.setEnabled(true);
+        continueButton.setEnabled(true);
     }
 
     private void continuebuttomnActionPerformed(ActionEvent e) {
-        continuebuttomn.setEnabled(false);
+        continueButton.setEnabled(false);
         sortingHandler.clearPause();
         enableStopButtons(true);
     }
@@ -191,8 +196,8 @@ public class VisualSortUI extends JFrame {
     }
 
     private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        menuBar1 = new JMenuBar();
+        //<editor-fold desc="Component Instantiation">
+        uiMenuBar = new JMenuBar();
         fileMenu = new JMenu();
         exitMenuItem = new JMenuItem();
         helpMenu = new JMenu();
@@ -224,14 +229,14 @@ public class VisualSortUI extends JFrame {
         elTimeInfoLabel = new JLabel();
         elTimeLabel = new JLabel();
         vSpacer1 = new JPanel(null);
-        label8 = new JLabel();
+        pauseOnLabel = new JLabel();
         pauseOnNextSwapButton = new JButton();
         pauseOnNextCompButton = new JButton();
-        continuebuttomn = new JButton();
+        continueButton = new JButton();
         renderPanel = new JPanel();
         fovScrollBar = new JScrollBar();
-
-        //======== this ========
+        //</editor-fold>
+        //<editor-fold desc="Basic UI Initialisation">
         setTitle("VisualSort");
         addWindowListener(new WindowAdapter() {
             @Override
@@ -272,256 +277,228 @@ public class VisualSortUI extends JFrame {
         });
         Container contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout(10, 10));
+        //</editor-fold>
+        //<editor-fold desc="MenuBar Initialisation">
+        fileMenu.setText("File");
 
-        //======== menuBar1 ========
-        {
+        exitMenuItem.setText("Exit");
+        exitMenuItem.addActionListener(e -> exitMenuItemActionPerformed(e));
+        fileMenu.add(exitMenuItem);
 
-            //======== fileMenu ========
-            {
-                fileMenu.setText("File");
+        uiMenuBar.add(fileMenu);
+        helpMenu.setText("?");
 
-                //---- exitMenuItem ----
-                exitMenuItem.setText("Exit");
-                exitMenuItem.addActionListener(e -> exitMenuItemActionPerformed(e));
-                fileMenu.add(exitMenuItem);
-            }
-            menuBar1.add(fileMenu);
+        aboutButton.setText("About");
+        helpMenu.add(aboutButton);
 
-            //======== helpMenu ========
-            {
-                helpMenu.setText("?");
+        uiMenuBar.add(helpMenu);
 
-                //---- aboutButton ----
-                aboutButton.setText("About");
-                helpMenu.add(aboutButton);
-            }
-            menuBar1.add(helpMenu);
-        }
-        setJMenuBar(menuBar1);
+        setJMenuBar(uiMenuBar);
+        //</editor-fold>
+        //<editor-fold desc="Initialize the OptionPanel">
+        optionPanel.setLayout(new GridBagLayout());
+        ((GridBagLayout) optionPanel.getLayout()).columnWidths = new int[]{0, 0, 0, 0};
+        ((GridBagLayout) optionPanel.getLayout()).rowHeights =
+                new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        ((GridBagLayout) optionPanel.getLayout()).columnWeights = new double[]{0.0, 0.0, 0.0, 1.0E-4};
+        ((GridBagLayout) optionPanel.getLayout()).rowWeights =
+                new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+        //</editor-fold>
+        //<editor-fold desc="Algorithm and DataGeneraor Selection Label Initialisation">
+        algoLabel.setText("Select Algorithm");
+        optionPanel.add(algoLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+        optionPanel.add(algorithmSelector, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
 
-        //======== optionPanel ========
-        {
+        dataGenLabel.setText("Data Generator");
+        optionPanel.add(dataGenLabel, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+        optionPanel.add(dataGeneratorSelector, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+        //</editor-fold>
+        //<editor-fold desc="Initialize Entry Selection Spinner and Label">
+        amtEntriesLabel.setText("Amount of Entries");
+        optionPanel.add(amtEntriesLabel, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
 
-            optionPanel.setLayout(new GridBagLayout());
-            ((GridBagLayout) optionPanel.getLayout()).columnWidths = new int[]{0, 0, 0, 0};
-            ((GridBagLayout) optionPanel.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-            ((GridBagLayout) optionPanel.getLayout()).columnWeights = new double[]{0.0, 0.0, 0.0, 1.0E-4};
-            ((GridBagLayout) optionPanel.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+        entrySpinner.setModel(new SpinnerNumberModel(600, 10, 6000, 1));
+        entrySpinner.addChangeListener(e -> entrySpinnerStateChanged(e));
+        optionPanel.add(entrySpinner, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+        //</editor-fold>
+        //<editor-fold desc="Initialize BarWidth Label and Spinner">
+        barWidthLabel.setText("Bar width (px)");
+        optionPanel.add(barWidthLabel, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
 
-            //---- algoLabel ----
-            algoLabel.setText("Select Algorithm");
-            optionPanel.add(algoLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 5), 0, 0));
-            optionPanel.add(algorithmSelector, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
+        barWidthSpinner.setModel(new SpinnerNumberModel(1, 1, 10, 1));
+        barWidthSpinner.addChangeListener(e -> barWidthSpinnerStateChanged(e));
+        optionPanel.add(barWidthSpinner, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+        //</editor-fold>
+        //<editor-fold desc="Initialize USe OGL Checkbox">
+        useOpenGLCheckBox.setText("Use OpenGL");
+        optionPanel.add(useOpenGLCheckBox, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+        //</editor-fold>
+        //<editor-fold desc="Initialize StartButton">
+        startButton.setText("Start Sorting");
+        startButton.setPreferredSize(new Dimension(95, 56));
+        startButton.setMaximumSize(new Dimension(95, 56));
+        startButton.setMinimumSize(new Dimension(95, 56));
+        startButton.addActionListener(e -> startButtonActionPerformed(e));
+        optionPanel.add(startButton, new GridBagConstraints(1, 5, 2, 2, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+        optionPanel.add(spacer2, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
+        //</editor-fold>
+        //<editor-fold desc="Initialize Delay Settings Components">
+        delayLabel.setText("Delay");
+        optionPanel.add(delayLabel, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
 
-            //---- dataGenLabel ----
-            dataGenLabel.setText("Data Generator");
-            optionPanel.add(dataGenLabel, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 5), 0, 0));
-            optionPanel.add(dataGeneratorSelector, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
+        delayMSSpinner.setModel(new SpinnerNumberModel(5, 0, 100, 1));
+        delayMSSpinner.addChangeListener(e -> delayMSSpinnerStateChanged(e));
+        optionPanel.add(delayMSSpinner, new GridBagConstraints(2, 7, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
 
-            //---- amtEntriesLabel ----
-            amtEntriesLabel.setText("Amount of Entries");
-            optionPanel.add(amtEntriesLabel, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 5), 0, 0));
+        delayInfoLabel.setText("Apply delay on..");
+        optionPanel.add(delayInfoLabel, new GridBagConstraints(1, 8, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
 
-            //---- entrySpinner ----
-            entrySpinner.setModel(new SpinnerNumberModel(600, 10, 6000, 1));
-            entrySpinner.addChangeListener(e -> entrySpinnerStateChanged(e));
-            optionPanel.add(entrySpinner, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
+        applyDelayOnCompCheckBox.setText("Comparing");
+        applyDelayOnCompCheckBox.addChangeListener(e -> CheckBoxStateChanged(e));
+        optionPanel.add(applyDelayOnCompCheckBox, new GridBagConstraints(2, 8, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
 
-            //---- barWidthLabel ----
-            barWidthLabel.setText("Bar width (px)");
-            optionPanel.add(barWidthLabel, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 5), 0, 0));
+        applyDelayOnSwapCheckBox.setText("Swaping");
+        applyDelayOnSwapCheckBox.setSelected(true);
+        applyDelayOnSwapCheckBox.addChangeListener(e -> applyDelayOnSwapCheckBoxStateChanged(e));
+        optionPanel.add(applyDelayOnSwapCheckBox, new GridBagConstraints(2, 9, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+        //</editor-fold>
+        //<editor-fold desc="Initialize Status Labels">
+        spacer1.setPreferredSize(new Dimension(10, 40));
+        spacer1.setOpaque(false);
+        optionPanel.add(spacer1, new GridBagConstraints(1, 10, 1, 3, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
 
-            //---- barWidthSpinner ----
-            barWidthSpinner.setModel(new SpinnerNumberModel(1, 1, 10, 1));
-            barWidthSpinner.addChangeListener(e -> barWidthSpinnerStateChanged(e));
-            optionPanel.add(barWidthSpinner, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
+        statusInfoLabel.setText("Status");
+        optionPanel.add(statusInfoLabel, new GridBagConstraints(1, 13, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
 
-            //---- useOpenGLCheckBox ----
-            useOpenGLCheckBox.setText("Use OpenGL");
-            optionPanel.add(useOpenGLCheckBox, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
+        statusLabel.setText("text");
+        statusLabel.setForeground(Color.black);
+        statusLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        optionPanel.add(statusLabel, new GridBagConstraints(2, 13, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
 
-            //---- startButton ----
-            startButton.setText("Start Sorting");
-            startButton.setPreferredSize(new Dimension(95, 56));
-            startButton.setMaximumSize(new Dimension(95, 56));
-            startButton.setMinimumSize(new Dimension(95, 56));
-            startButton.addActionListener(e -> startButtonActionPerformed(e));
-            optionPanel.add(startButton, new GridBagConstraints(1, 5, 2, 2, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
-            optionPanel.add(spacer2, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 5), 0, 0));
+        compInfoLabel.setText("Comparisons");
+        optionPanel.add(compInfoLabel, new GridBagConstraints(1, 14, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
 
-            //---- delayLabel ----
-            delayLabel.setText("Delay");
-            optionPanel.add(delayLabel, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 5), 0, 0));
+        compLabel.setText("text");
+        compLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        optionPanel.add(compLabel, new GridBagConstraints(2, 14, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
 
-            //---- delayMSSpinner ----
-            delayMSSpinner.setModel(new SpinnerNumberModel(5, 0, 100, 1));
-            delayMSSpinner.addChangeListener(e -> delayMSSpinnerStateChanged(e));
-            optionPanel.add(delayMSSpinner, new GridBagConstraints(2, 7, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
+        swaapinfoLabel.setText("Swaps");
+        optionPanel.add(swaapinfoLabel, new GridBagConstraints(1, 15, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
 
-            //---- delayInfoLabel ----
-            delayInfoLabel.setText("Apply delay on..");
-            optionPanel.add(delayInfoLabel, new GridBagConstraints(1, 8, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 5), 0, 0));
+        swpLabel.setText("text");
+        swpLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        optionPanel.add(swpLabel, new GridBagConstraints(2, 15, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
 
-            //---- applyDelayOnCompCheckBox ----
-            applyDelayOnCompCheckBox.setText("Comparing");
-            applyDelayOnCompCheckBox.addChangeListener(e -> CheckBoxStateChanged(e));
-            optionPanel.add(applyDelayOnCompCheckBox, new GridBagConstraints(2, 8, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
+        elTimeInfoLabel.setText("Elapsed Time");
+        optionPanel.add(elTimeInfoLabel, new GridBagConstraints(1, 16, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
 
-            //---- applyDelayOnSwapCheckBox ----
-            applyDelayOnSwapCheckBox.setText("Swaping");
-            applyDelayOnSwapCheckBox.setSelected(true);
-            applyDelayOnSwapCheckBox.addChangeListener(e -> applyDelayOnSwapCheckBoxStateChanged(e));
-            optionPanel.add(applyDelayOnSwapCheckBox, new GridBagConstraints(2, 9, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
+        elTimeLabel.setText("text");
+        elTimeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        optionPanel.add(elTimeLabel, new GridBagConstraints(2, 16, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+        //</editor-fold>
+        //<editor-fold desc="Initialize Pause On Labels and Buttons">
+        vSpacer1.setPreferredSize(new Dimension(10, 30));
+        optionPanel.add(vSpacer1, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
 
-            //---- spacer1 ----
-            spacer1.setPreferredSize(new Dimension(10, 40));
-            spacer1.setOpaque(false);
-            optionPanel.add(spacer1, new GridBagConstraints(1, 10, 1, 3, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 5), 0, 0));
+        pauseOnLabel.setText("Pause on...");
+        optionPanel.add(pauseOnLabel, new GridBagConstraints(1, 18, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
 
-            //---- statusInfoLabel ----
-            statusInfoLabel.setText("Status");
-            optionPanel.add(statusInfoLabel, new GridBagConstraints(1, 13, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 5), 0, 0));
+        pauseOnNextSwapButton.setText("...next Swap");
+        pauseOnNextSwapButton.setEnabled(false);
+        pauseOnNextSwapButton.addActionListener(e -> pauseOnNextSwapButtonActionPerformed(e));
+        optionPanel.add(pauseOnNextSwapButton, new GridBagConstraints(2, 18, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
 
-            //---- statusLabel ----
-            statusLabel.setText("text");
-            statusLabel.setForeground(Color.black);
-            statusLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-            optionPanel.add(statusLabel, new GridBagConstraints(2, 13, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
+        pauseOnNextCompButton.setText("...next Compare");
+        pauseOnNextCompButton.setEnabled(false);
+        pauseOnNextCompButton.addActionListener(e -> pauseOnNextCompButtonActionPerformed(e));
+        optionPanel.add(pauseOnNextCompButton, new GridBagConstraints(2, 19, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+        //</editor-fold>
+        //<editor-fold desc="Initialize Continue Button">
+        continueButton.setText("Continue");
+        continueButton.setEnabled(false);
+        continueButton.addActionListener(e -> continuebuttomnActionPerformed(e));
+        optionPanel.add(continueButton, new GridBagConstraints(2, 20, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 0, 0), 0, 0));
 
-            //---- compInfoLabel ----
-            compInfoLabel.setText("Comparisons");
-            optionPanel.add(compInfoLabel, new GridBagConstraints(1, 14, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 5), 0, 0));
-
-            //---- compLabel ----
-            compLabel.setText("text");
-            compLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-            optionPanel.add(compLabel, new GridBagConstraints(2, 14, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
-
-            //---- swaapinfoLabel ----
-            swaapinfoLabel.setText("Swaps");
-            optionPanel.add(swaapinfoLabel, new GridBagConstraints(1, 15, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 5), 0, 0));
-
-            //---- swpLabel ----
-            swpLabel.setText("text");
-            swpLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-            optionPanel.add(swpLabel, new GridBagConstraints(2, 15, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
-
-            //---- elTimeInfoLabel ----
-            elTimeInfoLabel.setText("Elapsed Time");
-            optionPanel.add(elTimeInfoLabel, new GridBagConstraints(1, 16, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 5), 0, 0));
-
-            //---- elTimeLabel ----
-            elTimeLabel.setText("text");
-            elTimeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-            optionPanel.add(elTimeLabel, new GridBagConstraints(2, 16, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
-
-            //---- vSpacer1 ----
-            vSpacer1.setPreferredSize(new Dimension(10, 30));
-            optionPanel.add(vSpacer1, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 5), 0, 0));
-
-            //---- label8 ----
-            label8.setText("Pause on...");
-            optionPanel.add(label8, new GridBagConstraints(1, 18, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 5), 0, 0));
-
-            //---- pauseOnNextSwapButton ----
-            pauseOnNextSwapButton.setText("...next Swap");
-            pauseOnNextSwapButton.setEnabled(false);
-            pauseOnNextSwapButton.addActionListener(e -> pauseOnNextSwapButtonActionPerformed(e));
-            optionPanel.add(pauseOnNextSwapButton, new GridBagConstraints(2, 18, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
-
-            //---- pauseOnNextCompButton ----
-            pauseOnNextCompButton.setText("...next Compare");
-            pauseOnNextCompButton.setEnabled(false);
-            pauseOnNextCompButton.addActionListener(e -> pauseOnNextCompButtonActionPerformed(e));
-            optionPanel.add(pauseOnNextCompButton, new GridBagConstraints(2, 19, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
-
-            //---- continuebuttomn ----
-            continuebuttomn.setText("Continue");
-            continuebuttomn.setEnabled(false);
-            continuebuttomn.addActionListener(e -> continuebuttomnActionPerformed(e));
-            optionPanel.add(continuebuttomn, new GridBagConstraints(2, 20, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
-        }
         contentPane.add(optionPanel, BorderLayout.EAST);
+        //</editor-fold>
+        //<editor-fold desc="Initialize RenderPanel">
+        renderPanel.setLayout(new BorderLayout());
 
-        //======== renderPanel ========
-        {
-            renderPanel.setLayout(new BorderLayout());
+        fovScrollBar.setOrientation(Adjustable.HORIZONTAL);
+        fovScrollBar.setEnabled(false);
+        fovScrollBar.addAdjustmentListener(e -> fovScrollBarAdjustmentValueChanged(e));
+        renderPanel.add(fovScrollBar, BorderLayout.SOUTH);
 
-            //---- fovScrollBar ----
-            fovScrollBar.setOrientation(Adjustable.HORIZONTAL);
-            fovScrollBar.setEnabled(false);
-            fovScrollBar.addAdjustmentListener(e -> fovScrollBarAdjustmentValueChanged(e));
-            renderPanel.add(fovScrollBar, BorderLayout.SOUTH);
-        }
         contentPane.add(renderPanel, BorderLayout.CENTER);
+        //</editor-fold>
+        //<editor-fold desc="Finalize Initialisation">
         pack();
         setLocationRelativeTo(getOwner());
-        // JFormDesigner - End of component initialization  //GEN-END:initComponents
-
         exitMenuItem.addActionListener((e) -> System.exit(0));
         aboutButton.addActionListener((e) -> showAboutDialog());
-
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //</editor-fold>
     }
 
     private void showAboutDialog() {
@@ -567,7 +544,7 @@ public class VisualSortUI extends JFrame {
         }
     }
 
-    public void enableAlgoritmSelection(boolean b) {
+    public void enableAlgorithmSelection(boolean b) {
         JComponent[] c = new JComponent[]{algorithmSelector, dataGeneratorSelector, entrySpinner,
                 barWidthSpinner};
         this.setStateOfJComponents(c, b);
@@ -611,9 +588,8 @@ public class VisualSortUI extends JFrame {
         return startButton;
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - chris MÃ¼ller
-    private JMenuBar menuBar1;
+    //<editor-fold desc="GUI Component Attribute Definition">
+    private JMenuBar uiMenuBar;
     private JMenu fileMenu;
     private JMenuItem exitMenuItem;
     private JMenu helpMenu;
@@ -645,11 +621,11 @@ public class VisualSortUI extends JFrame {
     private JLabel elTimeInfoLabel;
     private JLabel elTimeLabel;
     private JPanel vSpacer1;
-    private JLabel label8;
+    private JLabel pauseOnLabel;
     private JButton pauseOnNextSwapButton;
     private JButton pauseOnNextCompButton;
-    private JButton continuebuttomn;
+    private JButton continueButton;
     private JPanel renderPanel;
     private JScrollBar fovScrollBar;
-    // JFormDesigner - End of variables declaration  //GEN-END:variables
+    //</editor-fold>
 }

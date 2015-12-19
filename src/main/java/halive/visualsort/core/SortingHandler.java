@@ -94,7 +94,7 @@ public class SortingHandler implements Runnable {
         gui.displayStatus("Done");
         this.manualDataUptdate();
         gui.getStartButton().setEnabled(true);
-        gui.enableAlgoritmSelection(true);
+        gui.enableAlgorithmSelection(true);
         gui.enableStopButtons(false);
 
         currentAlgorithm = null;

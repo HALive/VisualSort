@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
 package halive.visualsort.core.sorting.impl.util;
 
 import halive.visualsort.core.DataEntry;
@@ -6,6 +11,7 @@ import halive.visualsort.core.SortingHandler;
 import java.awt.Color;
 
 public class SelectionSortUtils {
+
     public static int getMinimumPos(DataEntry[] d, int startPos, int endPos, SortingHandler h) {
         int minp = startPos;
         for (int i = startPos; h.compare(i <= endPos); i++) {

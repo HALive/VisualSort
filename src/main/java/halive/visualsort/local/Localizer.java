@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
 package halive.visualsort.local;
 
 import java.io.IOException;
@@ -24,5 +29,4 @@ public class Localizer {
     public static String localize(String key) {
         return langFile.getProperty(key);
     }
-
 }

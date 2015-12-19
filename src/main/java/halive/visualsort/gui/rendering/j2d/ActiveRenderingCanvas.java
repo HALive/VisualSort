@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
 package halive.visualsort.gui.rendering.j2d;
 
 import java.awt.Canvas;
@@ -8,6 +13,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
 public abstract class ActiveRenderingCanvas extends Canvas implements Runnable {
+
     protected Container parent;
     protected Thread renderThread = new Thread(this, "Rendering Canvas");
 
@@ -45,8 +51,9 @@ public abstract class ActiveRenderingCanvas extends Canvas implements Runnable {
                 g.drawString(fpsDisp, getWidth() - (textW + 30), 20);
                 lastTime = System.currentTimeMillis();
             }
-            if (!buf.contentsLost())
+            if (!buf.contentsLost()) {
                 buf.show();
+            }
             Thread.yield();
             try {
                 Thread.sleep(5);

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
 package halive.visualsort.core.sorting;
 
 import halive.visualsort.core.DataEntry;
@@ -6,6 +11,7 @@ import halive.visualsort.core.SortingHandler;
 import java.awt.Color;
 
 public abstract class QuickSortBase extends SortingAlgorithm {
+
     public QuickSortBase(String name, String description) {
         super(name, description);
     }
@@ -27,5 +33,4 @@ public abstract class QuickSortBase extends SortingAlgorithm {
     }
 
     public abstract int getPivotPos(int left, int right, DataEntry[] data, SortingHandler c);
-
 }

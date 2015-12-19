@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
 package halive.visualsort.core.sorting.impl;
 
 import halive.visualsort.core.DataEntry;
@@ -18,11 +23,11 @@ public class StoogeSort extends SortingAlgorithm {
     }
 
     public void stoogesort(DataEntry[] d, SortingHandler h, int i, int j) {
-        if (h.compare(d[i].getValue() > d[j-1].getValue())) {
+        if (h.compare(d[i].getValue() > d[j - 1].getValue())) {
             d[i].setRenderColor(Color.DARK_GRAY);
-            h.swap(i, j-1);
+            h.swap(i, j - 1);
         }
-        int len =  j-i;
+        int len = j - i;
         if (len > 2) {
             int k = len / 3;
             //Sort the first two thirds

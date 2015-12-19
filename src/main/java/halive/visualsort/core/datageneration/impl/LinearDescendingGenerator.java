@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
 package halive.visualsort.core.datageneration.impl;
 
 import halive.visualsort.core.datageneration.FunctionGenerator;

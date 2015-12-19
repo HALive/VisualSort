@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
 package halive.visualsort.core.sorting.impl;
 
 import halive.visualsort.core.DataEntry;
@@ -10,6 +15,7 @@ import java.awt.Color;
  * This Class Implements Bidirectonal BubbleSort also known as CocktailShakerSort
  */
 public class BiDiBubbleSort extends SortingAlgorithm {
+
     public BiDiBubbleSort() {
         super("Shaker sort", " ");
     }
@@ -27,8 +33,9 @@ public class BiDiBubbleSort extends SortingAlgorithm {
                 }
             }
             data[stop].setRenderColor(Color.CYAN);
-            if (h.compare(!swaped))
+            if (h.compare(!swaped)) {
                 break;
+            }
             stop--;
             for (int i = stop; h.compare(i > start); i--) {
                 if (h.compare(data[i].getValue() < data[i - 1].getValue())) {

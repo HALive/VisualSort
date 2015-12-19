@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
 package halive.visualsort.gui;
 
 import halive.visualsort.VisualSort;
@@ -42,6 +47,7 @@ import java.awt.event.WindowEvent;
 
 
 public class VisualSortUI extends JFrame {
+
     private Canvas renderCanvas;
     private IVisualSortRenderer renderer;
     private SortingHandler sortingHandler;
@@ -581,8 +587,9 @@ public class VisualSortUI extends JFrame {
     public void updateStatusLabels(long comp, long swap, String time) {
         compLabel.setText("" + comp);
         swpLabel.setText("" + swap);
-        if (time != null)
+        if (time != null) {
             elTimeLabel.setText(time);
+        }
     }
 
     public void slickError(Exception e) {

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
 package halive.visualsort.core.sorting.impl;
 
 import halive.visualsort.core.DataEntry;
@@ -7,6 +12,7 @@ import halive.visualsort.core.sorting.SortingAlgorithm;
 import java.awt.Color;
 
 public class GnomeSort extends SortingAlgorithm {
+
     public GnomeSort() {
         super("Gnome sort", " ");
     }

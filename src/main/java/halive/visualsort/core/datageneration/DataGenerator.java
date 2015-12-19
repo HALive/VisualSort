@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
 package halive.visualsort.core.datageneration;
 
 import halive.visualsort.core.DataEntry;
@@ -56,5 +61,4 @@ public abstract class DataGenerator implements INamable {
      *                 Every Value in the array should be smaller or equal to this number and greater then 0
      */
     public abstract void generateData(DataEntry[] entries, int maxvalue);
-
 }

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
 package halive.visualsort.core.plugins;
 
 import halive.visualsort.core.sorting.SortingAlgorithm;
@@ -9,6 +14,7 @@ import halive.visualsort.core.sorting.SortingAlgorithm;
  * @author HALive
  */
 public interface IVisualSortPlugin {
+
     /**
      * Returns the name of the Plugin
      *

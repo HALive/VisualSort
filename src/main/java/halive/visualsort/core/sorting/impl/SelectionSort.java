@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
 package halive.visualsort.core.sorting.impl;
 
 import halive.visualsort.core.DataEntry;
@@ -8,6 +13,7 @@ import halive.visualsort.core.sorting.impl.util.SelectionSortUtils;
 import java.awt.Color;
 
 public class SelectionSort extends SortingAlgorithm {
+
     public SelectionSort() {
         super("Selection sort", " ");
     }
@@ -20,6 +26,4 @@ public class SelectionSort extends SortingAlgorithm {
             data[i].setRenderColor(Color.green);
         }
     }
-
-
 }

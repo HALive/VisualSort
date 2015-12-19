@@ -1,13 +1,17 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
 package halive.visualsort.gui;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class AboutDialog extends JDialog {
+
     private JPanel contentPane;
     private JButton closeButton;
     private JTextArea aboutTextArea;
@@ -16,7 +20,7 @@ public class AboutDialog extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         this.setTitle("About VisualSort");
-        this.setSize(450,300);
+        this.setSize(450, 300);
         this.setResizable(false);
         getRootPane().setDefaultButton(closeButton);
 

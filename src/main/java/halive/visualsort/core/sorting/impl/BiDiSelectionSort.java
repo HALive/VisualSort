@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
 package halive.visualsort.core.sorting.impl;
 
 import halive.visualsort.core.DataEntry;
@@ -12,6 +17,7 @@ import java.awt.Color;
  * then for the minium and the maximum again...
  */
 public class BiDiSelectionSort extends SortingAlgorithm {
+
     public BiDiSelectionSort() {
         super("Bidirectional SelectionSort", " ");
     }

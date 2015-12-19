@@ -1,8 +1,14 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
 package halive.visualsort.core;
 
 import java.awt.Color;
 
 public class DataEntry {
+
     private int value;
     private int width;
 

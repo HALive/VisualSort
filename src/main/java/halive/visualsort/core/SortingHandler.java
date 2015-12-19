@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
 package halive.visualsort.core;
 
 import halive.visualsort.core.datageneration.DataGenerator;
@@ -59,7 +64,6 @@ public class SortingHandler implements Runnable {
         sortingThread.start();
 
         gui.displayStatus("Generating Data");
-
     }
 
     @Override

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
 package halive.visualsort.core.sorting.impl;
 
 import halive.visualsort.core.DataEntry;
@@ -17,16 +22,16 @@ public class CountingSort extends SortingAlgorithm {
 
     @Override
     public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
-        int[] valueCount = new int[sortingHandler.getMaxValue()+1];
+        int[] valueCount = new int[sortingHandler.getMaxValue() + 1];
         //count the Values
         for (int i = 0; i < data.length; i++) {
             data[i].setRenderColor(Color.blue);
             int val = data[i].getValue();
-            if(sortingHandler.compare(val > sortingHandler.getMaxValue())) {
+            if (sortingHandler.compare(val > sortingHandler.getMaxValue())) {
                 continue;
             }
-            if(i > 0 && i < data.length-1) {
-                data[i-1].setRenderColor(Color.BLACK);
+            if (i > 0 && i < data.length - 1) {
+                data[i - 1].setRenderColor(Color.BLACK);
             }
             sortingHandler.incrementSwapsAndDelay();
             valueCount[val]++;
@@ -42,7 +47,7 @@ public class CountingSort extends SortingAlgorithm {
                 ptr++;
             }
         }
-        if(ptr < data.length) {
+        if (ptr < data.length) {
             for (int i = ptr; i < data.length; i++) {
                 data[i].setValue(0);
                 data[i].setRenderColor(Color.red);

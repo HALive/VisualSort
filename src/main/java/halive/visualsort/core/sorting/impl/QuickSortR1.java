@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
 package halive.visualsort.core.sorting.impl;
 
 import halive.visualsort.core.DataEntry;
@@ -5,6 +10,7 @@ import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.sorting.QuickSortBase;
 
 public class QuickSortR1 extends QuickSortBase {
+
     public QuickSortR1() {
         super("Quick Sort - Variant 1", " ");
     }

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HALive 2015
+ * See LICENCE For Licence information.
+ */
+
 package halive.visualsort.core.datageneration;
 
 import halive.visualsort.core.DataEntry;
@@ -8,6 +13,7 @@ import halive.visualsort.core.DataEntry;
  * @author HALive
  */
 public abstract class FunctionGenerator extends DataGenerator {
+
     /**
      * See DataGenerator
      *

@@ -20,6 +20,7 @@ import org.newdawn.slick.SlickException;
 import java.awt.Canvas;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
 
 public class OpenGLRenderCanvas implements IVisualSortRenderer, Game {
 
@@ -74,7 +75,7 @@ public class OpenGLRenderCanvas implements IVisualSortRenderer, Game {
             canvas.start();
             canvas.getContainer().enableSharedContext();
         } catch (SlickException e) {
-            VSLog.logger.error("Error Launching Slick 2d", e);
+            VSLog.logger.log(Level.SEVERE, "Error Launching Slick 2d", e);
             this.ui.slickError(e);
             return;
         }

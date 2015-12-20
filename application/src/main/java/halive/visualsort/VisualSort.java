@@ -16,6 +16,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import java.io.File;
+import java.util.logging.Level;
 
 public class VisualSort {
 
@@ -34,7 +35,7 @@ public class VisualSort {
                 try {
                     UIManager.setLookAndFeel(i.getClassName());
                 } catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException e) {
-                    VSLog.logger.error("Could not set look and feel", e);
+                    VSLog.logger.log(Level.SEVERE, "Could not set look and feel", e);
                 }
                 break;
             }
@@ -51,7 +52,7 @@ public class VisualSort {
             mon.close();
             force = false;
         } catch (Exception e) {
-            VSLog.logger.error("Could not extract natives, Forcing J2D...", e);
+            VSLog.logger.log(Level.SEVERE, "Could not extract natives, Forcing J2D...", e);
             force = !(args.length > 0 && args[0].toLowerCase().equals("-no-native-check"));
         }
         VSLog.logger.info("Loaded native files");
@@ -74,8 +75,8 @@ public class VisualSort {
         pluginHandler = new PluginHandler();
         try {
             pluginHandler.addPlugin(CorePlugin.class);
-        } catch (IllegalAccessException | InstantiationException e) {
-            VSLog.logger.fatal("Could not load Core Plugin. Aborting", e);
+        } catch (IllegalAccessException | InstantiationException | Error e) {
+            VSLog.logger.log(Level.SEVERE, "Could not load Core Plugin. Aborting", e);
             System.exit(-1);
         }
         if (!pluginFolder.exists()) {

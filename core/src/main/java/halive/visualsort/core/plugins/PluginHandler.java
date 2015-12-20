@@ -20,6 +20,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.logging.Level;
 
 public class PluginHandler {
 
@@ -69,7 +70,7 @@ public class PluginHandler {
                 }
             }
         } catch (IOException e) {
-            VSLog.logger.fatal("Could not check " + f.getAbsolutePath() + " For Plugins.", e);
+            VSLog.logger.log(Level.SEVERE, "Could not check " + f.getAbsolutePath() + " For Plugins.", e);
             return;
         }
     }
@@ -77,13 +78,14 @@ public class PluginHandler {
     public void addPlugin(Class<? extends IVisualSortPlugin> c) throws IllegalAccessException,
             InstantiationException {
         Object inst = c.newInstance();
-        if (inst instanceof IVisualSortPlugin) {
+        if (inst != null && inst instanceof IVisualSortPlugin) {
             addPlugin((IVisualSortPlugin) inst);
         }
     }
 
     public void addPlugin(IVisualSortPlugin plugin) {
         VSLog.logger.info("Adding Plugin: " + plugin.getPluginName());
+        //System.out.println("Adding Plugin: " + plugin.getPluginName());
         plugins.add(plugin);
     }
 
@@ -126,7 +128,7 @@ public class PluginHandler {
                     outList.add(o);
                 }
             } catch (InstantiationException | IllegalAccessException e) {
-                VSLog.logger.fatal("Could not Instantiate DataGen/SortingAlgorithm. " +
+                VSLog.logger.log(Level.SEVERE, "Could not Instantiate DataGen/SortingAlgorithm. " +
                         "Plugin: " + p.getPluginName(), e);
             }
         }

@@ -5,13 +5,22 @@
 
 package halive.visualsort.core;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.logging.Formatter;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 public class VSLog {
+
     public static Logger logger;
     static {
-        logger = LogManager.getLogger("VisualSort");
+        logger = Logger.getLogger("VisualSort");
     }
 
+    private static class LoggerFormatter extends Formatter {
+
+        @Override
+        public String format(LogRecord record) {
+            return String.format("");
+        }
+    }
 }

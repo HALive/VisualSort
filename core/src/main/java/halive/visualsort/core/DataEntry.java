@@ -7,7 +7,7 @@ package halive.visualsort.core;
 
 import java.awt.Color;
 
-public class DataEntry {
+public class DataEntry implements Comparable<DataEntry> {
 
     private int value;
     private int width;
@@ -40,11 +40,11 @@ public class DataEntry {
         return renderColor;
     }
 
-    public void setValue(int value) {
+    public synchronized void setValue(int value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public synchronized int getValue() {
         return value;
     }
 
@@ -54,5 +54,10 @@ public class DataEntry {
 
     public int getWidth() {
         return width;
+    }
+
+    @Override
+    public int compareTo(DataEntry o) {
+        return (int) Math.signum(this.value - o.value);
     }
 }

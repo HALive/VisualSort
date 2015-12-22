@@ -27,9 +27,12 @@ import halive.visualsort.sortingalgorithms.GnomeSort;
 import halive.visualsort.sortingalgorithms.HeapSort;
 import halive.visualsort.sortingalgorithms.InsertionSort;
 import halive.visualsort.sortingalgorithms.MergeSort;
+import halive.visualsort.sortingalgorithms.OddEvenSort;
 import halive.visualsort.sortingalgorithms.QuickSortR1;
 import halive.visualsort.sortingalgorithms.QuickSortR2;
 import halive.visualsort.sortingalgorithms.SelectionSort;
+import halive.visualsort.sortingalgorithms.ShellSort;
+import halive.visualsort.sortingalgorithms.ShellSortParallel;
 import halive.visualsort.sortingalgorithms.SlowSort;
 import halive.visualsort.sortingalgorithms.StoogeSort;
 
@@ -68,6 +71,9 @@ public class CorePlugin implements IVisualSortPlugin {
                 MergeSort.class,
                 BitonicMergeSort.class,
                 HeapSort.class,
+                OddEvenSort.class,
+                ShellSort.class,
+                ShellSortParallel.class,
                 BinaryTreeSort.class,
                 GnomeSort.class,
                 InsertionSort.class,

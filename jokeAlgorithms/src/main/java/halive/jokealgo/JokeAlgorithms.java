@@ -22,7 +22,9 @@ public class JokeAlgorithms implements IVisualSortPlugin {
 
     @Override
     public Class[] getDataGeneratorClasses() {
-        return new Class[0];
+        return new Class[]{
+                TrashGen.class
+        };
     }
 
     @Override

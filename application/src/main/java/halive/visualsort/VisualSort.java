@@ -36,14 +36,14 @@ public class VisualSort {
         if (cfg.isLoadOpenGL()) {
             force = extractAndLoadNatives(args);
         }
-        initializePlugins(cfg);
-        launchApplication(force, cfg);
+        PluginHandler handler = initializePlugins(cfg);
+        launchApplication(force, cfg, handler);
     }
 
-    private static void launchApplication(boolean force, Configuration cfg) {
+    private static void launchApplication(boolean force, Configuration cfg, PluginHandler handler) {
         final boolean finalForce = force;
         SwingUtilities.invokeLater(() -> {
-            VisualSortUI ui = new VisualSortUI();
+            VisualSortUI ui = new VisualSortUI(handler);
             ui.setVisible(true);
             if (finalForce) {
                 ui.forceJavaDRendering();
@@ -51,11 +51,12 @@ public class VisualSort {
         });
     }
 
-    private static void initializePlugins(Configuration cfg) {
+    private static PluginHandler initializePlugins(Configuration cfg) {
         VSLog.logger.info("Loading Plugins");
         loadPlugins(cfg);
         VSLog.logger.info("Initializing Plugins");
         pluginHandler.initializePlugins();
+        return pluginHandler;
     }
 
     private static void initializeLookAndFeel() {

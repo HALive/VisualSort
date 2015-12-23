@@ -25,14 +25,15 @@ import halive.visualsort.sortingalgorithms.BubbleSort;
 import halive.visualsort.sortingalgorithms.CountingSort;
 import halive.visualsort.sortingalgorithms.GnomeSort;
 import halive.visualsort.sortingalgorithms.HeapSort;
-import halive.visualsort.sortingalgorithms.InsertionSort;
+import halive.visualsort.sortingalgorithms.insertion.BinaryInsertionSort;
+import halive.visualsort.sortingalgorithms.insertion.InsertionSort;
 import halive.visualsort.sortingalgorithms.MergeSort;
 import halive.visualsort.sortingalgorithms.OddEvenSort;
 import halive.visualsort.sortingalgorithms.QuickSortR1;
 import halive.visualsort.sortingalgorithms.QuickSortR2;
 import halive.visualsort.sortingalgorithms.SelectionSort;
-import halive.visualsort.sortingalgorithms.ShellSort;
-import halive.visualsort.sortingalgorithms.ShellSortParallel;
+import halive.visualsort.sortingalgorithms.insertion.ShellSort;
+import halive.visualsort.sortingalgorithms.insertion.ShellSortParallel;
 import halive.visualsort.sortingalgorithms.SlowSort;
 import halive.visualsort.sortingalgorithms.StoogeSort;
 
@@ -46,6 +47,11 @@ public class CorePlugin implements IVisualSortPlugin {
     @Override
     public String getPluginName() {
         return "Core";
+    }
+
+    @Override
+    public String getPluginInfoFileName() {
+        return null;
     }
 
     @Override
@@ -72,11 +78,12 @@ public class CorePlugin implements IVisualSortPlugin {
                 BitonicMergeSort.class,
                 HeapSort.class,
                 OddEvenSort.class,
-                ShellSort.class,
-                ShellSortParallel.class,
                 BinaryTreeSort.class,
                 GnomeSort.class,
                 InsertionSort.class,
+                ShellSort.class,
+                ShellSortParallel.class,
+                BinaryInsertionSort.class,
                 SelectionSort.class,
                 BiDiSelectionSort.class,
                 BubbleSort.class,

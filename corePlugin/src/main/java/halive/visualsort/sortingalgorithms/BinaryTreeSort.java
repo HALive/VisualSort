@@ -11,6 +11,10 @@ import halive.visualsort.core.sorting.SortingAlgorithm;
 
 import java.awt.Color;
 
+/**
+ * This Class Sorts The Data By Storing it in a Binary Tree (sorted using Binary Search)
+ * The visualisation is prettty much identical to Counting Sort
+ */
 public class BinaryTreeSort extends SortingAlgorithm {
 
     public BinaryTreeSort() {

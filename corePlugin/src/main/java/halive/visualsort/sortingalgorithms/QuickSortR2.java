@@ -9,6 +9,10 @@ import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.sortingalgorithms.util.QuickSortBase;
 
+/**
+ * Implements Another Version of QuickSOrt. This one Seems better then QuicksortR1
+ * It also uses the Last element in Range as a Pivot Element
+ */
 public class QuickSortR2 extends QuickSortBase {
 
     public QuickSortR2() {

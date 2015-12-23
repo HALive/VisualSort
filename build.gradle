@@ -23,7 +23,7 @@ subprojects {
 
 project(":core") {
     dependencies {
-
+        compile 'com.google.code.gson:gson:2.5'
     }
 }
 

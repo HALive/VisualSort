@@ -11,6 +11,9 @@ import halive.visualsort.core.sorting.SortingAlgorithm;
 
 import java.awt.Color;
 
+/**
+ * This Class Implements Merge Sort in the Basic Implementation
+ */
 public class MergeSort extends SortingAlgorithm {
 
     public MergeSort() {

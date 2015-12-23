@@ -11,6 +11,9 @@ import halive.visualsort.core.sorting.SortingAlgorithm;
 
 import java.awt.Color;
 
+/**
+ * This Class Implements Odd Even Sort. It basically is a Improvement of BubbleSort
+ */
 public class OddEvenSort extends SortingAlgorithm {
 
     public OddEvenSort() {

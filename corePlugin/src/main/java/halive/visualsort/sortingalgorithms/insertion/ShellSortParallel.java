@@ -3,7 +3,7 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.sortingalgorithms;
+package halive.visualsort.sortingalgorithms.insertion;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
@@ -14,6 +14,10 @@ import java.util.Deque;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
 
+/**
+ * This Class Implements A Paralell Version of Shell Sort.
+ * Currently it seems a Bit Buggy due to a Delay when Rendering.
+ */
 public class ShellSortParallel extends ShellSort {
 
     @Override

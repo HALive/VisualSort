@@ -16,6 +16,11 @@ public class JokeAlgorithms implements IVisualSortPlugin {
     }
 
     @Override
+    public String getPluginInfoFileName() {
+        return null;
+    }
+
+    @Override
     public Class[] getDataGeneratorClasses() {
         return new Class[0];
     }

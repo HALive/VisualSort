@@ -3,13 +3,16 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.sortingalgorithms;
+package halive.visualsort.sortingalgorithms.insertion;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 import halive.visualsort.sortingalgorithms.util.InsertionSortUtils;
 
+/**
+ * This Class Implements Shell Sort, A Refined version of Insertion Sort
+ */
 public class ShellSort extends SortingAlgorithm {
 
     public ShellSort() {

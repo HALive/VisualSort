@@ -20,6 +20,9 @@ public interface IVisualSortPlugin {
      */
     String getPluginName();
 
+    String getPluginInfoFileName();
+
+
     /**
      * Returns a Array of the Datagenerators addded by the Plugin.
      *

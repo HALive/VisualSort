@@ -11,6 +11,9 @@ import halive.visualsort.core.sorting.SortingAlgorithm;
 
 import java.awt.Color;
 
+/**
+ * This Class implements the GnomeSort Algorithm
+ */
 public class GnomeSort extends SortingAlgorithm {
 
     public GnomeSort() {

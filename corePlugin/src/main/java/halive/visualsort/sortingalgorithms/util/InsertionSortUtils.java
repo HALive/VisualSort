@@ -12,7 +12,6 @@ import java.awt.Color;
 
 public class InsertionSortUtils {
 
-
     public static void insertionSort(DataEntry[] d, SortingHandler h, int l, int step) {
         for (int i = l + step; i < d.length; i = i + step) {
             Color oldColor = d[i].getRenderColor();

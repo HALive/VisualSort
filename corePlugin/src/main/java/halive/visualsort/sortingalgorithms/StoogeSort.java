@@ -11,6 +11,9 @@ import halive.visualsort.core.sorting.SortingAlgorithm;
 
 import java.awt.Color;
 
+/**
+ * Implements StoogeSort
+ */
 public class StoogeSort extends SortingAlgorithm {
 
     public StoogeSort() {

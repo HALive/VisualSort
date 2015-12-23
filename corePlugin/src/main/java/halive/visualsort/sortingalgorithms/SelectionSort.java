@@ -12,6 +12,9 @@ import halive.visualsort.sortingalgorithms.util.SelectionSortUtils;
 
 import java.awt.Color;
 
+/**
+ * This Class Implements Selection Sort
+ */
 public class SelectionSort extends SortingAlgorithm {
 
     public SelectionSort() {

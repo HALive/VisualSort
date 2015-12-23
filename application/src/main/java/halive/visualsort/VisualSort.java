@@ -7,6 +7,7 @@ package halive.visualsort;
 
 import halive.nativeloader.NativeLoader;
 import halive.nativeloader.NativeLoaderUtils;
+import halive.visualsort.core.Configuration;
 import halive.visualsort.core.VSLog;
 import halive.visualsort.core.plugins.PluginHandler;
 import halive.visualsort.gui.VisualSortUI;
@@ -27,8 +28,37 @@ public class VisualSort {
     public static PluginHandler pluginHandler;
 
     public static void main(String[] args) {
-        System.out.println(System.getProperty("os.name"));
-        boolean force;
+        boolean force = true;
+        VSLog.logger.info("Loading Configuration");
+        Configuration cfg = Configuration.loadFormFile(new File("config.json"));
+        MAX_ENTRIES = cfg.getMaxValues();
+        initializeLookAndFeel();
+        if (cfg.isLoadOpenGL()) {
+            force = extractAndLoadNatives(args);
+        }
+        initializePlugins(cfg);
+        launchApplication(force, cfg);
+    }
+
+    private static void launchApplication(boolean force, Configuration cfg) {
+        final boolean finalForce = force;
+        SwingUtilities.invokeLater(() -> {
+            VisualSortUI ui = new VisualSortUI();
+            ui.setVisible(true);
+            if (finalForce) {
+                ui.forceJavaDRendering();
+            }
+        });
+    }
+
+    private static void initializePlugins(Configuration cfg) {
+        VSLog.logger.info("Loading Plugins");
+        loadPlugins(cfg);
+        VSLog.logger.info("Initializing Plugins");
+        pluginHandler.initializePlugins();
+    }
+
+    private static void initializeLookAndFeel() {
         VSLog.logger.info("Initialized Logger");
         for (UIManager.LookAndFeelInfo i : UIManager.getInstalledLookAndFeels()) {
             if (i.getName().equals("Nimbus")) {
@@ -41,6 +71,10 @@ public class VisualSort {
             }
         }
         VSLog.logger.info("Look and feel set.");
+    }
+
+    private static boolean extractAndLoadNatives(String[] args) {
+        boolean force;
         try {
             ProgressMonitor mon = new ProgressMonitor(null, "Extracting natives...", "", 0, 100);
             mon.setMillisToPopup(0);
@@ -56,21 +90,10 @@ public class VisualSort {
             force = !(args.length > 0 && args[0].toLowerCase().equals("-no-native-check"));
         }
         VSLog.logger.info("Loaded native files");
-        VSLog.logger.info("Loading Plugins");
-        loadPlugins();
-        VSLog.logger.info("Initializing Plugins");
-        pluginHandler.initializePlugins();
-        final boolean finalForce = force;
-        SwingUtilities.invokeLater(() -> {
-            VisualSortUI ui = new VisualSortUI();
-            ui.setVisible(true);
-            if (finalForce) {
-                ui.forceJavaDRendering();
-            }
-        });
+        return force;
     }
 
-    private static void loadPlugins() {
+    private static void loadPlugins(Configuration cfg) {
         File pluginFolder = new File("plugins");
         pluginHandler = new PluginHandler();
         try {
@@ -87,6 +110,8 @@ public class VisualSort {
             VSLog.logger.info("Could not load plugins. The plugin folder is a File.");
             return;
         }
-        pluginHandler.searchFolder(pluginFolder, true);
+        if (cfg.isAllowExternalPlugins()) {
+            pluginHandler.searchFolder(pluginFolder, true);
+        }
     }
 }

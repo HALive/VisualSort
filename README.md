@@ -1,6 +1,7 @@
 VisualSort
 ==========
 [![Build Status](https://travis-ci.org/HALive/VisualSort.svg)](https://travis-ci.org/HALive/VisualSort)
+
 VisualSort is a tool written in Java that visualizes some sorting alogorithms.
 The visualisation can either get rendered with Java2D (modified for active rendering) or OpenGL (Slick2D)
 OpenGL is only supported by platforms supported by LWJGL 2. After choosing OpenGL as renderer the window CANNOT get resized.

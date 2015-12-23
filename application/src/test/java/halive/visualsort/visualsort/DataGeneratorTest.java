@@ -24,7 +24,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(Parameterized.class)
 public class DataGeneratorTest {
 
-    private static final int MAX_VALUE = 1000;
+    public static final int MAX_VALUE = 1000;
 
     private DataGenerator dataGen;
     private DataEntry[] dataEntries = new DataEntry[1000];

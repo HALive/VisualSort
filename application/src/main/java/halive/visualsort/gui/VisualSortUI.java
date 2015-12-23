@@ -46,6 +46,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.logging.Level;
 
 
 public class VisualSortUI extends JFrame implements IVisualSortUI {
@@ -521,11 +522,11 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
                     if (!algorithmSelector.isEnabled()) {
                         fovScrollBar.setEnabled(true);
                         fovScrollBar.setMaximum(entries - maxRenderable + 11);
-                        VSLog.logger.info(maxRenderable);
+                        VSLog.logger.info(maxRenderable + "");
                     }
                 }
             } catch (Exception e) {
-                VSLog.logger.info("Error Updating Scrollbar", e);
+                VSLog.logger.log(Level.SEVERE, "Error Updating Scrollbar", e);
                 return;
             }
         }
@@ -572,7 +573,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
     }
 
     public void slickError(Exception e) {
-        VSLog.logger.error("Error initializing Slick2D", e);
+        VSLog.logger.log(Level.SEVERE, "Error initializing Slick2D", e);
         allowResize = true;
         this.setResizable(true);
         this.setMinimumSize(new Dimension(600, 600));

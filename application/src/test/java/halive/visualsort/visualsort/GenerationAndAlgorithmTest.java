@@ -11,6 +11,7 @@ import halive.visualsort.core.datageneration.DataGenerator;
 import halive.visualsort.CorePlugin;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 import halive.visualsort.sortingalgorithms.SlowSort;
+import halive.visualsort.visualsort.util.SortingTestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,10 +51,12 @@ public class GenerationAndAlgorithmTest {
 
     @Test
     public void testGeneratorAndSorter() throws Exception {
-        comb.a.generateData(entries, 1000);
+        comb.a.generateData(entries, DataGeneratorTest.MAX_VALUE);
+        int[] v1 = SortingTestUtils.countValues(DataGeneratorTest.MAX_VALUE, entries);
         assertTrue("The Generated data is Invalid.", DataGeneratorTest.isDataValid(entries));
         comb.b.doSort(entries, handler);
-        SortingAlgorithmTest.isSorted(entries, handler);
+        SortingTestUtils.isSorted(entries, handler);
+        SortingTestUtils.compareCountArrays(v1, SortingTestUtils.countValues(DataGeneratorTest.MAX_VALUE, entries));
     }
 
     @Parameterized.Parameters(name = "{index}: {0}")

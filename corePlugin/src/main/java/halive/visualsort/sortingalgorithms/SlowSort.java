@@ -9,6 +9,9 @@ import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 
+/**
+ * This Class Implements the Very Slow Sorting Algorihm Slow Sort.
+ */
 public class SlowSort extends SortingAlgorithm {
 
     public SlowSort() {

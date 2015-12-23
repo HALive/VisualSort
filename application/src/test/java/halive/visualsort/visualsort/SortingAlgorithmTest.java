@@ -11,6 +11,7 @@ import halive.visualsort.datageneration.SineGenerator;
 import halive.visualsort.CorePlugin;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 import halive.visualsort.sortingalgorithms.SlowSort;
+import halive.visualsort.visualsort.util.SortingTestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,7 +50,7 @@ public class SortingAlgorithmTest {
         for (int i = 0; i < dataEntries.length; i++) {
             dataEntries[i] = new DataEntry(1);
         }
-        handler.getDataGenerator().generateData(dataEntries, 1000);
+        handler.getDataGenerator().generateData(dataEntries, DataGeneratorTest.MAX_VALUE);
         handler.setEntries(dataEntries);
     }
 
@@ -57,17 +58,12 @@ public class SortingAlgorithmTest {
     public void testSortingAlgorithms() {
         //Sort the generated Array
         handler.getCurrentAlgorithm().doSort(dataEntries, handler);
+        int[] v1 = SortingTestUtils.countValues(DataGeneratorTest.MAX_VALUE, dataEntries);
         //Check if the Array is Sorted
-        isSorted(dataEntries, handler);
+        SortingTestUtils.isSorted(dataEntries, handler);
+        SortingTestUtils.compareCountArrays(v1, SortingTestUtils.countValues(DataGeneratorTest.MAX_VALUE, dataEntries));
     }
 
-    public static void isSorted(DataEntry[] dataEntries, SortingHandler handler) {
-        for (int i = 0; i < dataEntries.length - 1; i++) {
-            assertTrue(handler.getCurrentAlgorithm().getName() + ": Has not sorted Properly" +
-                            "at Index " + i,
-                    !(dataEntries[i].getValue() > dataEntries[i + 1].getValue()));
-        }
-    }
 
     @Parameterized.Parameters(name = "{index}: {0}")
     public static Collection<Class<? extends SortingAlgorithm>> getAlgorithms() {

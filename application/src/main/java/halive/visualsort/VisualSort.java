@@ -7,6 +7,7 @@ package halive.visualsort;
 
 import halive.nativeloader.NativeLoader;
 import halive.nativeloader.NativeLoaderUtils;
+import halive.visualsort.core.Configuration;
 import halive.visualsort.core.VSLog;
 import halive.visualsort.core.plugins.PluginHandler;
 import halive.visualsort.gui.VisualSortUI;
@@ -16,6 +17,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import java.io.File;
+import java.util.logging.Level;
 
 public class VisualSort {
 
@@ -26,20 +28,53 @@ public class VisualSort {
     public static PluginHandler pluginHandler;
 
     public static void main(String[] args) {
-        System.out.println(System.getProperty("os.name"));
-        boolean force;
+        boolean force = true;
+        VSLog.logger.info("Loading Configuration");
+        Configuration cfg = Configuration.loadFormFile(new File("config.json"));
+        MAX_ENTRIES = cfg.getMaxValues();
+        initializeLookAndFeel();
+        if (cfg.isLoadOpenGL()) {
+            force = extractAndLoadNatives(args);
+        }
+        initializePlugins(cfg);
+        launchApplication(force, cfg);
+    }
+
+    private static void launchApplication(boolean force, Configuration cfg) {
+        final boolean finalForce = force;
+        SwingUtilities.invokeLater(() -> {
+            VisualSortUI ui = new VisualSortUI();
+            ui.setVisible(true);
+            if (finalForce) {
+                ui.forceJavaDRendering();
+            }
+        });
+    }
+
+    private static void initializePlugins(Configuration cfg) {
+        VSLog.logger.info("Loading Plugins");
+        loadPlugins(cfg);
+        VSLog.logger.info("Initializing Plugins");
+        pluginHandler.initializePlugins();
+    }
+
+    private static void initializeLookAndFeel() {
         VSLog.logger.info("Initialized Logger");
         for (UIManager.LookAndFeelInfo i : UIManager.getInstalledLookAndFeels()) {
             if (i.getName().equals("Nimbus")) {
                 try {
                     UIManager.setLookAndFeel(i.getClassName());
                 } catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException e) {
-                    VSLog.logger.error("Could not set look and feel", e);
+                    VSLog.logger.log(Level.SEVERE, "Could not set look and feel", e);
                 }
                 break;
             }
         }
         VSLog.logger.info("Look and feel set.");
+    }
+
+    private static boolean extractAndLoadNatives(String[] args) {
+        boolean force;
         try {
             ProgressMonitor mon = new ProgressMonitor(null, "Extracting natives...", "", 0, 100);
             mon.setMillisToPopup(0);
@@ -51,31 +86,20 @@ public class VisualSort {
             mon.close();
             force = false;
         } catch (Exception e) {
-            VSLog.logger.error("Could not extract natives, Forcing J2D...", e);
+            VSLog.logger.log(Level.SEVERE, "Could not extract natives, Forcing J2D...", e);
             force = !(args.length > 0 && args[0].toLowerCase().equals("-no-native-check"));
         }
         VSLog.logger.info("Loaded native files");
-        VSLog.logger.info("Loading Plugins");
-        loadPlugins();
-        VSLog.logger.info("Initializing Plugins");
-        pluginHandler.initializePlugins();
-        final boolean finalForce = force;
-        SwingUtilities.invokeLater(() -> {
-            VisualSortUI ui = new VisualSortUI();
-            ui.setVisible(true);
-            if (finalForce) {
-                ui.forceJavaDRendering();
-            }
-        });
+        return force;
     }
 
-    private static void loadPlugins() {
+    private static void loadPlugins(Configuration cfg) {
         File pluginFolder = new File("plugins");
         pluginHandler = new PluginHandler();
         try {
             pluginHandler.addPlugin(CorePlugin.class);
-        } catch (IllegalAccessException | InstantiationException e) {
-            VSLog.logger.fatal("Could not load Core Plugin. Aborting", e);
+        } catch (IllegalAccessException | InstantiationException | Error e) {
+            VSLog.logger.log(Level.SEVERE, "Could not load Core Plugin. Aborting", e);
             System.exit(-1);
         }
         if (!pluginFolder.exists()) {
@@ -86,6 +110,8 @@ public class VisualSort {
             VSLog.logger.info("Could not load plugins. The plugin folder is a File.");
             return;
         }
-        pluginHandler.searchFolder(pluginFolder, true);
+        if (cfg.isAllowExternalPlugins()) {
+            pluginHandler.searchFolder(pluginFolder, true);
+        }
     }
 }

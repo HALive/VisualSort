@@ -9,6 +9,10 @@ import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 
+/**
+ * This Class Implements the HeapSort Algorithm.
+ * This needs some more work in terms of visualisation of the Heap
+ */
 public class HeapSort extends SortingAlgorithm {
 
     public HeapSort() {

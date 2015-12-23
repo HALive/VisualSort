@@ -35,6 +35,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeSelectionModel;
 import java.awt.Adjustable;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
@@ -63,9 +64,12 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
     public VisualSortUI(PluginHandler handler) {
         sortingHandler = new SortingHandler(this);
         initComponents();
-        //TODO Implement Adding Of the Algortihms
         algorithmSelector.setModel(new NamableTreeModel(handler, handler::getSortingAlgorithms));
         dataGeneratorSelector.setModel(new NamableTreeModel(handler, handler::getDataGenerators));
+        JTree[] trees = {algorithmSelector, dataGeneratorSelector};
+        for (JTree tree : trees) {
+            tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        }
         Dimension defSize = new Dimension(700, 700);
         this.setSize(defSize);
         this.setMinimumSize(defSize);

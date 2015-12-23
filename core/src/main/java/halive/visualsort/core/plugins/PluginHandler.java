@@ -15,9 +15,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
@@ -26,13 +27,13 @@ public class PluginHandler {
 
     private List<IVisualSortPlugin> plugins;
 
-    private List<DataGenerator> dataGenerators;
-    private List<SortingAlgorithm> sortingAlgorithms;
+    private Map<IVisualSortPlugin, List<DataGenerator>> dataGenerators;
+    private Map<IVisualSortPlugin, List<SortingAlgorithm>> sortingAlgorithms;
 
     public PluginHandler() {
         plugins = new ArrayList<>();
-        dataGenerators = new ArrayList<>();
-        sortingAlgorithms = new ArrayList<>();
+        dataGenerators = new HashMap<>();
+        sortingAlgorithms = new HashMap<>();
     }
 
     public void searchFolder(File file, boolean subdirs) {
@@ -87,6 +88,8 @@ public class PluginHandler {
         VSLog.logger.info("Adding Plugin: " + plugin.getPluginName());
         //System.out.println("Adding Plugin: " + plugin.getPluginName());
         plugins.add(plugin);
+        dataGenerators.put(plugin, new ArrayList<>());
+        sortingAlgorithms.put(plugin, new ArrayList<>());
     }
 
     public void initializePlugins() {
@@ -94,7 +97,7 @@ public class PluginHandler {
             VSLog.logger.info("Initializing " + p.getPluginName());
             initPlugin(p);
         }
-        VSLog.logger.info("Registering DataGenerators.");
+        /*VSLog.logger.info("Registering DataGenerators.");
         DataGenerator[] dataGenerators = new DataGenerator[this.dataGenerators.size()];
         for (int i = 0; i < dataGenerators.length; i++) {
             dataGenerators[i] = this.dataGenerators.get(i);
@@ -107,7 +110,7 @@ public class PluginHandler {
             algorithms[i] = sortingAlgorithms.get(i);
         }
         Arrays.sort(algorithms, new NamableComparator());
-        SortingAlgorithm.ALGORTIHMS = algorithms;
+        SortingAlgorithm.ALGORTIHMS = algorithms;*/
     }
 
     private void initPlugin(IVisualSortPlugin plugin) {
@@ -117,13 +120,13 @@ public class PluginHandler {
         instantiate(sortingAlgorithms, plugin.getSortingAlgorithmClasses(), plugin);
     }
 
-    private void instantiate(List outList, Class[] classes, IVisualSortPlugin p) {
+    private void instantiate(Map out, Class[] classes, IVisualSortPlugin p) {
+        List outList = (List) out.get(p);
         for (int i = 0; i < classes.length; i++) {
             Class c = classes[i];
             try {
                 Object o = c.newInstance();
                 if (o instanceof INamable) {
-                    ((INamable) o).addToName(p.getPluginName());
                     pluginLog(p, ((INamable) o).getName() + " Instantiated.");
                     outList.add(o);
                 }
@@ -132,6 +135,18 @@ public class PluginHandler {
                         "Plugin: " + p.getPluginName(), e);
             }
         }
+    }
+
+    public List<IVisualSortPlugin> getPlugins() {
+        return plugins;
+    }
+
+    public Map<IVisualSortPlugin, List<SortingAlgorithm>> getSortingAlgorithms() {
+        return sortingAlgorithms;
+    }
+
+    public Map<IVisualSortPlugin, List<DataGenerator>> getDataGenerators() {
+        return dataGenerators;
     }
 
     private void pluginLog(IVisualSortPlugin p, String msg) {

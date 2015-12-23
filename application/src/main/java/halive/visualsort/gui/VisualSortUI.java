@@ -10,7 +10,9 @@ import halive.visualsort.core.IVisualSortUI;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.VSLog;
 import halive.visualsort.core.datageneration.DataGenerator;
+import halive.visualsort.core.plugins.PluginHandler;
 import halive.visualsort.core.sorting.SortingAlgorithm;
+import halive.visualsort.gui.models.NamableTreeModel;
 import halive.visualsort.gui.rendering.IVisualSortRenderer;
 import halive.visualsort.gui.rendering.j2d.SortingRenderCanvas;
 import halive.visualsort.gui.rendering.slick2d.OpenGLRenderCanvas;
@@ -27,10 +29,13 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JTree;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
+import javax.swing.tree.TreePath;
 import java.awt.Adjustable;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
@@ -48,7 +53,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.logging.Level;
 
-
 public class VisualSortUI extends JFrame implements IVisualSortUI {
 
     private Canvas renderCanvas;
@@ -57,16 +61,19 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
 
     private boolean allowResize = true;
 
-    public VisualSortUI() {
+    public VisualSortUI(PluginHandler handler) {
         sortingHandler = new SortingHandler(this);
         initComponents();
-        for (SortingAlgorithm a : SortingAlgorithm.ALGORTIHMS) {
-            algorithmSelector.addItem(a);
+        //TODO Implement Adding Of the Algortihms
+        algorithmSelector.setModel(new NamableTreeModel(handler, handler::getSortingAlgorithms));
+        dataGeneratorSelector.setModel(new NamableTreeModel(handler, handler::getDataGenerators));
+        /*for (SortingAlgorithm a : SortingAlgorithm.ALGORTIHMS) {
+            //algorithmSelector.addItem(a);
         }
         for (DataGenerator g : DataGenerator.DATAGGENS) {
             dataGeneratorSelector.addItem(g);
-        }
-        Dimension defSize = new Dimension(600, 600);
+        }*/
+        Dimension defSize = new Dimension(700, 700);
         this.setSize(defSize);
         this.setMinimumSize(defSize);
     }
@@ -90,6 +97,10 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
     }
 
     private void startButtonActionPerformed(ActionEvent e) {
+        //Get the Selected Algorithm and Data Generator
+        Object algorithm = algorithmSelector.getSelectionPath().getLastPathComponent();
+        Object dataGen = dataGeneratorSelector.getSelectionPath().getLastPathComponent();
+
         //<editor-fold desc="Instantiate the Renderer">
         if (renderer == null) {
             if (!this.useOpenGLCheckBox.isSelected()) {
@@ -127,8 +138,10 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
             renderer.start();
         }
         //<editor-fold desc="Initialize the SortingHandler">
-        sortingHandler.setSortingAlgorithm((SortingAlgorithm) algorithmSelector.getSelectedItem());
-        sortingHandler.setDataGenerator((DataGenerator) dataGeneratorSelector.getSelectedItem());
+        //TODO Add Default Selection for Datagenerator and Algorithm
+
+        //sortingHandler.setSortingAlgorithm((SortingAlgorithm) algorithmSelector.getSelectedItem());
+        //sortingHandler.setDataGenerator((DataGenerator) dataGeneratorSelector.getSelectedItem());
         boolean delayOnSwap = applyDelayOnSwapCheckBox.isSelected();
         boolean delayOnComp = applyDelayOnCompCheckBox.isSelected();
         sortingHandler.setDelayOnComp(delayOnComp);
@@ -207,9 +220,9 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         aboutButton = new JMenuItem();
         optionPanel = new JPanel();
         algoLabel = new JLabel();
-        algorithmSelector = new JComboBox();
+        algorithmSelector = new JTree();
         dataGenLabel = new JLabel();
-        dataGeneratorSelector = new JComboBox();
+        dataGeneratorSelector = new JTree();
         amtEntriesLabel = new JLabel();
         entrySpinner = new JSpinner();
         barWidthLabel = new JLabel();
@@ -299,6 +312,8 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         setJMenuBar(uiMenuBar);
         //</editor-fold>
         //<editor-fold desc="Initialize the OptionPanel">
+        optionPanel.setPreferredSize(new Dimension(330, 600));
+        optionPanel.setMinimumSize(new Dimension(330, 600));
         optionPanel.setLayout(new GridBagLayout());
         ((GridBagLayout) optionPanel.getLayout()).columnWidths = new int[]{0, 0, 0, 0};
         ((GridBagLayout) optionPanel.getLayout()).rowHeights =
@@ -313,7 +328,11 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         optionPanel.add(algoLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
-        optionPanel.add(algorithmSelector, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+
+        JScrollPane scrollPane = new JScrollPane(algorithmSelector);
+        scrollPane.setPreferredSize(new Dimension(220, 100));
+        scrollPane.setMinimumSize(new Dimension(220, 100));
+        optionPanel.add(scrollPane, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
 
@@ -321,7 +340,11 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         optionPanel.add(dataGenLabel, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
-        optionPanel.add(dataGeneratorSelector, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
+
+        JScrollPane scrollPane2 = new JScrollPane(dataGeneratorSelector);
+        scrollPane2.setPreferredSize(new Dimension(220, 100));
+        scrollPane2.setMinimumSize(new Dimension(220, 100));
+        optionPanel.add(scrollPane2, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
         //</editor-fold>
@@ -599,9 +622,9 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
     private JMenuItem aboutButton;
     private JPanel optionPanel;
     private JLabel algoLabel;
-    private JComboBox algorithmSelector;
+    private JTree algorithmSelector;
     private JLabel dataGenLabel;
-    private JComboBox dataGeneratorSelector;
+    private JTree dataGeneratorSelector;
     private JLabel amtEntriesLabel;
     private JSpinner entrySpinner;
     private JLabel barWidthLabel;

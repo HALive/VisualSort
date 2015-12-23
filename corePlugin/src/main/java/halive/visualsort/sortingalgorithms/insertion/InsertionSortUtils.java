@@ -3,7 +3,7 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.sortingalgorithms.util;
+package halive.visualsort.sortingalgorithms.insertion;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;

@@ -29,8 +29,9 @@ import halive.visualsort.sortingalgorithms.insertion.BinaryInsertionSort;
 import halive.visualsort.sortingalgorithms.insertion.InsertionSort;
 import halive.visualsort.sortingalgorithms.MergeSort;
 import halive.visualsort.sortingalgorithms.OddEvenSort;
-import halive.visualsort.sortingalgorithms.QuickSortR1;
-import halive.visualsort.sortingalgorithms.QuickSortR2;
+import halive.visualsort.sortingalgorithms.quicksort.ParallelQuickSort;
+import halive.visualsort.sortingalgorithms.quicksort.QuickSortR1;
+import halive.visualsort.sortingalgorithms.quicksort.QuickSortR2;
 import halive.visualsort.sortingalgorithms.SelectionSort;
 import halive.visualsort.sortingalgorithms.insertion.ShellSort;
 import halive.visualsort.sortingalgorithms.insertion.ShellSortParallel;
@@ -65,7 +66,6 @@ public class CorePlugin implements IVisualSortPlugin {
                 SawtoothGenerator.class,
                 SineGenerator.class,
                 TriangleGenerator.class};
-        ;
         return datagens;
     }
 
@@ -74,6 +74,7 @@ public class CorePlugin implements IVisualSortPlugin {
         Class[] algorithms = new Class[]{
                 QuickSortR1.class,
                 QuickSortR2.class,
+                ParallelQuickSort.class,
                 MergeSort.class,
                 BitonicMergeSort.class,
                 HeapSort.class,

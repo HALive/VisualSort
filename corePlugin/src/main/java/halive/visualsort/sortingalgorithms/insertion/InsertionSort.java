@@ -8,7 +8,6 @@ package halive.visualsort.sortingalgorithms.insertion;
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.sorting.SortingAlgorithm;
-import halive.visualsort.sortingalgorithms.util.InsertionSortUtils;
 
 /**
  * This Class Implements the Basic InsertionSort Algorithm

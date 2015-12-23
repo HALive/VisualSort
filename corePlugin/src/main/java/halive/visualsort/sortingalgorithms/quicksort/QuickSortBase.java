@@ -3,7 +3,7 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.sortingalgorithms.util;
+package halive.visualsort.sortingalgorithms.quicksort;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
@@ -24,7 +24,7 @@ public abstract class QuickSortBase extends SortingAlgorithm {
 
     public void quicksort(int left, int right, DataEntry[] data, SortingHandler c) {
         if (c.compare(left < right)) {
-            int div = getPivotPos(left, right, data, c);
+            int div = partitionAndGetPivot(left, right, data, c);
             data[div].setRenderColor(Color.green);
             quicksort(left, div - 1, data, c);
             quicksort(div + 1, right, data, c);
@@ -33,5 +33,5 @@ public abstract class QuickSortBase extends SortingAlgorithm {
         }
     }
 
-    public abstract int getPivotPos(int left, int right, DataEntry[] data, SortingHandler c);
+    public abstract int partitionAndGetPivot(int left, int right, DataEntry[] data, SortingHandler c);
 }

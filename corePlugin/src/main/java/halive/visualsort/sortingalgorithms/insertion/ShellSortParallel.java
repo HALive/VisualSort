@@ -7,7 +7,6 @@ package halive.visualsort.sortingalgorithms.insertion;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
-import halive.visualsort.sortingalgorithms.util.InsertionSortUtils;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

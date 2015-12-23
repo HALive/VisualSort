@@ -3,11 +3,10 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.sortingalgorithms;
+package halive.visualsort.sortingalgorithms.quicksort;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
-import halive.visualsort.sortingalgorithms.util.QuickSortBase;
 
 /**
  * Implements Another Version of QuickSOrt. This one Seems better then QuicksortR1
@@ -20,7 +19,7 @@ public class QuickSortR2 extends QuickSortBase {
     }
 
     @Override
-    public int getPivotPos(int left, int right, DataEntry[] data, SortingHandler c) {
+    public int partitionAndGetPivot(int left, int right, DataEntry[] data, SortingHandler c) {
         int i = left;
         int j = right - 1;
         int pivot = data[right].getValue();

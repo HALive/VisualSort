@@ -12,7 +12,7 @@ import halive.visualsort.core.VSLog;
 import halive.visualsort.core.datageneration.DataGenerator;
 import halive.visualsort.core.plugins.PluginHandler;
 import halive.visualsort.core.sorting.SortingAlgorithm;
-import halive.visualsort.gui.models.NamableTreeModel;
+import halive.visualsort.gui.tree.NamableTreeModel;
 import halive.visualsort.gui.rendering.IVisualSortRenderer;
 import halive.visualsort.gui.rendering.j2d.SortingRenderCanvas;
 import halive.visualsort.gui.rendering.slick2d.OpenGLRenderCanvas;

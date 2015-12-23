@@ -3,12 +3,11 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.gui.models;
+package halive.visualsort.gui.tree;
 
 import halive.visualsort.core.INamable;
 import halive.visualsort.core.plugins.IVisualSortPlugin;
 import halive.visualsort.core.plugins.PluginHandler;
-import halive.visualsort.core.sorting.SortingAlgorithm;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;

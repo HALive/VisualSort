@@ -72,14 +72,13 @@ public class PluginHandler {
             }
         } catch (IOException e) {
             VSLog.logger.log(Level.SEVERE, "Could not check " + f.getAbsolutePath() + " For Plugins.", e);
-            return;
         }
     }
 
     public void addPlugin(Class<? extends IVisualSortPlugin> c) throws IllegalAccessException,
             InstantiationException {
         Object inst = c.newInstance();
-        if (inst != null && inst instanceof IVisualSortPlugin) {
+        if (inst != null) {
             addPlugin((IVisualSortPlugin) inst);
         }
     }

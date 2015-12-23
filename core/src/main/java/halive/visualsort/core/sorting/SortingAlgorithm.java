@@ -21,8 +21,8 @@ public abstract class SortingAlgorithm implements INamable {
 
     public static SortingAlgorithm[] ALGORTIHMS;
 
-    private String name;
-    private String description;
+    protected String name;
+    protected String description;
 
     /**
      * Creates a new SortingAlgorithm

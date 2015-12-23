@@ -20,23 +20,23 @@ import halive.visualsort.datageneration.TriangleGenerator;
 import halive.visualsort.sortingalgorithms.BiDiBubbleSort;
 import halive.visualsort.sortingalgorithms.BiDiSelectionSort;
 import halive.visualsort.sortingalgorithms.BinaryTreeSort;
-import halive.visualsort.sortingalgorithms.BitonicMergeSort;
 import halive.visualsort.sortingalgorithms.BubbleSort;
 import halive.visualsort.sortingalgorithms.CountingSort;
 import halive.visualsort.sortingalgorithms.GnomeSort;
 import halive.visualsort.sortingalgorithms.HeapSort;
+import halive.visualsort.sortingalgorithms.OddEvenSort;
+import halive.visualsort.sortingalgorithms.SelectionSort;
+import halive.visualsort.sortingalgorithms.SlowSort;
+import halive.visualsort.sortingalgorithms.StoogeSort;
 import halive.visualsort.sortingalgorithms.insertion.BinaryInsertionSort;
 import halive.visualsort.sortingalgorithms.insertion.InsertionSort;
-import halive.visualsort.sortingalgorithms.MergeSort;
-import halive.visualsort.sortingalgorithms.OddEvenSort;
+import halive.visualsort.sortingalgorithms.insertion.ShellSort;
+import halive.visualsort.sortingalgorithms.insertion.ShellSortParallel;
+import halive.visualsort.sortingalgorithms.mergesort.BitonicMergeSort;
+import halive.visualsort.sortingalgorithms.mergesort.MergeSort;
 import halive.visualsort.sortingalgorithms.quicksort.ParallelQuickSort;
 import halive.visualsort.sortingalgorithms.quicksort.QuickSortR1;
 import halive.visualsort.sortingalgorithms.quicksort.QuickSortR2;
-import halive.visualsort.sortingalgorithms.SelectionSort;
-import halive.visualsort.sortingalgorithms.insertion.ShellSort;
-import halive.visualsort.sortingalgorithms.insertion.ShellSortParallel;
-import halive.visualsort.sortingalgorithms.SlowSort;
-import halive.visualsort.sortingalgorithms.StoogeSort;
 
 /**
  * This class Represents the CorePlugin containing the default Datagenerators and Sorting algorithms

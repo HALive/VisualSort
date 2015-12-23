@@ -19,9 +19,8 @@ import java.util.concurrent.ForkJoinTask;
  */
 public class ShellSortParallel extends ShellSort {
 
-    @Override
-    public String getName() {
-        return "Shell Sort Parallel";
+    public ShellSortParallel() {
+        super("Shell Sort Parallel", "");
     }
 
     @Override
@@ -40,7 +39,7 @@ public class ShellSortParallel extends ShellSort {
         InsertionSortUtils.insertionSort(d, h, 0, 1);
     }
 
-    private static class ShellSortingHandler implements Runnable {
+    private class ShellSortingHandler implements Runnable {
 
         private SortingHandler h;
         private DataEntry[] d;

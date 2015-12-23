@@ -16,9 +16,8 @@ public class ParallelQuickSort extends QuickSortR2 {
 
     private ForkJoinPool svc;
 
-    @Override
-    public String getName() {
-        return "Qucksort Parallel";
+    public ParallelQuickSort() {
+        super("Quick Sort Parallel", "");
     }
 
     @Override

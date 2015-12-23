@@ -18,6 +18,10 @@ public class QuickSortR2 extends QuickSortBase {
         super("Quick Sort - Variant 2", " ");
     }
 
+    protected QuickSortR2(String name, String description) {
+        super(name, description);
+    }
+
     @Override
     public int partitionAndGetPivot(int left, int right, DataEntry[] data, SortingHandler c) {
         int i = left;

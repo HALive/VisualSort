@@ -97,20 +97,6 @@ public class PluginHandler {
             VSLog.logger.info("Initializing " + p.getPluginName());
             initPlugin(p);
         }
-        /*VSLog.logger.info("Registering DataGenerators.");
-        DataGenerator[] dataGenerators = new DataGenerator[this.dataGenerators.size()];
-        for (int i = 0; i < dataGenerators.length; i++) {
-            dataGenerators[i] = this.dataGenerators.get(i);
-        }
-        Arrays.sort(dataGenerators, new NamableComparator());
-        DataGenerator.DATAGGENS = dataGenerators;
-        VSLog.logger.info("Registering SortingAlgoritms.");
-        SortingAlgorithm[] algorithms = new SortingAlgorithm[sortingAlgorithms.size()];
-        for (int i = 0; i < algorithms.length; i++) {
-            algorithms[i] = sortingAlgorithms.get(i);
-        }
-        Arrays.sort(algorithms, new NamableComparator());
-        SortingAlgorithm.ALGORTIHMS = algorithms;*/
     }
 
     private void initPlugin(IVisualSortPlugin plugin) {

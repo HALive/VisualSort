@@ -29,3 +29,4 @@ PluginDummy/lib/*.jar
 hs_err_pid*
 *.iml
 VisualSort.iws
+devWorkingDir/*

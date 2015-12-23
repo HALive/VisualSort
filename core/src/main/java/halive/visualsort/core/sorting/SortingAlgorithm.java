@@ -19,8 +19,6 @@ import halive.visualsort.core.SortingHandler;
  */
 public abstract class SortingAlgorithm implements INamable {
 
-    public static SortingAlgorithm[] ALGORTIHMS;
-
     protected String name;
     protected String description;
 

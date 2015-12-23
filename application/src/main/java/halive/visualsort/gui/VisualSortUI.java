@@ -19,7 +19,6 @@ import halive.visualsort.gui.rendering.slick2d.OpenGLRenderCanvas;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,7 +34,7 @@ import javax.swing.JTree;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
-import javax.swing.tree.TreePath;
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.Adjustable;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
@@ -67,12 +66,6 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         //TODO Implement Adding Of the Algortihms
         algorithmSelector.setModel(new NamableTreeModel(handler, handler::getSortingAlgorithms));
         dataGeneratorSelector.setModel(new NamableTreeModel(handler, handler::getDataGenerators));
-        /*for (SortingAlgorithm a : SortingAlgorithm.ALGORTIHMS) {
-            //algorithmSelector.addItem(a);
-        }
-        for (DataGenerator g : DataGenerator.DATAGGENS) {
-            dataGeneratorSelector.addItem(g);
-        }*/
         Dimension defSize = new Dimension(700, 700);
         this.setSize(defSize);
         this.setMinimumSize(defSize);
@@ -97,10 +90,24 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
     }
 
     private void startButtonActionPerformed(ActionEvent e) {
-        //Get the Selected Algorithm and Data Generator
-        Object algorithm = algorithmSelector.getSelectionPath().getLastPathComponent();
-        Object dataGen = dataGeneratorSelector.getSelectionPath().getLastPathComponent();
-
+        //<editor-fold desc="Get The Currently Selected Datagen and Algorithm">
+        if (algorithmSelector.getSelectionPath() == null || dataGeneratorSelector.getSelectionPath() == null) {
+            JOptionPane.showMessageDialog(this, "Invalid Algorithm/DataGenerator. Please Select a Proper one.",
+                    "Error", JOptionPane.OK_OPTION);
+            return;
+        }
+        DefaultMutableTreeNode algorithm =
+                (DefaultMutableTreeNode) algorithmSelector.getSelectionPath().getLastPathComponent();
+        DefaultMutableTreeNode dataGen =
+                (DefaultMutableTreeNode) dataGeneratorSelector.getSelectionPath().getLastPathComponent();
+        if (algorithm == null || dataGen == null ||
+                !(algorithm.getUserObject() instanceof SortingAlgorithm) ||
+                !(dataGen.getUserObject() instanceof DataGenerator)) {
+            JOptionPane.showMessageDialog(this, "Invalid Algorithm/DataGenerator. Please Select a Proper one.",
+                    "Error", JOptionPane.OK_OPTION);
+            return;
+        }
+        //</editor-fold>
         //<editor-fold desc="Instantiate the Renderer">
         if (renderer == null) {
             if (!this.useOpenGLCheckBox.isSelected()) {
@@ -138,10 +145,8 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
             renderer.start();
         }
         //<editor-fold desc="Initialize the SortingHandler">
-        //TODO Add Default Selection for Datagenerator and Algorithm
-
-        //sortingHandler.setSortingAlgorithm((SortingAlgorithm) algorithmSelector.getSelectedItem());
-        //sortingHandler.setDataGenerator((DataGenerator) dataGeneratorSelector.getSelectedItem());
+        sortingHandler.setSortingAlgorithm((SortingAlgorithm) algorithm.getUserObject());
+        sortingHandler.setDataGenerator((DataGenerator) dataGen.getUserObject());
         boolean delayOnSwap = applyDelayOnSwapCheckBox.isSelected();
         boolean delayOnComp = applyDelayOnCompCheckBox.isSelected();
         sortingHandler.setDelayOnComp(delayOnComp);
@@ -174,7 +179,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         }
     }
 
-    private void CheckBoxStateChanged(ChangeEvent e) {
+    private void checkBoxStateChanged(ChangeEvent e) {
         JCheckBox checkBox = (JCheckBox) e.getSource();
         sortingHandler.setDelayOnComp(checkBox.isSelected());
     }
@@ -200,7 +205,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         continueButton.setEnabled(true);
     }
 
-    private void continuebuttomnActionPerformed(ActionEvent e) {
+    private void continueButtonActionPerformed(ActionEvent e) {
         continueButton.setEnabled(false);
         sortingHandler.clearPause();
         enableStopButtons(true);
@@ -219,33 +224,33 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         helpMenu = new JMenu();
         aboutButton = new JMenuItem();
         optionPanel = new JPanel();
-        algoLabel = new JLabel();
+        JLabel algoLabel = new JLabel();
         algorithmSelector = new JTree();
-        dataGenLabel = new JLabel();
+        JLabel dataGenLabel = new JLabel();
         dataGeneratorSelector = new JTree();
-        amtEntriesLabel = new JLabel();
+        JLabel amtEntriesLabel = new JLabel();
         entrySpinner = new JSpinner();
-        barWidthLabel = new JLabel();
+        JLabel barWidthLabel = new JLabel();
         barWidthSpinner = new JSpinner();
         useOpenGLCheckBox = new JCheckBox();
         startButton = new JButton();
-        spacer2 = new JPanel(null);
-        delayLabel = new JLabel();
+        JPanel spacer2 = new JPanel(null);
+        JLabel delayLabel = new JLabel();
         delayMSSpinner = new JSpinner();
-        delayInfoLabel = new JLabel();
+        JLabel delayInfoLabel = new JLabel();
         applyDelayOnCompCheckBox = new JCheckBox();
         applyDelayOnSwapCheckBox = new JCheckBox();
-        spacer1 = new JPanel(null);
-        statusInfoLabel = new JLabel();
+        JPanel spacer1 = new JPanel(null);
+        JLabel statusInfoLabel = new JLabel();
         statusLabel = new JLabel();
-        compInfoLabel = new JLabel();
+        JLabel compInfoLabel = new JLabel();
         compLabel = new JLabel();
-        swaapinfoLabel = new JLabel();
+        JLabel swaapinfoLabel = new JLabel();
         swpLabel = new JLabel();
-        elTimeInfoLabel = new JLabel();
+        JLabel elTimeInfoLabel = new JLabel();
         elTimeLabel = new JLabel();
-        vSpacer1 = new JPanel(null);
-        pauseOnLabel = new JLabel();
+        JPanel vSpacer1 = new JPanel(null);
+        JLabel pauseOnLabel = new JLabel();
         pauseOnNextSwapButton = new JButton();
         pauseOnNextCompButton = new JButton();
         continueButton = new JButton();
@@ -298,7 +303,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         fileMenu.setText("File");
 
         exitMenuItem.setText("Exit");
-        exitMenuItem.addActionListener(e -> exitMenuItemActionPerformed(e));
+        exitMenuItem.addActionListener(this::exitMenuItemActionPerformed);
         fileMenu.add(exitMenuItem);
 
         uiMenuBar.add(fileMenu);
@@ -355,7 +360,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
                 new Insets(0, 0, 5, 5), 0, 0));
 
         entrySpinner.setModel(new SpinnerNumberModel(600, 10, 6000, 1));
-        entrySpinner.addChangeListener(e -> entrySpinnerStateChanged(e));
+        entrySpinner.addChangeListener(this::entrySpinnerStateChanged);
         optionPanel.add(entrySpinner, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
@@ -367,7 +372,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
                 new Insets(0, 0, 5, 5), 0, 0));
 
         barWidthSpinner.setModel(new SpinnerNumberModel(1, 1, 10, 1));
-        barWidthSpinner.addChangeListener(e -> barWidthSpinnerStateChanged(e));
+        barWidthSpinner.addChangeListener(this::barWidthSpinnerStateChanged);
         optionPanel.add(barWidthSpinner, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
@@ -383,7 +388,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         startButton.setPreferredSize(new Dimension(95, 56));
         startButton.setMaximumSize(new Dimension(95, 56));
         startButton.setMinimumSize(new Dimension(95, 56));
-        startButton.addActionListener(e -> startButtonActionPerformed(e));
+        startButton.addActionListener(this::startButtonActionPerformed);
         optionPanel.add(startButton, new GridBagConstraints(1, 5, 2, 2, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
@@ -398,7 +403,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
                 new Insets(0, 0, 5, 5), 0, 0));
 
         delayMSSpinner.setModel(new SpinnerNumberModel(5, 0, 100, 1));
-        delayMSSpinner.addChangeListener(e -> delayMSSpinnerStateChanged(e));
+        delayMSSpinner.addChangeListener(this::delayMSSpinnerStateChanged);
         optionPanel.add(delayMSSpinner, new GridBagConstraints(2, 7, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
@@ -409,14 +414,14 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
                 new Insets(0, 0, 5, 5), 0, 0));
 
         applyDelayOnCompCheckBox.setText("Comparing");
-        applyDelayOnCompCheckBox.addChangeListener(e -> CheckBoxStateChanged(e));
+        applyDelayOnCompCheckBox.addChangeListener(this::checkBoxStateChanged);
         optionPanel.add(applyDelayOnCompCheckBox, new GridBagConstraints(2, 8, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
 
         applyDelayOnSwapCheckBox.setText("Swaping");
         applyDelayOnSwapCheckBox.setSelected(true);
-        applyDelayOnSwapCheckBox.addChangeListener(e -> applyDelayOnSwapCheckBoxStateChanged(e));
+        applyDelayOnSwapCheckBox.addChangeListener(this::applyDelayOnSwapCheckBoxStateChanged);
         optionPanel.add(applyDelayOnSwapCheckBox, new GridBagConstraints(2, 9, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
@@ -501,7 +506,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         //<editor-fold desc="Initialize Continue Button">
         continueButton.setText("Continue");
         continueButton.setEnabled(false);
-        continueButton.addActionListener(e -> continuebuttomnActionPerformed(e));
+        continueButton.addActionListener(e -> continueButtonActionPerformed(e));
         optionPanel.add(continueButton, new GridBagConstraints(2, 20, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 0, 0), 0, 0));
@@ -582,8 +587,8 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
     }
 
     private void setStateOfJComponents(JComponent[] comp, boolean b) {
-        for (int i = 0; i < comp.length; i++) {
-            comp[i].setEnabled(b);
+        for (JComponent aComp : comp) {
+            aComp.setEnabled(b);
         }
     }
 
@@ -621,33 +626,19 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
     private JMenu helpMenu;
     private JMenuItem aboutButton;
     private JPanel optionPanel;
-    private JLabel algoLabel;
     private JTree algorithmSelector;
-    private JLabel dataGenLabel;
     private JTree dataGeneratorSelector;
-    private JLabel amtEntriesLabel;
     private JSpinner entrySpinner;
-    private JLabel barWidthLabel;
     private JSpinner barWidthSpinner;
     private JCheckBox useOpenGLCheckBox;
     private JButton startButton;
-    private JPanel spacer2;
-    private JLabel delayLabel;
     private JSpinner delayMSSpinner;
-    private JLabel delayInfoLabel;
     private JCheckBox applyDelayOnCompCheckBox;
     private JCheckBox applyDelayOnSwapCheckBox;
-    private JPanel spacer1;
-    private JLabel statusInfoLabel;
     private JLabel statusLabel;
-    private JLabel compInfoLabel;
     private JLabel compLabel;
-    private JLabel swaapinfoLabel;
     private JLabel swpLabel;
-    private JLabel elTimeInfoLabel;
     private JLabel elTimeLabel;
-    private JPanel vSpacer1;
-    private JLabel pauseOnLabel;
     private JButton pauseOnNextSwapButton;
     private JButton pauseOnNextCompButton;
     private JButton continueButton;

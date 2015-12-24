@@ -44,7 +44,7 @@ public class GenerationAndAlgorithmTest {
         int amtEntries = comb.b instanceof SlowSort ? 100 : 1000;
         this.entries = new DataEntry[amtEntries];
         for (int i = 0; i < entries.length; i++) {
-            entries[i] = new DataEntry(1);
+            entries[i] = new DataEntry(1, handler);
         }
         handler.setEntries(entries);
     }

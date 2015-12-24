@@ -74,7 +74,7 @@ public class SortingHandler implements Runnable {
         entries = null;
         entries = new DataEntry[amtEntries];
         for (int i = 0; i < entries.length; i++) {
-            entries[i] = new DataEntry(this.renderWidth);
+            entries[i] = new DataEntry(this.renderWidth, this);
         }
 
         gui.displayStatus("Created array with " + entries.length + " Entries");
@@ -100,6 +100,12 @@ public class SortingHandler implements Runnable {
         dataGenerator = null;
     }
 
+    /**
+     * Swaps the Values of the 2 Entries. The objets do not get swapped using this method
+     *
+     * @param p1 position 1
+     * @param p2 position 2
+     */
     public void swap(int p1, int p2) {
         int v1 = entries[p1].getValue();
         entries[p1].setValue(entries[p2].getValue());
@@ -107,7 +113,34 @@ public class SortingHandler implements Runnable {
         incrementSwapsAndDelay();
     }
 
+    /**
+     * Swaps the Objects at the Given Postions
+     *
+     * @param p1 pos1
+     * @param p2 pos2
+     */
+    public void swapObject(int p1, int p2) {
+        DataEntry entry = entries[p1];
+        entries[p1] = entries[p2];
+        entries[p2] = entry;
+        incrementSwapsAndDelay();
+    }
+
+    /**
+     * This Increments the Comparisons and it delays if the delay for COmparisons is active.
+     *
+     * @param b the value to return
+     * @return returns b (unmodified)
+     */
     public boolean compare(boolean b) {
+        onCompared();
+        return b;
+    }
+
+    /**
+     * Does the same as compare() is just does not return the value
+     */
+    public void onCompared() {
         comparisons++;
         if (delayOnComp) {
             try {
@@ -118,7 +151,6 @@ public class SortingHandler implements Runnable {
         while (stopOnNextComp) {
             Thread.yield();
         }
-        return b;
     }
 
     public DataEntry[] getEntries() {

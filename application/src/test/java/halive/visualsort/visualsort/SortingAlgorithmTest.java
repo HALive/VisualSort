@@ -46,7 +46,7 @@ public class SortingAlgorithmTest {
         handler.setDataGenerator(new SineGenerator());
         handler.setSortingAlgorithm(algo);
         for (int i = 0; i < dataEntries.length; i++) {
-            dataEntries[i] = new DataEntry(1);
+            dataEntries[i] = new DataEntry(1, handler);
         }
         handler.getDataGenerator().generateData(dataEntries, DataGeneratorTest.MAX_VALUE);
         handler.setEntries(dataEntries);

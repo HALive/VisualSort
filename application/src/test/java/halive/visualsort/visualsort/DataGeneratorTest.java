@@ -7,6 +7,7 @@ package halive.visualsort.visualsort;
 
 import halive.visualsort.CorePlugin;
 import halive.visualsort.core.DataEntry;
+import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.datageneration.DataGenerator;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,8 +37,9 @@ public class DataGeneratorTest {
 
     @Before
     public void setUp() throws Exception {
+        SortingHandler handler = new SortingHandler(null);
         for (int i = 0; i < dataEntries.length; i++) {
-            dataEntries[i] = new DataEntry(1);
+            dataEntries[i] = new DataEntry(1, handler);
         }
     }
 

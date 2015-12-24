@@ -15,15 +15,19 @@ public class DataEntry implements Comparable<DataEntry> {
     private Color renderColor;
     private Color invertedColor;
 
-    public DataEntry(int width) {
+    private SortingHandler handler;
+
+    public DataEntry(int width, SortingHandler handler) {
         this.value = 0;
         this.width = width;
         setRenderColor(Color.blue);
+        this.handler = handler;
     }
 
-    public DataEntry(int value, int width) {
+    public DataEntry(int value, int width, SortingHandler sortingHandler) {
         this.value = value;
         this.width = width;
+        this.handler = sortingHandler;
     }
 
     public void setRenderColor(Color renderColor) {
@@ -58,6 +62,7 @@ public class DataEntry implements Comparable<DataEntry> {
 
     @Override
     public int compareTo(DataEntry o) {
+        handler.onCompared();
         return (int) Math.signum(this.value - o.value);
     }
 }

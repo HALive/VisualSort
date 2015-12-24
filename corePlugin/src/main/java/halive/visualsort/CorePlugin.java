@@ -17,10 +17,10 @@ import halive.visualsort.datageneration.RandomDataGenerator;
 import halive.visualsort.datageneration.SawtoothGenerator;
 import halive.visualsort.datageneration.SineGenerator;
 import halive.visualsort.datageneration.TriangleGenerator;
-import halive.visualsort.sortingalgorithms.BiDiBubbleSort;
+import halive.visualsort.sortingalgorithms.bubblesort.BiDiBubbleSort;
 import halive.visualsort.sortingalgorithms.BiDiSelectionSort;
 import halive.visualsort.sortingalgorithms.BinaryTreeSort;
-import halive.visualsort.sortingalgorithms.BubbleSort;
+import halive.visualsort.sortingalgorithms.bubblesort.BubbleSort;
 import halive.visualsort.sortingalgorithms.CountingSort;
 import halive.visualsort.sortingalgorithms.GnomeSort;
 import halive.visualsort.sortingalgorithms.HeapSort;
@@ -28,6 +28,7 @@ import halive.visualsort.sortingalgorithms.OddEvenSort;
 import halive.visualsort.sortingalgorithms.SelectionSort;
 import halive.visualsort.sortingalgorithms.SlowSort;
 import halive.visualsort.sortingalgorithms.StoogeSort;
+import halive.visualsort.sortingalgorithms.bubblesort.CombSort;
 import halive.visualsort.sortingalgorithms.insertion.BinaryInsertionSort;
 import halive.visualsort.sortingalgorithms.insertion.InsertionSort;
 import halive.visualsort.sortingalgorithms.insertion.ShellSort;
@@ -89,6 +90,7 @@ public class CorePlugin implements IVisualSortPlugin {
                 BiDiSelectionSort.class,
                 BubbleSort.class,
                 BiDiBubbleSort.class,
+                CombSort.class,
                 SlowSort.class,
                 StoogeSort.class,
                 CountingSort.class};

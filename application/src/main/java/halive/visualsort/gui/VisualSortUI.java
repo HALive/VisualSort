@@ -12,10 +12,10 @@ import halive.visualsort.core.VSLog;
 import halive.visualsort.core.datageneration.DataGenerator;
 import halive.visualsort.core.plugins.PluginHandler;
 import halive.visualsort.core.sorting.SortingAlgorithm;
-import halive.visualsort.gui.tree.NamableTreeModel;
 import halive.visualsort.gui.rendering.IVisualSortRenderer;
 import halive.visualsort.gui.rendering.j2d.SortingRenderCanvas;
 import halive.visualsort.gui.rendering.slick2d.OpenGLRenderCanvas;
+import halive.visualsort.gui.tree.NamableTreeModel;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -33,6 +33,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTree;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
@@ -53,14 +54,61 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.logging.Level;
 
+/**
+ * This Class Describes the UI of VisualSort
+ */
+@SuppressWarnings({"unused", "FieldCanBeLocal"})
 public class VisualSortUI extends JFrame implements IVisualSortUI {
 
+    /**
+     * The RenderCanvas Component
+     */
     private Canvas renderCanvas;
+    /**
+     * Stores the current Renderr used to render the Sorting Progress
+     */
     private IVisualSortRenderer renderer;
+    /**
+     * The Sorting Handler used to Perform Sorting Operations
+     */
     private SortingHandler sortingHandler;
 
+    /**
+     * Is true if Resizing is allowed, false otherwise
+     */
     private boolean allowResize = true;
+    //<editor-fold desc="GUI Component Attribute Definition">
+    private JMenuBar uiMenuBar;
+    private JMenu fileMenu;
+    private JMenuItem exitMenuItem;
+    private JMenu helpMenu;
+    private JMenuItem aboutButton;
+    private JPanel optionPanel;
+    private JTree algorithmSelector;
+    private JTree dataGeneratorSelector;
+    private JSpinner entrySpinner;
+    private JSpinner barWidthSpinner;
+    private JCheckBox useOpenGLCheckBox;
+    private JButton startButton;
+    private JSpinner delayMSSpinner;
+    private JCheckBox applyDelayOnCompCheckBox;
+    private JCheckBox applyDelayOnSwapCheckBox;
+    private JLabel statusLabel;
+    private JLabel compLabel;
+    private JLabel swpLabel;
+    private JLabel elTimeLabel;
+    private JButton pauseOnNextSwapButton;
+    private JButton pauseOnNextCompButton;
+    private JButton continueButton;
+    private JPanel renderPanel;
+    private JScrollBar fovScrollBar;
+    //</editor-fold>
 
+    /**
+     * Creates A New VisualSortUI
+     *
+     * @param handler the PluginHandler Storing All Plugins with their DataGenerators and SortingALgortihms
+     */
     public VisualSortUI(PluginHandler handler) {
         sortingHandler = new SortingHandler(this);
         initComponents();
@@ -75,14 +123,30 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         this.setMinimumSize(defSize);
     }
 
+    /**
+     * Called when the Window is Closing.
+     * This Stopps the Renderer
+     *
+     * @param e not used
+     */
     private void onWindowsClosing(WindowEvent e) {
         exit();
     }
 
+    /**
+     * Called once the Exit (in the File Menu) Button is Clicked
+     *
+     * @param e not used
+     */
     private void exitMenuItemActionPerformed(ActionEvent e) {
         exit();
     }
 
+    /**
+     * Updates The Width of the Value Bars
+     *
+     * @param e not used
+     */
     private void barWidthSpinnerStateChanged(ChangeEvent e) {
         int newVal = (Integer) barWidthSpinner.getValue();
         int amtVal = (Integer) entrySpinner.getValue();
@@ -93,11 +157,19 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         sortingHandler.setRenderWidth(newVal);
     }
 
+    /**
+     * Initiates the Sorting Process. It first Grabs the Selected SortingAlgorithm and DataGenerator
+     * and all Other Properties, After That A Renderer (Depending on the Selection) gets Initialized
+     * if that has not happened before. Afterwards the Current dataGenerator and SortingAlgorithms
+     * are Set. At last The Sorting Thread gets Started and the Sorting will Begin.
+     *
+     * @param e not used
+     */
     private void startButtonActionPerformed(ActionEvent e) {
         //<editor-fold desc="Get The Currently Selected Datagen and Algorithm">
         if (algorithmSelector.getSelectionPath() == null || dataGeneratorSelector.getSelectionPath() == null) {
             JOptionPane.showMessageDialog(this, "Invalid Algorithm/DataGenerator. Please Select a Proper one.",
-                    "Error", JOptionPane.OK_OPTION);
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         DefaultMutableTreeNode algorithm =
@@ -108,7 +180,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
                 !(algorithm.getUserObject() instanceof SortingAlgorithm) ||
                 !(dataGen.getUserObject() instanceof DataGenerator)) {
             JOptionPane.showMessageDialog(this, "Invalid Algorithm/DataGenerator. Please Select a Proper one.",
-                    "Error", JOptionPane.OK_OPTION);
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         //</editor-fold>
@@ -159,6 +231,12 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         //</editor-fold>
     }
 
+    /**
+     * Gets Called if the Window gets Resized.
+     * It Updates the Length of the Scrollbar and Toggles a Redraw.
+     *
+     * @param e not used
+     */
     private void onComponentResized(ComponentEvent e) {
         if (allowResize) {
             updateScrollbar();
@@ -166,16 +244,33 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         }
     }
 
+    /**
+     * Informs the SoringHandler about a Change of the amout of Values to sort
+     *
+     * @param e not Used
+     */
     private void entrySpinnerStateChanged(ChangeEvent e) {
         int val = (Integer) entrySpinner.getValue();
         sortingHandler.setAmtEntries(val);
     }
 
+    /**
+     * Gets Called every time the DelaySpinners Value gets Changed
+     * It Tells the SortingHandler the new Delay
+     *
+     * @param e not Used
+     */
     private void delayMSSpinnerStateChanged(ChangeEvent e) {
         int val = (Integer) delayMSSpinner.getValue();
         sortingHandler.setDelay(val);
     }
 
+    /**
+     * This is Called if the Scrollbar ScrollItem Gets moved.
+     * Informs the Renderer about the new Render position
+     *
+     * @param e the Event to get the Current ScrollValue
+     */
     private void fovScrollBarAdjustmentValueChanged(AdjustmentEvent e) {
         if (renderer != null) {
             int value = e.getValue();
@@ -183,43 +278,82 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         }
     }
 
-    private void checkBoxStateChanged(ChangeEvent e) {
+    /**
+     * Just like applyDelayOnNextSwap... for the Swap Checkbox
+     *
+     * @param e the ChangeEvent
+     */
+    private void applyDelayOnCompCheckBoxStateChanged(ChangeEvent e) {
         JCheckBox checkBox = (JCheckBox) e.getSource();
         sortingHandler.setDelayOnComp(checkBox.isSelected());
     }
 
+    /**
+     * Called if the Apply Delay on next Swap state gets changed.
+     * it also informs the SoringHandler about the change
+     *
+     * @param e the Change Event used to Capture the source
+     */
     private void applyDelayOnSwapCheckBoxStateChanged(ChangeEvent e) {
         JCheckBox checkBox = (JCheckBox) e.getSource();
         sortingHandler.setDelayOnSwap(checkBox.isSelected());
     }
 
+    /**
+     * Calls the repaint() method
+     */
     private void toggleRedraw() {
         this.repaint();
     }
 
+    /**
+     * Just like pauseOnNextCompButtonActionPerformed except for Stopping at the next Swap
+     *
+     * @param e not used
+     */
     private void pauseOnNextSwapButtonActionPerformed(ActionEvent e) {
         this.enableStopButtons(false);
         sortingHandler.setStopOnNextSwap(true);
         continueButton.setEnabled(true);
     }
 
+    /**
+     * Gets Called one The User Clicks on Pause on Next Comparison.
+     * It Tells the Sorting Handler to Pause on the Next Comparison
+     *
+     * @param e not used
+     */
     private void pauseOnNextCompButtonActionPerformed(ActionEvent e) {
         this.enableStopButtons(false);
         sortingHandler.setStopOnNextComp(true);
         continueButton.setEnabled(true);
     }
 
+    /**
+     * Gets Called when the User Clicks on the Continue Button.
+     * It Tells the Current SortingHandler to Contiune Sorting
+     *
+     * @param e not used
+     */
     private void continueButtonActionPerformed(ActionEvent e) {
         continueButton.setEnabled(false);
         sortingHandler.clearPause();
         enableStopButtons(true);
     }
 
+    /**
+     * Is Called if the Window Gets closed. It Closes the Application
+     *
+     * @param e Not Used
+     */
     private void onWindowClosed(WindowEvent e) {
         System.out.println("exiting");
         System.exit(0);
     }
 
+    /**
+     * Initializes all UI Components
+     */
     private void initComponents() {
         //<editor-fold desc="Component Instantiation">
         uiMenuBar = new JMenuBar();
@@ -418,7 +552,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
                 new Insets(0, 0, 5, 5), 0, 0));
 
         applyDelayOnCompCheckBox.setText("Comparing");
-        applyDelayOnCompCheckBox.addChangeListener(this::checkBoxStateChanged);
+        applyDelayOnCompCheckBox.addChangeListener(this::applyDelayOnCompCheckBoxStateChanged);
         optionPanel.add(applyDelayOnCompCheckBox, new GridBagConstraints(2, 8, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
@@ -495,14 +629,14 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
 
         pauseOnNextSwapButton.setText("...next Swap");
         pauseOnNextSwapButton.setEnabled(false);
-        pauseOnNextSwapButton.addActionListener(e -> pauseOnNextSwapButtonActionPerformed(e));
+        pauseOnNextSwapButton.addActionListener(this::pauseOnNextSwapButtonActionPerformed);
         optionPanel.add(pauseOnNextSwapButton, new GridBagConstraints(2, 18, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
 
         pauseOnNextCompButton.setText("...next Compare");
         pauseOnNextCompButton.setEnabled(false);
-        pauseOnNextCompButton.addActionListener(e -> pauseOnNextCompButtonActionPerformed(e));
+        pauseOnNextCompButton.addActionListener(this::pauseOnNextCompButtonActionPerformed);
         optionPanel.add(pauseOnNextCompButton, new GridBagConstraints(2, 19, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
@@ -510,7 +644,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         //<editor-fold desc="Initialize Continue Button">
         continueButton.setText("Continue");
         continueButton.setEnabled(false);
-        continueButton.addActionListener(e -> continueButtonActionPerformed(e));
+        continueButton.addActionListener(this::continueButtonActionPerformed);
         optionPanel.add(continueButton, new GridBagConstraints(2, 20, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 0, 0), 0, 0));
@@ -522,7 +656,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
 
         fovScrollBar.setOrientation(Adjustable.HORIZONTAL);
         fovScrollBar.setEnabled(false);
-        fovScrollBar.addAdjustmentListener(e -> fovScrollBarAdjustmentValueChanged(e));
+        fovScrollBar.addAdjustmentListener(this::fovScrollBarAdjustmentValueChanged);
         renderPanel.add(fovScrollBar, BorderLayout.SOUTH);
 
         contentPane.add(renderPanel, BorderLayout.CENTER);
@@ -532,15 +666,22 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         setLocationRelativeTo(getOwner());
         exitMenuItem.addActionListener((e) -> System.exit(0));
         aboutButton.addActionListener((e) -> showAboutDialog());
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         //</editor-fold>
     }
 
+    /**
+     * This Method Opens the About Dialog
+     */
     private void showAboutDialog() {
         AboutDialog dialog = new AboutDialog();
+        dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }
 
+    /**
+     * This Method Updated the State of the Scrollbar
+     */
     private void updateScrollbar() {
         if (renderCanvas != null && renderer != null) {
             try {
@@ -559,19 +700,27 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
                 }
             } catch (Exception e) {
                 VSLog.logger.log(Level.SEVERE, "Error Updating Scrollbar", e);
-                return;
             }
         }
     }
 
+    /**
+     * Displays the given Message on the Status Label and Logs it to the Console Using the VSLog Class
+     *
+     * @param msg a TextString to Display as Status
+     */
     public void displayStatus(String msg) {
         statusLabel.setText(msg);
         VSLog.logger.info(msg);
     }
 
+    /**
+     * Exits The Programm
+     */
     private void exit() {
         if (renderer != null) {
             renderer.stop();
+            //noinspection EmptyCatchBlock
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
@@ -579,23 +728,46 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         }
     }
 
+    /**
+     * Calls the SetEnabled Method of All Components Relevant for Algorithm Selection
+     *
+     * @param b the State to Set to
+     */
     public void enableAlgorithmSelection(boolean b) {
         JComponent[] c = new JComponent[]{algorithmSelector, dataGeneratorSelector, entrySpinner,
                 barWidthSpinner};
         this.setStateOfJComponents(c, b);
     }
 
+    /**
+     * This Method Calls the SetEnabled Method of the Pause on Nex Comparions/next Swap Buttons
+     *
+     * @param b the State to set To
+     */
     public void enableStopButtons(boolean b) {
         JComponent[] c = new JComponent[]{pauseOnNextCompButton, pauseOnNextSwapButton};
         setStateOfJComponents(c, b);
     }
 
+    /**
+     * Calls the SetEnabled Method of every Component in the Array
+     *
+     * @param comp the Component Array
+     * @param b    the State
+     */
     private void setStateOfJComponents(JComponent[] comp, boolean b) {
         for (JComponent aComp : comp) {
             aComp.setEnabled(b);
         }
     }
 
+    /**
+     * Updates the Comparison, Swap Count and Elapsed Time Labels
+     *
+     * @param comp the Current count of Comparisons
+     * @param swap The current count of Swaps
+     * @param time the current elapsed time
+     */
     public void updateStatusLabels(long comp, long swap, String time) {
         compLabel.setText("" + comp);
         swpLabel.setText("" + swap);
@@ -604,6 +776,11 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         }
     }
 
+    /**
+     * If the OpenGL Ui could not get initilaized this Method will Force J2f Rendering
+     *
+     * @param e The Exception that Caused the Error
+     */
     public void slickError(Exception e) {
         VSLog.logger.log(Level.SEVERE, "Error initializing Slick2D", e);
         allowResize = true;
@@ -614,39 +791,20 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         JOptionPane.showMessageDialog(this, "Could not use OpenGL for Rendering, forcing J2D\nPlease retry.");
     }
 
+    /**
+     * This disables the selection of OpenGL Rendering
+     */
     public void forceJavaDRendering() {
         useOpenGLCheckBox.setSelected(false);
         useOpenGLCheckBox.setEnabled(false);
     }
 
+    /**
+     * Returns the Start Button that initiates the Sorting when its clicked
+     *
+     * @return the StartButton
+     */
     public JButton getStartButton() {
         return startButton;
     }
-
-    //<editor-fold desc="GUI Component Attribute Definition">
-    private JMenuBar uiMenuBar;
-    private JMenu fileMenu;
-    private JMenuItem exitMenuItem;
-    private JMenu helpMenu;
-    private JMenuItem aboutButton;
-    private JPanel optionPanel;
-    private JTree algorithmSelector;
-    private JTree dataGeneratorSelector;
-    private JSpinner entrySpinner;
-    private JSpinner barWidthSpinner;
-    private JCheckBox useOpenGLCheckBox;
-    private JButton startButton;
-    private JSpinner delayMSSpinner;
-    private JCheckBox applyDelayOnCompCheckBox;
-    private JCheckBox applyDelayOnSwapCheckBox;
-    private JLabel statusLabel;
-    private JLabel compLabel;
-    private JLabel swpLabel;
-    private JLabel elTimeLabel;
-    private JButton pauseOnNextSwapButton;
-    private JButton pauseOnNextCompButton;
-    private JButton continueButton;
-    private JPanel renderPanel;
-    private JScrollBar fovScrollBar;
-    //</editor-fold>
 }

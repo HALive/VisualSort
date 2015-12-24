@@ -3,12 +3,11 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.sortingalgorithms;
+package halive.visualsort.sortingalgorithms.selectionsort;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.sorting.SortingAlgorithm;
-import halive.visualsort.sortingalgorithms.util.SelectionSortUtils;
 
 import java.awt.Color;
 

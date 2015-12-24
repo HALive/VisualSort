@@ -10,7 +10,7 @@ import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 import halive.visualsort.datageneration.misc.SineGenerator;
-import halive.visualsort.sortingalgorithms.SlowSort;
+import halive.visualsort.sortingalgorithms.slow.SlowSort;
 import halive.visualsort.visualsort.util.SortingTestUtils;
 import org.junit.Before;
 import org.junit.Test;

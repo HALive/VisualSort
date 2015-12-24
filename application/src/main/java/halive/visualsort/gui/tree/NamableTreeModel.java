@@ -11,6 +11,8 @@ import halive.visualsort.core.plugins.PluginHandler;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,10 +51,27 @@ public class NamableTreeModel extends DefaultTreeModel {
             if (algos.size() == 0) {
                 continue;
             }
+            Map<String, List<INamable>> categories = new HashMap<>();
             for (INamable algo : algos) {
-                DefaultMutableTreeNode algoNode = new DefaultMutableTreeNode(algo);
-                pluginNode.add(algoNode);
+                String cat = algo.getCategory();
+                if (cat == null || cat.isEmpty()) {
+                    cat = "Default";
+                }
+                List<INamable> list = categories.get(cat);
+                if (list == null) {
+                    categories.put(cat, new ArrayList<>());
+                    list = categories.get(cat);
+                }
+                list.add(algo);
             }
+            categories.entrySet().forEach(entry -> {
+                DefaultMutableTreeNode catNode = new DefaultMutableTreeNode(entry.getKey());
+                entry.getValue().forEach(e -> {
+                    DefaultMutableTreeNode namNode = new DefaultMutableTreeNode(e);
+                    catNode.add(namNode);
+                });
+                pluginNode.add(catNode);
+            });
             root.add(pluginNode);
         }
         return root;

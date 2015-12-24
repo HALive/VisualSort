@@ -9,5 +9,7 @@ public interface INamable {
 
     String getName();
 
-    String getCategory();
+    default String getCategory() {
+        return "Default";
+    }
 }

@@ -49,7 +49,7 @@ public class GenerationAndAlgorithmTest {
         handler.setEntries(entries);
     }
 
-    @Test
+    @Test(timeout = 60000)
     public void testGeneratorAndSorter() throws Exception {
         System.out.println(comb + ": Generating Data");
         comb.a.generateData(entries, DataGeneratorTest.MAX_VALUE);

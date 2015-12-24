@@ -52,7 +52,7 @@ public class SortingAlgorithmTest {
         handler.setEntries(dataEntries);
     }
 
-    @Test
+    @Test(timeout = 60000)
     public void testSortingAlgorithms() {
         //Sort the generated Array
         int[] v1 = SortingTestUtils.countValues(DataGeneratorTest.MAX_VALUE, dataEntries);

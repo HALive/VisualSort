@@ -3,7 +3,7 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.datageneration;
+package halive.visualsort.datageneration.random;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.datageneration.DataGenerator;
@@ -22,5 +22,10 @@ public class RandomDataGenerator extends DataGenerator {
         for (int i = 0; i < entries.length; i++) {
             entries[i].setValue(rnd.nextInt(maxvalue));
         }
+    }
+
+    @Override
+    public String getCategory() {
+        return "Random";
     }
 }

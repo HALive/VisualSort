@@ -90,4 +90,9 @@ public class CombSort extends SortingAlgorithm {
         }
         return ints;
     }
+
+    @Override
+    public String getCategory() {
+        return "BubbleSort";
+    }
 }

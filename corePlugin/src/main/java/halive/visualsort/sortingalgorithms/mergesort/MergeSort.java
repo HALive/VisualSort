@@ -14,6 +14,7 @@ import java.awt.Color;
 /**
  * This Class Implements Merge Sort in the Basic Implementation
  */
+@SuppressWarnings("EmptyCatchBlock")
 public class MergeSort extends SortingAlgorithm {
 
     public MergeSort() {
@@ -74,7 +75,6 @@ public class MergeSort extends SortingAlgorithm {
         }
     }
 
-
     private static class ValueUpdater implements Runnable {
 
         private DataEntry[] toUpdate;
@@ -101,5 +101,10 @@ public class MergeSort extends SortingAlgorithm {
                 }
             }
         }
+    }
+
+    @Override
+    public String getCategory() {
+        return "MergeSort";
     }
 }

@@ -39,4 +39,9 @@ public class BiDiSelectionSort extends SortingAlgorithm {
             j--;
         }
     }
+
+    @Override
+    public String getCategory() {
+        return "SelectionSort";
+    }
 }

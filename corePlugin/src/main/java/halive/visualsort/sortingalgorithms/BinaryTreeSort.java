@@ -41,6 +41,11 @@ public class BinaryTreeSort extends SortingAlgorithm {
         }
     }
 
+    @Override
+    public String getCategory() {
+        return "Others";
+    }
+
     public static class TreeNode {
 
         private int value;

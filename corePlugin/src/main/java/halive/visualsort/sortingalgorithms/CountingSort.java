@@ -54,4 +54,9 @@ public class CountingSort extends SortingAlgorithm {
             }
         }
     }
+
+    @Override
+    public String getCategory() {
+        return "Others";
+    }
 }

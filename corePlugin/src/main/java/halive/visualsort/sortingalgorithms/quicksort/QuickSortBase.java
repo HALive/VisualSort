@@ -33,5 +33,10 @@ public abstract class QuickSortBase extends SortingAlgorithm {
         }
     }
 
+    @Override
+    public String getCategory() {
+        return "QuickSort";
+    }
+
     public abstract int partitionAndGetPivot(int left, int right, DataEntry[] data, SortingHandler c);
 }

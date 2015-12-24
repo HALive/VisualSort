@@ -18,7 +18,7 @@ import java.util.Comparator;
 public class APISort extends SortingAlgorithm implements Comparator<DataEntry> {
 
     public APISort() {
-        super("Java Sort", "");
+        super("API Sort", "");
     }
 
     @Override
@@ -29,5 +29,10 @@ public class APISort extends SortingAlgorithm implements Comparator<DataEntry> {
     @Override
     public int compare(DataEntry o1, DataEntry o2) {
         return o1.compareTo(o2);
+    }
+
+    @Override
+    public String getCategory() {
+        return "Java API";
     }
 }

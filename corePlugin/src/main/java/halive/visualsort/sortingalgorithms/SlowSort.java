@@ -35,4 +35,9 @@ public class SlowSort extends SortingAlgorithm {
         }
         slowsort(entries, handler, i, j - 1);
     }
+
+    @Override
+    public String getCategory() {
+        return "Slow Algorithms";
+    }
 }

@@ -36,4 +36,9 @@ public class GnomeSort extends SortingAlgorithm {
             }
         } while (h.compare(pos < data.length - 1));
     }
+
+    @Override
+    public String getCategory() {
+        return "Others";
+    }
 }

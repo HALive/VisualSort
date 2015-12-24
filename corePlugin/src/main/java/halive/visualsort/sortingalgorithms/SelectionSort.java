@@ -29,4 +29,9 @@ public class SelectionSort extends SortingAlgorithm {
             data[i].setRenderColor(Color.green);
         }
     }
+
+    @Override
+    public String getCategory() {
+        return "SelectionSort";
+    }
 }

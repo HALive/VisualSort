@@ -47,4 +47,9 @@ public class BiDiBubbleSort extends SortingAlgorithm {
             start++;
         } while (h.compare(swaped));
     }
+
+    @Override
+    public String getCategory() {
+        return "BubbleSort";
+    }
 }

@@ -16,7 +16,7 @@ import java.util.Arrays;
 public class APIParallelSort extends APISort {
 
     public APIParallelSort() {
-        this.name = "Java Parallel Sort";
+        this.name = "API Parallel Sort";
     }
 
     @Override

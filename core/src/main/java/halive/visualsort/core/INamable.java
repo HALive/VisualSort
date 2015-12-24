@@ -9,5 +9,5 @@ public interface INamable {
 
     String getName();
 
-    void addToName(String s);
+    String getCategory();
 }

@@ -37,4 +37,9 @@ public class ShellSort extends SortingAlgorithm {
         }
         //InsertionSortUtils.insertionSort(d, h, 0, 1);
     }
+
+    @Override
+    public String getCategory() {
+        return "InsertionSort";
+    }
 }

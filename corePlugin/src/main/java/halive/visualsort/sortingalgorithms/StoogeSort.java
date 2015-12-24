@@ -41,4 +41,9 @@ public class StoogeSort extends SortingAlgorithm {
             stoogesort(d, h, i, j - k);
         }
     }
+
+    @Override
+    public String getCategory() {
+        return "Slow Algorithms";
+    }
 }

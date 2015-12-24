@@ -48,4 +48,9 @@ public class OddEvenSort extends SortingAlgorithm {
             data[i].setRenderColor(Color.darkGray);
         }
     }
+
+    @Override
+    public String getCategory() {
+        return "Others";
+    }
 }

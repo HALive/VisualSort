@@ -58,4 +58,9 @@ public class HeapSort extends SortingAlgorithm {
             }
         }
     }
+
+    @Override
+    public String getCategory() {
+        return "Others";
+    }
 }

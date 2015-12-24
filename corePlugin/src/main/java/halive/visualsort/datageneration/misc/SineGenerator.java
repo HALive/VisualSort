@@ -3,7 +3,7 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.datageneration;
+package halive.visualsort.datageneration.misc;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
@@ -22,5 +22,10 @@ public class SineGenerator extends DataGenerator {
             double value = amplitude + Math.sin(0.01 * i) * (amplitude - 10);
             entries[i].setValue((int) value);
         }
+    }
+
+    @Override
+    public String getCategory() {
+        return "Misc";
     }
 }

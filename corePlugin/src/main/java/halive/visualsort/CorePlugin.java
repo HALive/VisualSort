@@ -17,6 +17,8 @@ import halive.visualsort.datageneration.RandomDataGenerator;
 import halive.visualsort.datageneration.SawtoothGenerator;
 import halive.visualsort.datageneration.SineGenerator;
 import halive.visualsort.datageneration.TriangleGenerator;
+import halive.visualsort.sortingalgorithms.api.APIParallelSort;
+import halive.visualsort.sortingalgorithms.api.APISort;
 import halive.visualsort.sortingalgorithms.bubblesort.BiDiBubbleSort;
 import halive.visualsort.sortingalgorithms.BiDiSelectionSort;
 import halive.visualsort.sortingalgorithms.BinaryTreeSort;
@@ -44,6 +46,7 @@ import halive.visualsort.sortingalgorithms.quicksort.QuickSortR2;
  *
  * @author HALive
  */
+@SuppressWarnings("unchecked")
 public class CorePlugin implements IVisualSortPlugin {
 
     @Override
@@ -58,7 +61,7 @@ public class CorePlugin implements IVisualSortPlugin {
 
     @Override
     public Class<? extends DataGenerator>[] getDataGeneratorClasses() {
-        Class[] datagens = new Class[]{InvertedTriangleGenerator.class,
+        return new Class[]{InvertedTriangleGenerator.class,
                 LinearAscendingGenerator.class,
                 LinearDescendingGenerator.class,
                 NegativeParabolicGenerator.class,
@@ -67,12 +70,11 @@ public class CorePlugin implements IVisualSortPlugin {
                 SawtoothGenerator.class,
                 SineGenerator.class,
                 TriangleGenerator.class};
-        return datagens;
     }
 
     @Override
     public Class<? extends SortingAlgorithm>[] getSortingAlgorithmClasses() {
-        Class[] algorithms = new Class[]{
+        return new Class[]{
                 QuickSortR1.class,
                 QuickSortR2.class,
                 ParallelQuickSort.class,
@@ -93,7 +95,9 @@ public class CorePlugin implements IVisualSortPlugin {
                 CombSort.class,
                 SlowSort.class,
                 StoogeSort.class,
-                CountingSort.class};
-        return algorithms;
+                CountingSort.class,
+                APISort.class,
+                APIParallelSort.class
+        };
     }
 }

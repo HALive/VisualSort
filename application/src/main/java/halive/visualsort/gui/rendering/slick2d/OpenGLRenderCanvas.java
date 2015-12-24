@@ -22,25 +22,47 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 
+/**
+ * Describes The Open GL Renderer Based on the Slick2D Game Engine
+ */
 public class OpenGLRenderCanvas implements IVisualSortRenderer, Game {
 
+    /**
+     * Stores the Container/Canvas of the Slick Game
+     */
     private CanvasGameContainer canvas;
+    /**
+     * True if the rendere has been Started, False otherwise
+     */
     private boolean started = false;
 
+    /**
+     * Reference to the SortingHandler
+     */
     private SortingHandler handler;
+    /**
+     * Reference to the VisualSortUI
+     */
     private VisualSortUI ui;
 
+    /**
+     * Stores the Positon to Start rendering at
+     */
     private int renderPos;
+    /**
+     * Stores the Amount of values the Renderer Can render At max
+     */
     private int maxRenderable;
 
+    /**
+     * Creates a new Render Canvas
+     *
+     * @param handler The SortingHandler used to receive the data to render
+     * @param ui      the UI Reference
+     */
     public OpenGLRenderCanvas(SortingHandler handler, VisualSortUI ui) {
         this.ui = ui;
         this.handler = handler;
-    }
-
-    @Override
-    public boolean allowResizeWhenRendeing() {
-        return false;
     }
 
     @Override
@@ -54,20 +76,11 @@ public class OpenGLRenderCanvas implements IVisualSortRenderer, Game {
     }
 
     @Override
-    public void setMaxRenderable(int maxRenderable) {
-        this.maxRenderable = maxRenderable;
-    }
-
-    @Override
-    public String getRenderFunctionName() {
-        return null;
-    }
-
-    @Override
     public int getMaxRenderable() {
         return maxRenderable;
     }
 
+    @SuppressWarnings("AccessStaticViaInstance")
     @Override
     public void start() {
         started = true;
@@ -77,7 +90,6 @@ public class OpenGLRenderCanvas implements IVisualSortRenderer, Game {
         } catch (SlickException e) {
             VSLog.logger.log(Level.SEVERE, "Error Launching Slick 2d", e);
             this.ui.slickError(e);
-            return;
         }
     }
 
@@ -93,6 +105,12 @@ public class OpenGLRenderCanvas implements IVisualSortRenderer, Game {
         }, 250);
     }
 
+    /**
+     * Returns the Canvas of the Game / Renderer
+     *
+     * @return see Above
+     * @throws SlickException
+     */
     public Canvas createCanvas() throws SlickException {
         canvas = new CanvasGameContainer(this);
         return canvas;
@@ -119,7 +137,6 @@ public class OpenGLRenderCanvas implements IVisualSortRenderer, Game {
             VSLog.logger.info(String.format("Height: %d Width: %d Max: %d MaxRenderable: %d", height, canvas.getWidth(), max, maxRenderable));
             double heightScale = (double) height / SortingHandler.MAX_HEIGHT_VAL;
             for (int i = renderPos; i < max; i++) {
-                //VSLog.logger.info("Rendering "+i);
                 DataEntry e = handler.getEntries()[i];
                 int value = (int) ((double) e.getValue() * heightScale);
                 g.setColor(new Color(e.getRenderColor().getRGB()));

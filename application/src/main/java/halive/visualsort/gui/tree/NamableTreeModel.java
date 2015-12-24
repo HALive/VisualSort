@@ -14,12 +14,32 @@ import javax.swing.tree.DefaultTreeModel;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Describes the Tree Modell for the Trees used to
+ * Select the DataGenerators/SortingAlgorithms
+ */
+@SuppressWarnings("unchecked")
 public class NamableTreeModel extends DefaultTreeModel {
 
+    /**
+     * Creates a new NamableTreeModel
+     *
+     * @param handler see getNodes
+     * @param ref     see getNodes
+     */
     public NamableTreeModel(PluginHandler handler, GetReference ref) {
         super(getNodes(handler, ref));
     }
 
+    /**
+     * Creates a Tree Structure for a Specific DataSource from
+     * the Plugin Handler(either getSortingAlgorithms
+     * or getDataGenerators)
+     *
+     * @param handler the PluginHandler
+     * @param ref     the MethodReference to either getSortingAlgorithms, getDataGenerators
+     * @return Rootnode Containing the Namables
+     */
     private static DefaultMutableTreeNode getNodes(PluginHandler handler, GetReference ref) {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("VisualSort");
         List<IVisualSortPlugin> plugins = handler.getPlugins();

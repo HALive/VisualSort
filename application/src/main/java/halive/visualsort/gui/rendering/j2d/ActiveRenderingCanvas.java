@@ -12,18 +12,46 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
+/**
+ * Describes A Canvas that Uses Active Rendering, that means the canvas
+ * Autmatically gets redrawn 200 Times every Second
+ */
 public abstract class ActiveRenderingCanvas extends Canvas implements Runnable {
 
+    /**
+     * Stores the Paren Container
+     */
     protected Container parent;
+    /**
+     * Stores a Reference to the RenderThread
+     */
     protected Thread renderThread = new Thread(this, "Rendering Canvas");
 
+    /**
+     * True if the Renderer is Currently rendering
+     */
     private boolean running = true;
+    /**
+     * True if a FPS Monitor should be Drawn
+     */
     private boolean debug = false;
 
+    /**
+     * Stores the Last time the rendering was called.
+     * Used to Calculate the Frames Per second
+     */
     private long lastTime = 0;
 
+    /**
+     * Stores the Current Background Color
+     */
     private Color bgColor = Color.white;
 
+    /**
+     * Creates a new ActiveRenderingCanvas
+     *
+     * @param frame the Parent Component
+     */
     public ActiveRenderingCanvas(Container frame) {
         this.parent = frame;
         renderThread.setDaemon(true);
@@ -35,8 +63,11 @@ public abstract class ActiveRenderingCanvas extends Canvas implements Runnable {
         }
     }
 
+    /**
+     * RenderLoop renders the Canvas this does not have get called by the user.
+     */
     @Override
-    public void run() {
+    public final void run() {
         BufferStrategy buf = this.getBufferStrategy();
         while (running) {
             Graphics g = buf.getDrawGraphics();
@@ -62,6 +93,9 @@ public abstract class ActiveRenderingCanvas extends Canvas implements Runnable {
         }
     }
 
+    /**
+     * Initializes the Renderer
+     */
     public void init() {
         running = true;
         this.createBufferStrategy(2);
@@ -69,13 +103,27 @@ public abstract class ActiveRenderingCanvas extends Canvas implements Runnable {
         lastTime = System.currentTimeMillis();
     }
 
+    /**
+     * Toggles a Shutdown of a Renderer
+     */
     public void toggleShutdown() {
         running = false;
     }
 
+    /**
+     * Enables/Disables the FPS Dispaly
+     *
+     * @param debug true to enable, false to Disable
+     */
     public void setDebug(boolean debug) {
         this.debug = debug;
     }
 
+    /**
+     * This Method is Called to Render the Stage. simmliar to the Paint()
+     * method of a Component
+     *
+     * @param g the Graphics Object to draw With
+     */
     public abstract void draw(Graphics g);
 }

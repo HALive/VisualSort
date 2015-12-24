@@ -12,12 +12,26 @@ import halive.visualsort.gui.rendering.IVisualSortRenderer;
 import java.awt.Container;
 import java.awt.Graphics;
 
+/**
+ * Descibes the Renderer for J2D
+ */
 public class SortingRenderCanvas extends ActiveRenderingCanvas implements IVisualSortRenderer {
 
+    /**
+     * Reference to the SortingHandler
+     */
     private SortingHandler sortingHandler;
+    /**
+     * The Position to Start rendering at
+     */
     private int renderPos = 0;
-    private int maxRenderable;
 
+    /**
+     * Creates A new SortingRenderCanvas
+     *
+     * @param frame   the Parent Component
+     * @param handler the SortingHandler
+     */
     public SortingRenderCanvas(Container frame, SortingHandler handler) {
         super(frame);
         this.sortingHandler = handler;
@@ -43,26 +57,17 @@ public class SortingRenderCanvas extends ActiveRenderingCanvas implements IVisua
     }
 
     @Override
-    public boolean allowResizeWhenRendeing() {
-        return true;
-    }
-
-    @Override
     public boolean isRendering() {
         return this.renderThread.isAlive();
     }
 
+    /**
+     * Sets the Current Render Position
+     *
+     * @param renderPos see above
+     */
     public void setRenderPos(int renderPos) {
         this.renderPos = renderPos;
-    }
-
-    public void setMaxRenderable(int maxRenderable) {
-        this.maxRenderable = maxRenderable;
-    }
-
-    @Override
-    public String getRenderFunctionName() {
-        return "Java2D Rendering";
     }
 
     @Override
@@ -75,10 +80,9 @@ public class SortingRenderCanvas extends ActiveRenderingCanvas implements IVisua
         System.exit(0);
     }
 
-    public int getRenderPos() {
-        return renderPos;
-    }
-
+    /**
+     * Returns the Value the of items teh Renderer Can Render Currently
+     */
     public int getMaxRenderable() {
         return this.getWidth() / sortingHandler.getRenderWidth();
     }

@@ -21,8 +21,6 @@ import java.util.logging.Level;
 
 public class VisualSort {
 
-    public static String APPLICATION_NAME = "VisualSort";
-
     public static int MAX_ENTRIES = 100000;
 
     public static PluginHandler pluginHandler;

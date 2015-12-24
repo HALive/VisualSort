@@ -10,12 +10,27 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+/**
+ * Describes the AboutDialog Class
+ */
 public class AboutDialog extends JDialog {
 
+    /**
+     * The ContentPane of the About Dialog
+     */
     private JPanel contentPane;
+    /**
+     * The Close Button
+     */
     private JButton closeButton;
+    /**
+     * The Textarea displaying the AboutInformation
+     */
     private JTextArea aboutTextArea;
 
+    /**
+     * Creates A new About Dialog
+     */
     public AboutDialog() {
         setContentPane(contentPane);
         setModal(true);
@@ -32,6 +47,10 @@ public class AboutDialog extends JDialog {
                 "Since then i made many improvements and the Tolll is what it is now.");
     }
 
+    /**
+     * Invoked when the ok Button gets clicked.
+     * It Closes the Dialog
+     */
     private void onOK() {
 // add your code here
         dispose();

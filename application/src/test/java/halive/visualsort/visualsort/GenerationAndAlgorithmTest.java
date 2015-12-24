@@ -5,10 +5,10 @@
 
 package halive.visualsort.visualsort;
 
+import halive.visualsort.CorePlugin;
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.datageneration.DataGenerator;
-import halive.visualsort.CorePlugin;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 import halive.visualsort.sortingalgorithms.SlowSort;
 import halive.visualsort.visualsort.util.SortingTestUtils;
@@ -51,12 +51,18 @@ public class GenerationAndAlgorithmTest {
 
     @Test
     public void testGeneratorAndSorter() throws Exception {
+        System.out.println(comb + ": Generating Data");
         comb.a.generateData(entries, DataGeneratorTest.MAX_VALUE);
         int[] v1 = SortingTestUtils.countValues(DataGeneratorTest.MAX_VALUE, entries);
+        System.out.println(comb + ": Validating gernerated Data");
         assertTrue("The Generated data is Invalid.", DataGeneratorTest.isDataValid(entries));
+        System.out.println(comb + ": Sorting");
         comb.b.doSort(entries, handler);
+        System.out.println(comb + ": Validating Sorted Data");
         SortingTestUtils.isSorted(entries, handler);
-        SortingTestUtils.compareCountArrays(v1, SortingTestUtils.countValues(DataGeneratorTest.MAX_VALUE, entries));
+        SortingTestUtils.compareCountArrays(v1,
+                SortingTestUtils.countValues(DataGeneratorTest.MAX_VALUE, entries));
+        System.out.println(comb + ": Test Successful");
     }
 
     @Parameterized.Parameters(name = "{index}: {0}")

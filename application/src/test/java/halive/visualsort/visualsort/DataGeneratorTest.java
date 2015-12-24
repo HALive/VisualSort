@@ -5,9 +5,9 @@
 
 package halive.visualsort.visualsort;
 
+import halive.visualsort.CorePlugin;
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.datageneration.DataGenerator;
-import halive.visualsort.CorePlugin;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,8 +43,10 @@ public class DataGeneratorTest {
 
     @Test
     public void testDataGenerators() throws Exception {
+        System.out.println(dataGen.getName() + " Generating Data");
         dataGen.generateData(dataEntries, MAX_VALUE);
         assertTrue(dataGen.getName() + " Did not generate valid data!", isDataValid(dataEntries));
+        System.out.println("Test Sucessful!");
     }
 
     public static boolean isDataValid(DataEntry[] dataEntries) {

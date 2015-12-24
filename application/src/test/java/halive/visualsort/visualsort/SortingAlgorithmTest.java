@@ -5,11 +5,11 @@
 
 package halive.visualsort.visualsort;
 
+import halive.visualsort.CorePlugin;
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
-import halive.visualsort.datageneration.SineGenerator;
-import halive.visualsort.CorePlugin;
 import halive.visualsort.core.sorting.SortingAlgorithm;
+import halive.visualsort.datageneration.SineGenerator;
 import halive.visualsort.sortingalgorithms.SlowSort;
 import halive.visualsort.visualsort.util.SortingTestUtils;
 import org.junit.Before;
@@ -19,8 +19,6 @@ import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 import java.util.Collection;
-
-import static org.junit.Assert.assertTrue;
 
 /**
  * This test tests if every SortingAlgorithm sorts Properly
@@ -57,11 +55,14 @@ public class SortingAlgorithmTest {
     @Test
     public void testSortingAlgorithms() {
         //Sort the generated Array
-        handler.getCurrentAlgorithm().doSort(dataEntries, handler);
         int[] v1 = SortingTestUtils.countValues(DataGeneratorTest.MAX_VALUE, dataEntries);
+        System.out.println(algo + ": Sorting");
+        handler.getCurrentAlgorithm().doSort(dataEntries, handler);
         //Check if the Array is Sorted
+        System.out.println(algo + ": Validating");
         SortingTestUtils.isSorted(dataEntries, handler);
         SortingTestUtils.compareCountArrays(v1, SortingTestUtils.countValues(DataGeneratorTest.MAX_VALUE, dataEntries));
+        System.out.println(algo + ": Passed!");
     }
 
 

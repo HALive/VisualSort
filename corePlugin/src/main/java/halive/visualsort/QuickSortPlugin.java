@@ -38,7 +38,6 @@ public class QuickSortPlugin implements IVisualSortPlugin {
                 LastElementHeuristic.QuickSortR1Last.class,
                 LastElementHeuristic.QuickSortR2Last.class,
                 LastElementHeuristic.ParallelQuickSortLast.class,
-                RandomElementHeuristic.QuickSortR1Rand.class,
                 RandomElementHeuristic.QuickSortR2Rand.class,
                 RandomElementHeuristic.ParallelQuickSortRand.class
         };

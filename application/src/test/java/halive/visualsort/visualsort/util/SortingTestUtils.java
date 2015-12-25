@@ -5,12 +5,20 @@
 
 package halive.visualsort.visualsort.util;
 
+import halive.visualsort.CorePlugin;
+import halive.visualsort.QuickSortPlugin;
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
+import halive.visualsort.core.plugins.IVisualSortPlugin;
 
 import static org.junit.Assert.assertTrue;
 
 public class SortingTestUtils {
+
+    public static final Class[] pluginsToTest = new Class[]{
+            CorePlugin.class,
+            QuickSortPlugin.class
+    };
 
     public static void isSorted(DataEntry[] dataEntries, SortingHandler handler) {
         for (int i = 0; i < dataEntries.length - 1; i++) {

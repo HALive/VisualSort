@@ -60,7 +60,7 @@ public class CorePlugin implements IVisualSortPlugin {
     }
 
     @Override
-    public Class<? extends DataGenerator>[] getDataGeneratorClasses() {
+    public Class[] getDataGeneratorClasses() {
         return new Class[]{InvertedTriangleGenerator.class,
                 LinearAscendingGenerator.class,
                 LinearDescendingGenerator.class,
@@ -73,11 +73,8 @@ public class CorePlugin implements IVisualSortPlugin {
     }
 
     @Override
-    public Class<? extends SortingAlgorithm>[] getSortingAlgorithmClasses() {
+    public Class[] getSortingAlgorithmClasses() {
         return new Class[]{
-                QuickSortR1.class,
-                QuickSortR2.class,
-                ParallelQuickSort.class,
                 MergeSort.class,
                 BitonicMergeSort.class,
                 HeapSort.class,

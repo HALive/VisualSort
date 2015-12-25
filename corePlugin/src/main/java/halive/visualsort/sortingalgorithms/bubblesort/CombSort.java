@@ -9,6 +9,7 @@ import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 
+import java.awt.Color;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -63,10 +64,14 @@ public class CombSort extends SortingAlgorithm {
     private boolean comb(int step, DataEntry[] d, SortingHandler h) {
         boolean swapped = false;
         for (int i = 0; i < d.length - step; i++) {
+            d[i].setRenderColor(Color.green);
+            d[i + step].setRenderColor(Color.red);
             if (h.compare(d[i].getValue() > d[i + step].getValue())) {
                 h.swap(i, i + step);
                 swapped = true;
             }
+            d[i].setRenderColor(Color.blue);
+            d[i + step].setRenderColor(Color.blue);
         }
         return swapped;
     }

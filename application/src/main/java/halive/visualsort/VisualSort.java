@@ -97,6 +97,7 @@ public class VisualSort {
         pluginHandler = new PluginHandler();
         try {
             pluginHandler.addPlugin(CorePlugin.class);
+            pluginHandler.addPlugin(QuickSortPlugin.class);
         } catch (IllegalAccessException | InstantiationException | Error e) {
             VSLog.logger.log(Level.SEVERE, "Could not load Core Plugin. Aborting", e);
             System.exit(-1);

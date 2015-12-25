@@ -5,9 +5,9 @@
 
 package halive.visualsort.visualsort;
 
-import halive.visualsort.CorePlugin;
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
+import halive.visualsort.core.plugins.IVisualSortPlugin;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 import halive.visualsort.datageneration.misc.SineGenerator;
 import halive.visualsort.sortingalgorithms.slow.SlowSort;
@@ -17,8 +17,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * This test tests if every SortingAlgorithm sorts Properly
@@ -67,7 +68,12 @@ public class SortingAlgorithmTest {
 
 
     @Parameterized.Parameters(name = "{index}: {0}")
-    public static Collection<Class<? extends SortingAlgorithm>> getAlgorithms() {
-        return Arrays.asList(new CorePlugin().getSortingAlgorithmClasses());
+    public static Collection<Class<? extends SortingAlgorithm>> getAlgorithms() throws IllegalAccessException, InstantiationException {
+        ArrayList list = new ArrayList<>();
+        for (Class cl : SortingTestUtils.pluginsToTest) {
+            IVisualSortPlugin plugin = (IVisualSortPlugin) cl.newInstance();
+            Collections.addAll(list, plugin.getSortingAlgorithmClasses());
+        }
+        return list;
     }
 }

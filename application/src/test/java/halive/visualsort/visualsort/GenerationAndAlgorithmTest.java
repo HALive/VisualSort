@@ -5,10 +5,10 @@
 
 package halive.visualsort.visualsort;
 
-import halive.visualsort.CorePlugin;
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.datageneration.DataGenerator;
+import halive.visualsort.core.plugins.IVisualSortPlugin;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 import halive.visualsort.sortingalgorithms.slow.SlowSort;
 import halive.visualsort.visualsort.util.SortingTestUtils;
@@ -69,15 +69,26 @@ public class GenerationAndAlgorithmTest {
     public static Collection<Combination<DataGenerator, SortingAlgorithm>> data()
             throws IllegalAccessException, InstantiationException {
         ArrayList<Combination<DataGenerator, SortingAlgorithm>> combinations = new ArrayList<>();
-        CorePlugin corePlugin = new CorePlugin();
-        for (Class<? extends DataGenerator> c : corePlugin.getDataGeneratorClasses()) {
-            DataGenerator gen = c.newInstance();
-            for (Class<? extends SortingAlgorithm> a : corePlugin.getSortingAlgorithmClasses()) {
-                SortingAlgorithm alg = a.newInstance();
-                Combination<DataGenerator, SortingAlgorithm> combination = new Combination<>(gen, alg);
-                combinations.add(combination);
+        ArrayList<SortingAlgorithm> sortingAlgorithms = new ArrayList<>();
+        ArrayList<DataGenerator> dataGenerators = new ArrayList<>();
+        for (int i = 0; i < SortingTestUtils.pluginsToTest.length; i++) {
+            IVisualSortPlugin plugin = (IVisualSortPlugin) SortingTestUtils.pluginsToTest[i].newInstance();
+            for (Class c : plugin.getDataGeneratorClasses()) {
+                DataGenerator gen = (DataGenerator) c.newInstance();
+                dataGenerators.add(gen);
+            }
+            for (Class a : plugin.getSortingAlgorithmClasses()) {
+                SortingAlgorithm alg = (SortingAlgorithm) a.newInstance();
+                sortingAlgorithms.add(alg);
             }
         }
+        dataGenerators.forEach(dataGenerator -> {
+            sortingAlgorithms.forEach(sortingAlgorithm -> {
+                Combination<DataGenerator, SortingAlgorithm> combination =
+                        new Combination<>(dataGenerator, sortingAlgorithm);
+                combinations.add(combination);
+            });
+        });
         return combinations;
     }
 

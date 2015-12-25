@@ -5,6 +5,10 @@
 
 package halive.visualsort.sortingalgorithms.quicksort.pivot;
 
-public class IQSPivotHeuristic {
+import halive.visualsort.core.DataEntry;
+import halive.visualsort.core.SortingHandler;
 
+public interface IQSPivotHeuristic {
+
+    int getPivotElementPositon(int left, int right, DataEntry[] entries, SortingHandler h);
 }

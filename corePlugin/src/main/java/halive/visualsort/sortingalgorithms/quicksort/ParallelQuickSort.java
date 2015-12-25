@@ -7,6 +7,7 @@ package halive.visualsort.sortingalgorithms.quicksort;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
+import halive.visualsort.sortingalgorithms.quicksort.pivot.QuickSortHeuristic;
 
 import java.awt.Color;
 import java.util.concurrent.Callable;
@@ -16,8 +17,8 @@ public class ParallelQuickSort extends QuickSortR2 {
 
     private ForkJoinPool svc;
 
-    public ParallelQuickSort() {
-        super("Quick Sort Parallel", "");
+    public ParallelQuickSort(QuickSortHeuristic heuristic) {
+        super("Quick Sort Parallel", "", heuristic);
     }
 
     @Override

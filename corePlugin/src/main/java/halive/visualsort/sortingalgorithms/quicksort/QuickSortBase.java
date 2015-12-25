@@ -8,13 +8,20 @@ package halive.visualsort.sortingalgorithms.quicksort;
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.sorting.SortingAlgorithm;
+import halive.visualsort.sortingalgorithms.quicksort.pivot.IQSPivotHeuristic;
+import halive.visualsort.sortingalgorithms.quicksort.pivot.QuickSortHeuristic;
 
 import java.awt.Color;
 
 public abstract class QuickSortBase extends SortingAlgorithm {
 
-    public QuickSortBase(String name, String description) {
+    protected IQSPivotHeuristic pivotHeuristic;
+    protected QuickSortHeuristic heuristic;
+
+    public QuickSortBase(String name, String description, QuickSortHeuristic heuristic) {
         super(name, description);
+        this.pivotHeuristic = heuristic.getHeuristic();
+        this.heuristic = heuristic;
     }
 
     @Override
@@ -35,7 +42,11 @@ public abstract class QuickSortBase extends SortingAlgorithm {
 
     @Override
     public String getCategory() {
-        return "QuickSort";
+        return heuristic.getCategory();
+    }
+
+    protected int getPivotPos(int left, int right, DataEntry[] entries, SortingHandler h) {
+        return pivotHeuristic.getPivotElementPositon(left, right, entries, h);
     }
 
     public abstract int partitionAndGetPivot(int left, int right, DataEntry[] data, SortingHandler c);

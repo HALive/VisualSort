@@ -7,6 +7,7 @@ package halive.visualsort.sortingalgorithms.quicksort;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
+import halive.visualsort.sortingalgorithms.quicksort.pivot.QuickSortHeuristic;
 
 /**
  * Implements Another Version of QuickSOrt. This one Seems better then QuicksortR1
@@ -14,12 +15,12 @@ import halive.visualsort.core.SortingHandler;
  */
 public class QuickSortR2 extends QuickSortBase {
 
-    public QuickSortR2() {
-        super("Quick Sort - Variant 2", " ");
+    public QuickSortR2(QuickSortHeuristic heuristic) {
+        super("Quick Sort - Variant 2", " ", heuristic);
     }
 
-    protected QuickSortR2(String name, String description) {
-        super(name, description);
+    protected QuickSortR2(String name, String description, QuickSortHeuristic heuristic) {
+        super(name, description, heuristic);
     }
 
     @Override

@@ -6,9 +6,8 @@
 package halive.visualsort;
 
 import halive.visualsort.core.plugins.IVisualSortPlugin;
-import halive.visualsort.sortingalgorithms.quicksort.ParallelQuickSort;
-import halive.visualsort.sortingalgorithms.quicksort.QuickSortR1;
-import halive.visualsort.sortingalgorithms.quicksort.QuickSortR2;
+import halive.visualsort.sortingalgorithms.quicksort.heuristics.LastElementHeuristic;
+import halive.visualsort.sortingalgorithms.quicksort.heuristics.RandomElementHeuristic;
 
 /**
  * This Plugin is Loaded Like the Core Plugin and contains all QuickSort based Algorithms
@@ -36,9 +35,12 @@ public class QuickSortPlugin implements IVisualSortPlugin {
     @Override
     public Class[] getSortingAlgorithmClasses() {
         return new Class[]{
-                QuickSortR1.class,
-                QuickSortR2.class,
-                ParallelQuickSort.class
+                LastElementHeuristic.QuickSortR1Last.class,
+                LastElementHeuristic.QuickSortR2Last.class,
+                LastElementHeuristic.ParallelQuickSortLast.class,
+                RandomElementHeuristic.QuickSortR1Rand.class,
+                RandomElementHeuristic.QuickSortR2Rand.class,
+                RandomElementHeuristic.ParallelQuickSortRand.class
         };
     }
 }

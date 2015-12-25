@@ -22,4 +22,9 @@ public class InsertionSort extends SortingAlgorithm {
     public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
         InsertionSortUtils.insertionSort(data, sortingHandler, 0, 1);
     }
+
+    @Override
+    public String getCategory() {
+        return "InsertionSort";
+    }
 }

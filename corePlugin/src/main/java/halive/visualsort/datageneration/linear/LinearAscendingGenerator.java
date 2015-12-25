@@ -3,7 +3,7 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.datageneration;
+package halive.visualsort.datageneration.linear;
 
 import halive.visualsort.core.datageneration.FunctionGenerator;
 
@@ -16,5 +16,10 @@ public class LinearAscendingGenerator extends FunctionGenerator {
     @Override
     public double func(int x, int len, int max) {
         return x * max / len;
+    }
+
+    @Override
+    public String getCategory() {
+        return "Linear";
     }
 }

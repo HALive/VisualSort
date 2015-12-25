@@ -3,7 +3,7 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.datageneration;
+package halive.visualsort.datageneration.misc;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
@@ -24,5 +24,10 @@ public class SawtoothGenerator extends DataGenerator {
             entries[i].setValue((int) lastPos);
             lastPos = (i % sawLength) * stepHeight;
         }
+    }
+
+    @Override
+    public String getCategory() {
+        return "Misc";
     }
 }

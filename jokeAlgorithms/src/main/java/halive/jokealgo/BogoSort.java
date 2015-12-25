@@ -39,4 +39,9 @@ public class BogoSort extends SortingAlgorithm {
         }
         return true;
     }
+
+    @Override
+    public String getCategory() {
+        return null;
+    }
 }

@@ -53,11 +53,6 @@ public abstract class SortingAlgorithm implements INamable {
     }
 
     @Override
-    public void addToName(String s) {
-        name += " (" + s + ")";
-    }
-
-    @Override
     public String toString() {
         return getName();
     }

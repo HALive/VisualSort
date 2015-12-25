@@ -8,26 +8,28 @@ package halive.visualsort;
 import halive.visualsort.core.datageneration.DataGenerator;
 import halive.visualsort.core.plugins.IVisualSortPlugin;
 import halive.visualsort.core.sorting.SortingAlgorithm;
-import halive.visualsort.datageneration.InvertedTriangleGenerator;
-import halive.visualsort.datageneration.LinearAscendingGenerator;
-import halive.visualsort.datageneration.LinearDescendingGenerator;
-import halive.visualsort.datageneration.NegativeParabolicGenerator;
-import halive.visualsort.datageneration.PositiveParabolicGenerator;
-import halive.visualsort.datageneration.RandomDataGenerator;
-import halive.visualsort.datageneration.SawtoothGenerator;
-import halive.visualsort.datageneration.SineGenerator;
-import halive.visualsort.datageneration.TriangleGenerator;
+import halive.visualsort.datageneration.triangle.InvertedTriangleGenerator;
+import halive.visualsort.datageneration.linear.LinearAscendingGenerator;
+import halive.visualsort.datageneration.linear.LinearDescendingGenerator;
+import halive.visualsort.datageneration.parabola.NegativeParabolicGenerator;
+import halive.visualsort.datageneration.parabola.PositiveParabolicGenerator;
+import halive.visualsort.datageneration.random.RandomDataGenerator;
+import halive.visualsort.datageneration.misc.SawtoothGenerator;
+import halive.visualsort.datageneration.misc.SineGenerator;
+import halive.visualsort.datageneration.triangle.TriangleGenerator;
+import halive.visualsort.sortingalgorithms.api.APIParallelSort;
+import halive.visualsort.sortingalgorithms.api.APISort;
 import halive.visualsort.sortingalgorithms.bubblesort.BiDiBubbleSort;
-import halive.visualsort.sortingalgorithms.BiDiSelectionSort;
-import halive.visualsort.sortingalgorithms.BinaryTreeSort;
+import halive.visualsort.sortingalgorithms.selectionsort.BiDiSelectionSort;
+import halive.visualsort.sortingalgorithms.others.BinaryTreeSort;
 import halive.visualsort.sortingalgorithms.bubblesort.BubbleSort;
-import halive.visualsort.sortingalgorithms.CountingSort;
-import halive.visualsort.sortingalgorithms.GnomeSort;
-import halive.visualsort.sortingalgorithms.HeapSort;
-import halive.visualsort.sortingalgorithms.OddEvenSort;
-import halive.visualsort.sortingalgorithms.SelectionSort;
-import halive.visualsort.sortingalgorithms.SlowSort;
-import halive.visualsort.sortingalgorithms.StoogeSort;
+import halive.visualsort.sortingalgorithms.others.CountingSort;
+import halive.visualsort.sortingalgorithms.others.GnomeSort;
+import halive.visualsort.sortingalgorithms.others.HeapSort;
+import halive.visualsort.sortingalgorithms.others.OddEvenSort;
+import halive.visualsort.sortingalgorithms.selectionsort.SelectionSort;
+import halive.visualsort.sortingalgorithms.slow.SlowSort;
+import halive.visualsort.sortingalgorithms.slow.StoogeSort;
 import halive.visualsort.sortingalgorithms.bubblesort.CombSort;
 import halive.visualsort.sortingalgorithms.insertion.BinaryInsertionSort;
 import halive.visualsort.sortingalgorithms.insertion.InsertionSort;
@@ -44,6 +46,7 @@ import halive.visualsort.sortingalgorithms.quicksort.QuickSortR2;
  *
  * @author HALive
  */
+@SuppressWarnings("unchecked")
 public class CorePlugin implements IVisualSortPlugin {
 
     @Override
@@ -58,7 +61,7 @@ public class CorePlugin implements IVisualSortPlugin {
 
     @Override
     public Class<? extends DataGenerator>[] getDataGeneratorClasses() {
-        Class[] datagens = new Class[]{InvertedTriangleGenerator.class,
+        return new Class[]{InvertedTriangleGenerator.class,
                 LinearAscendingGenerator.class,
                 LinearDescendingGenerator.class,
                 NegativeParabolicGenerator.class,
@@ -67,12 +70,11 @@ public class CorePlugin implements IVisualSortPlugin {
                 SawtoothGenerator.class,
                 SineGenerator.class,
                 TriangleGenerator.class};
-        return datagens;
     }
 
     @Override
     public Class<? extends SortingAlgorithm>[] getSortingAlgorithmClasses() {
-        Class[] algorithms = new Class[]{
+        return new Class[]{
                 QuickSortR1.class,
                 QuickSortR2.class,
                 ParallelQuickSort.class,
@@ -93,7 +95,9 @@ public class CorePlugin implements IVisualSortPlugin {
                 CombSort.class,
                 SlowSort.class,
                 StoogeSort.class,
-                CountingSort.class};
-        return algorithms;
+                CountingSort.class,
+                APISort.class,
+                APIParallelSort.class
+        };
     }
 }

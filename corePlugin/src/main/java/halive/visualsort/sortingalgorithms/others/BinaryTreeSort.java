@@ -3,7 +3,7 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.sortingalgorithms;
+package halive.visualsort.sortingalgorithms.others;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
@@ -39,6 +39,11 @@ public class BinaryTreeSort extends SortingAlgorithm {
             data[i].setRenderColor(Color.red);
             sortingHandler.incrementSwapsAndDelay();
         }
+    }
+
+    @Override
+    public String getCategory() {
+        return "Others";
     }
 
     public static class TreeNode {

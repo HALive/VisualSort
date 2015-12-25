@@ -56,4 +56,9 @@ public class BinaryInsertionSort extends SortingAlgorithm {
         }
         return -1;
     }
+
+    @Override
+    public String getCategory() {
+        return "InsertionSort";
+    }
 }

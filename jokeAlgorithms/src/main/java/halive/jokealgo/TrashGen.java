@@ -20,4 +20,9 @@ public class TrashGen extends DataGenerator {
             entries[i].setValue((i % 2) * maxvalue);
         }
     }
+
+    @Override
+    public String getCategory() {
+        return null;
+    }
 }

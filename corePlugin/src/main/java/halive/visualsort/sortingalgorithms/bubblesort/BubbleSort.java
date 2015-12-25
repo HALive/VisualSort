@@ -31,4 +31,9 @@ public class BubbleSort extends SortingAlgorithm {
             data[data.length - (1 + i)].setRenderColor(Color.red);
         }
     }
+
+    @Override
+    public String getCategory() {
+        return "BubbleSort";
+    }
 }

@@ -3,7 +3,7 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.sortingalgorithms;
+package halive.visualsort.sortingalgorithms.slow;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
@@ -40,5 +40,10 @@ public class StoogeSort extends SortingAlgorithm {
             //Sort the first two thirds
             stoogesort(d, h, i, j - k);
         }
+    }
+
+    @Override
+    public String getCategory() {
+        return "Slow Algorithms";
     }
 }

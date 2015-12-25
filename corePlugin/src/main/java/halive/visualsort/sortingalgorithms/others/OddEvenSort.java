@@ -3,7 +3,7 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.sortingalgorithms;
+package halive.visualsort.sortingalgorithms.others;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
@@ -47,5 +47,10 @@ public class OddEvenSort extends SortingAlgorithm {
         for (int i = 0; i < data.length; i++) {
             data[i].setRenderColor(Color.darkGray);
         }
+    }
+
+    @Override
+    public String getCategory() {
+        return "Others";
     }
 }

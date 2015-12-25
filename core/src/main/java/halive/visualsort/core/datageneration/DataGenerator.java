@@ -37,11 +37,6 @@ public abstract class DataGenerator implements INamable {
         return name;
     }
 
-    @Override
-    public void addToName(String s) {
-        name += " (" + s + ")";
-    }
-
     public String getDescription() {
         return description;
     }

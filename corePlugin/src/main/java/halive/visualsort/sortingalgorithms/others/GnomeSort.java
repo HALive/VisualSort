@@ -3,7 +3,7 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.sortingalgorithms;
+package halive.visualsort.sortingalgorithms.others;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
@@ -35,5 +35,10 @@ public class GnomeSort extends SortingAlgorithm {
                 data[pos].setRenderColor(Color.blue);
             }
         } while (h.compare(pos < data.length - 1));
+    }
+
+    @Override
+    public String getCategory() {
+        return "Others";
     }
 }

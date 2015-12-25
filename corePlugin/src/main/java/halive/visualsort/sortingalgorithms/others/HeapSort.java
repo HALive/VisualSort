@@ -3,7 +3,7 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.sortingalgorithms;
+package halive.visualsort.sortingalgorithms.others;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
@@ -57,5 +57,10 @@ public class HeapSort extends SortingAlgorithm {
                 createHeapK(data, middle, size, a);
             }
         }
+    }
+
+    @Override
+    public String getCategory() {
+        return "Others";
     }
 }

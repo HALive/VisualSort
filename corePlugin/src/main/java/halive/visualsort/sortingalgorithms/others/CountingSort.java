@@ -56,6 +56,11 @@ public class CountingSort extends SortingAlgorithm {
     }
 
     @Override
+    public boolean allowExport() {
+        return false;
+    }
+
+    @Override
     public String getCategory() {
         return "Others";
     }

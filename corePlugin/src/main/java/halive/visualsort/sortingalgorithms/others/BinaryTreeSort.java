@@ -42,6 +42,11 @@ public class BinaryTreeSort extends SortingAlgorithm {
     }
 
     @Override
+    public boolean allowExport() {
+        return false;
+    }
+
+    @Override
     public String getCategory() {
         return "Others";
     }

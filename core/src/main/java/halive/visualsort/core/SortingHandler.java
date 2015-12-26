@@ -22,6 +22,7 @@ import java.util.TimerTask;
  * <p>
  * This class can be used In testing mode when the given gui is null.
  */
+@SuppressWarnings("FieldCanBeLocal")
 public class SortingHandler implements Runnable {
 
     private static final int TIMER_INTERVAL = 20;

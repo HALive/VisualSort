@@ -6,13 +6,13 @@
 package halive.visualsort.gui;
 
 import halive.visualsort.VisualSort;
-import halive.visualsort.core.util.Configuration;
-import halive.visualsort.core.interfaces.IVisualSortUI;
 import halive.visualsort.core.SortingHandler;
-import halive.visualsort.core.util.VSLog;
 import halive.visualsort.core.datageneration.DataGenerator;
+import halive.visualsort.core.interfaces.IVisualSortUI;
 import halive.visualsort.core.plugins.PluginHandler;
 import halive.visualsort.core.sorting.SortingAlgorithm;
+import halive.visualsort.core.util.Configuration;
+import halive.visualsort.core.util.VSLog;
 import halive.visualsort.gui.rendering.IVisualSortRenderer;
 import halive.visualsort.gui.rendering.j2d.SortingRenderCanvas;
 import halive.visualsort.gui.rendering.slick2d.OpenGLRenderCanvas;
@@ -21,6 +21,7 @@ import halive.visualsort.gui.tree.NamableTreeModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -36,6 +37,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.Adjustable;
@@ -53,6 +55,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.logging.Level;
 
 /**
@@ -187,6 +190,49 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
             return;
         }
         //</editor-fold>
+
+        //<editor-fold desc="Check if the Visualisation Export is Possible">
+        boolean visualize = this.saveVisualisationCheckbox.isSelected();
+
+        if (visualize && !((SortingAlgorithm) algorithm.getUserObject()).allowExport()) {
+            int option = JOptionPane.showOptionDialog(this, "The Selected Sorting algorithm cannot get exported.\n" +
+                            "Do you want to continue witout exporting?", "Warning!",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE, null, null, null);
+            if (option == JOptionPane.NO_OPTION) {
+                displayStatus("Canceled...");
+                return;
+            } else {
+                visualize = false;
+            }
+        }
+        //</editor-fold>
+
+        //<editor-fold desc="Choose the output File Destination">
+        File exportFile = null;
+        if (visualize) {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setFileFilter(new FileFilter() {
+                @Override
+                public boolean accept(File f) {
+                    return f.isDirectory() || f.getName().toLowerCase().endsWith(".png");
+                }
+
+                @Override
+                public String getDescription() {
+                    return "Portable Network Graphics File (PNG)";
+                }
+            });
+            chooser.setDialogTitle("Where should the exported visualisation get stored?");
+            if (chooser.showDialog(this, "Select") == JFileChooser.APPROVE_OPTION) {
+                exportFile = chooser.getSelectedFile();
+            } else {
+                displayStatus("Canceled...");
+                return;
+            }
+        }
+        //</editor-fold>
+
         //<editor-fold desc="Instantiate the Renderer">
         if (renderer == null) {
             if (!this.useOpenGLCheckBox.isSelected()) {

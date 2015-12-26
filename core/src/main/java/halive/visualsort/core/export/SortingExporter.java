@@ -15,6 +15,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class SortingExporter {
@@ -26,7 +28,7 @@ public class SortingExporter {
     public SortingExporter(SortingHandler handler, File outputFile) {
         this.handler = handler;
         this.outputFile = outputFile;
-        this.steps = new ArrayList<>();
+        this.steps = Collections.synchronizedList(new ArrayList<>());
     }
 
     public void addStep(DataEntry[] entries) {
@@ -46,7 +48,9 @@ public class SortingExporter {
         for (int i = 0; i < steps.size(); i++) {
             handler.getGui().displayStatus("Rendering Step " + (i + 1) + "/" + steps.size());
             SortingStep step = steps.get(i);
-            step.render(g, handler, i);
+            if (step != null) {
+                step.render(g, handler, i);
+            }
         }
         //Write The Image
         try {

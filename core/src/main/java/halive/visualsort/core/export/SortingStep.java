@@ -37,11 +37,17 @@ public class SortingStep {
     }
 
     public Color convertValueToColor(short val, SortingHandler handler) {
-        int colorValue = (val * getColorMultiplier(handler.getMaxValue())) & 0xFFFFFF;
-        return new Color(colorValue);
-    }
-
-    private int getColorMultiplier(int maxValue) {
-        return 0xFFFFFF / maxValue;
+        int r = 0, g = 0, b = 0;
+        int cv = (short) (val * (handler.getMaxValue() / 765.0D));
+        r = cv & 0xFF;
+        if (cv > 255) {
+            cv = cv - 255;
+            g = cv & 0xFF;
+            if (cv > 255) {
+                cv = cv - 255;
+                b = cv & 0xFF;
+            }
+        }
+        return new Color(r, g, b);
     }
 }

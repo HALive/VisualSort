@@ -3,7 +3,7 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.core;
+package halive.visualsort.core.util;
 
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;

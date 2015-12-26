@@ -7,7 +7,7 @@ package halive.visualsort.gui.rendering.slick2d;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
-import halive.visualsort.core.VSLog;
+import halive.visualsort.core.util.VSLog;
 import halive.visualsort.gui.VisualSortUI;
 import halive.visualsort.gui.rendering.IVisualSortRenderer;
 import org.newdawn.slick.CanvasGameContainer;

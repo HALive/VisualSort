@@ -6,7 +6,7 @@
 package halive.visualsort.core.sorting;
 
 import halive.visualsort.core.DataEntry;
-import halive.visualsort.core.INamable;
+import halive.visualsort.core.interfaces.INamable;
 import halive.visualsort.core.SortingHandler;
 
 /**
@@ -50,6 +50,15 @@ public abstract class SortingAlgorithm implements INamable {
 
     public String getName() {
         return name;
+    }
+
+    /**
+     * Returns true if the algorithms visualisation can be Exported
+     *
+     * @return see above
+     */
+    public boolean allowExport() {
+        return true;
     }
 
     @Override

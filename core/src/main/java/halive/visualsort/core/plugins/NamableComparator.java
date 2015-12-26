@@ -5,7 +5,7 @@
 
 package halive.visualsort.core.plugins;
 
-import halive.visualsort.core.INamable;
+import halive.visualsort.core.interfaces.INamable;
 
 import java.util.Comparator;
 

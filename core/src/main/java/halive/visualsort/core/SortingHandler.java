@@ -6,6 +6,8 @@
 package halive.visualsort.core;
 
 import halive.visualsort.core.datageneration.DataGenerator;
+import halive.visualsort.core.export.SortingExporter;
+import halive.visualsort.core.interfaces.IVisualSortUI;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 
 import java.text.DateFormat;
@@ -21,11 +23,11 @@ import java.util.TimerTask;
  * <p>
  * This class can be used In testing mode when the given gui is null.
  */
+@SuppressWarnings("FieldCanBeLocal")
 public class SortingHandler implements Runnable {
 
-    private static final int TIMER_INTERVAL = 20;
     public static final int MAX_HEIGHT_VAL = 1000;
-
+    private static final int TIMER_INTERVAL = 20;
     private Timer statusUpdater;
 
     private long swaps = 0;
@@ -52,6 +54,9 @@ public class SortingHandler implements Runnable {
     private IVisualSortUI gui;
     private int amtEntries;
     private int maxValue = SortingHandler.MAX_HEIGHT_VAL;
+
+    private SortingExporter exporter;
+    private boolean export = false;
 
     public SortingHandler(IVisualSortUI ui) {
         this.gui = ui;
@@ -87,9 +92,15 @@ public class SortingHandler implements Runnable {
         statusUpdater.schedule(new StatusUpdater(this, gui), 0, TIMER_INTERVAL);
         gui.displayStatus("Sorting");
 
+        logStep();
         currentAlgorithm.doSort(entries, this);
 
         statusUpdater.cancel();
+
+        if (export) {
+            exporter.export();
+        }
+
         gui.displayStatus("Done");
         this.manualDataUptdate();
         gui.getStartButton().setEnabled(true);
@@ -98,6 +109,14 @@ public class SortingHandler implements Runnable {
 
         currentAlgorithm = null;
         dataGenerator = null;
+        export = false;
+        exporter = null;
+    }
+
+    public void logStep() {
+        if (export) {
+            exporter.addStep(entries);
+        }
     }
 
     /**
@@ -157,17 +176,8 @@ public class SortingHandler implements Runnable {
         return entries;
     }
 
-    public void setRenderWidth(int renderWidth) {
-        this.renderWidth = renderWidth;
-        if (entries != null) {
-            for (int i = 0; i < entries.length; i++) {
-                entries[i].setWidth(renderWidth);
-            }
-        }
-    }
-
-    public void setDataGenerator(DataGenerator dataGenerator) {
-        this.dataGenerator = dataGenerator;
+    public void setEntries(DataEntry[] entries) {
+        this.entries = entries;
     }
 
     public void setSortingAlgorithm(SortingAlgorithm currentAlgorithm) {
@@ -184,10 +194,6 @@ public class SortingHandler implements Runnable {
 
     public void setDelayOnComp(boolean delayOnComp) {
         this.delayOnComp = delayOnComp;
-    }
-
-    public void setDelay(int delay) {
-        this.delay = delay;
     }
 
     public void setDelayOnSwap(boolean delayOnSwap) {
@@ -210,12 +216,21 @@ public class SortingHandler implements Runnable {
         return renderWidth;
     }
 
-    public void setAmtEntries(int amtEntries) {
-        this.amtEntries = amtEntries;
+    public void setRenderWidth(int renderWidth) {
+        this.renderWidth = renderWidth;
+        if (entries != null) {
+            for (int i = 0; i < entries.length; i++) {
+                entries[i].setWidth(renderWidth);
+            }
+        }
     }
 
     public int getAmtEntries() {
         return amtEntries;
+    }
+
+    public void setAmtEntries(int amtEntries) {
+        this.amtEntries = amtEntries;
     }
 
     public void clearPause() {
@@ -233,6 +248,7 @@ public class SortingHandler implements Runnable {
 
     public void incrementSwapsAndDelay() {
         swaps++;
+        logStep();
         if (delayOnSwap) {
             try {
                 Thread.sleep(delay);
@@ -252,8 +268,8 @@ public class SortingHandler implements Runnable {
         return dataGenerator;
     }
 
-    public void setEntries(DataEntry[] entries) {
-        this.entries = entries;
+    public void setDataGenerator(DataGenerator dataGenerator) {
+        this.dataGenerator = dataGenerator;
     }
 
     public int getMaxValue() {
@@ -262,6 +278,23 @@ public class SortingHandler implements Runnable {
 
     public int getDelay() {
         return delay;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
+    public SortingExporter getSortingExporter() {
+        return exporter;
+    }
+
+    public void setSortingExporter(SortingExporter exporter) {
+        export = true;
+        this.exporter = exporter;
+    }
+
+    public IVisualSortUI getGui() {
+        return gui;
     }
 
     private static class StatusUpdater extends TimerTask {

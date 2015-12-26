@@ -6,7 +6,7 @@
 package halive.visualsort.core.datageneration;
 
 import halive.visualsort.core.DataEntry;
-import halive.visualsort.core.INamable;
+import halive.visualsort.core.interfaces.INamable;
 
 /**
  * This Class Describes a Abstract Class thats used to Generate data that can be sorted using different

@@ -7,8 +7,8 @@ package halive.visualsort;
 
 import halive.nativeloader.NativeLoader;
 import halive.nativeloader.NativeLoaderUtils;
-import halive.visualsort.core.Configuration;
-import halive.visualsort.core.VSLog;
+import halive.visualsort.core.util.Configuration;
+import halive.visualsort.core.util.VSLog;
 import halive.visualsort.core.plugins.PluginHandler;
 import halive.visualsort.gui.VisualSortUI;
 
@@ -41,7 +41,7 @@ public class VisualSort {
     private static void launchApplication(boolean force, Configuration cfg, PluginHandler handler) {
         final boolean finalForce = force;
         SwingUtilities.invokeLater(() -> {
-            VisualSortUI ui = new VisualSortUI(handler);
+            VisualSortUI ui = new VisualSortUI(handler, cfg);
             ui.setVisible(true);
             if (finalForce) {
                 ui.forceJavaDRendering();

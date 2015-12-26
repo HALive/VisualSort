@@ -41,7 +41,7 @@ public class VisualSort {
     private static void launchApplication(boolean force, Configuration cfg, PluginHandler handler) {
         final boolean finalForce = force;
         SwingUtilities.invokeLater(() -> {
-            VisualSortUI ui = new VisualSortUI(handler);
+            VisualSortUI ui = new VisualSortUI(handler, cfg);
             ui.setVisible(true);
             if (finalForce) {
                 ui.forceJavaDRendering();

@@ -13,11 +13,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class Configuration {
 
     private int maxValues = 10000;
     private boolean loadOpenGL = true;
     private boolean allowExternalPlugins = true;
+    private boolean allowVisualisationExport = true;
 
     public boolean isAllowExternalPlugins() {
         return allowExternalPlugins;
@@ -29,6 +31,10 @@ public class Configuration {
 
     public int getMaxValues() {
         return maxValues;
+    }
+
+    public boolean isAllowVisualisationExport() {
+        return allowVisualisationExport;
     }
 
     public static Configuration loadFormFile(File f) {

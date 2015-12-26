@@ -6,6 +6,7 @@
 package halive.visualsort.gui;
 
 import halive.visualsort.VisualSort;
+import halive.visualsort.core.Configuration;
 import halive.visualsort.core.IVisualSortUI;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.VSLog;
@@ -89,6 +90,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
     private JSpinner entrySpinner;
     private JSpinner barWidthSpinner;
     private JCheckBox useOpenGLCheckBox;
+    private JCheckBox saveVisualisationCheckbox;
     private JButton startButton;
     private JSpinner delayMSSpinner;
     private JCheckBox applyDelayOnCompCheckBox;
@@ -109,7 +111,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
      *
      * @param handler the PluginHandler Storing All Plugins with their DataGenerators and SortingALgortihms
      */
-    public VisualSortUI(PluginHandler handler) {
+    public VisualSortUI(PluginHandler handler, Configuration config) {
         sortingHandler = new SortingHandler(this);
         initComponents();
         algorithmSelector.setModel(new NamableTreeModel(handler, handler::getSortingAlgorithms));
@@ -121,6 +123,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         Dimension defSize = new Dimension(700, 700);
         this.setSize(defSize);
         this.setMinimumSize(defSize);
+        this.saveVisualisationCheckbox.setEnabled(config.isAllowVisualisationExport());
     }
 
     /**
@@ -371,6 +374,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         JLabel barWidthLabel = new JLabel();
         barWidthSpinner = new JSpinner();
         useOpenGLCheckBox = new JCheckBox();
+        saveVisualisationCheckbox = new JCheckBox();
         startButton = new JButton();
         JPanel spacer2 = new JPanel(null);
         JLabel delayLabel = new JLabel();
@@ -395,6 +399,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         renderPanel = new JPanel();
         fovScrollBar = new JScrollBar();
         //</editor-fold>
+
         //<editor-fold desc="Basic UI Initialisation">
         setTitle("VisualSort");
         addWindowListener(new WindowAdapter() {
@@ -437,6 +442,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         Container contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout(10, 10));
         //</editor-fold>
+
         //<editor-fold desc="MenuBar Initialisation">
         fileMenu.setText("File");
 
@@ -454,6 +460,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
 
         setJMenuBar(uiMenuBar);
         //</editor-fold>
+
         //<editor-fold desc="Initialize the OptionPanel">
         optionPanel.setPreferredSize(new Dimension(330, 600));
         optionPanel.setMinimumSize(new Dimension(330, 600));
@@ -466,6 +473,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
                 new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
                         0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
         //</editor-fold>
+
         //<editor-fold desc="Algorithm and DataGeneraor Selection Label Initialisation">
         algoLabel.setText("Select Algorithm");
         optionPanel.add(algoLabel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
@@ -491,6 +499,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
         //</editor-fold>
+
         //<editor-fold desc="Initialize Entry Selection Spinner and Label">
         amtEntriesLabel.setText("Amount of Entries");
         optionPanel.add(amtEntriesLabel, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
@@ -503,6 +512,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
         //</editor-fold>
+
         //<editor-fold desc="Initialize BarWidth Label and Spinner">
         barWidthLabel.setText("Bar width (px)");
         optionPanel.add(barWidthLabel, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
@@ -515,12 +525,21 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
         //</editor-fold>
+
         //<editor-fold desc="Initialize USe OGL Checkbox">
         useOpenGLCheckBox.setText("Use OpenGL");
-        optionPanel.add(useOpenGLCheckBox, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0,
+        optionPanel.add(useOpenGLCheckBox, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 0), 0, 0));
         //</editor-fold>
+
+        //<editor-fold desc="Initialize the save Visualisation Checkbox">
+        saveVisualisationCheckbox.setText("Save Visualisation");
+        optionPanel.add(saveVisualisationCheckbox, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
+        //</editor-fold>
+
         //<editor-fold desc="Initialize StartButton">
         startButton.setText("Start Sorting");
         startButton.setPreferredSize(new Dimension(95, 56));

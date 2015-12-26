@@ -52,6 +52,15 @@ public abstract class SortingAlgorithm implements INamable {
         return name;
     }
 
+    /**
+     * Returns true if the algorithms visualisation can be Exported
+     *
+     * @return see above
+     */
+    public boolean allowExport() {
+        return true;
+    }
+
     @Override
     public String toString() {
         return getName();

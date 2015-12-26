@@ -8,6 +8,7 @@ package halive.visualsort.gui;
 import halive.visualsort.VisualSort;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.datageneration.DataGenerator;
+import halive.visualsort.core.export.SortingExporter;
 import halive.visualsort.core.interfaces.IVisualSortUI;
 import halive.visualsort.core.plugins.PluginHandler;
 import halive.visualsort.core.sorting.SortingAlgorithm;
@@ -272,6 +273,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         //<editor-fold desc="Initialize the SortingHandler">
         sortingHandler.setSortingAlgorithm((SortingAlgorithm) algorithm.getUserObject());
         sortingHandler.setDataGenerator((DataGenerator) dataGen.getUserObject());
+        sortingHandler.setSortingExporter(new SortingExporter(sortingHandler, exportFile));
         boolean delayOnSwap = applyDelayOnSwapCheckBox.isSelected();
         boolean delayOnComp = applyDelayOnCompCheckBox.isSelected();
         sortingHandler.setDelayOnComp(delayOnComp);
@@ -800,7 +802,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
      */
     public void enableAlgorithmSelection(boolean b) {
         JComponent[] c = new JComponent[]{algorithmSelector, dataGeneratorSelector, entrySpinner,
-                barWidthSpinner};
+                barWidthSpinner, saveVisualisationCheckbox};
         this.setStateOfJComponents(c, b);
     }
 

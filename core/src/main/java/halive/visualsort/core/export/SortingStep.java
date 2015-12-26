@@ -10,11 +10,9 @@ import halive.visualsort.core.DataEntry;
 public class SortingStep {
 
     private short[] values;
-    private int position;
 
-    public SortingStep(DataEntry[] entries, int pos) {
+    public SortingStep(DataEntry[] entries) {
         this.values = new short[entries.length];
-        this.position = pos;
         for (int i = 0; i < entries.length; i++) {
             values[i] = (short) entries[i].getValue();
         }

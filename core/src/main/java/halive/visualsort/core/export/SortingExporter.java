@@ -5,6 +5,7 @@
 
 package halive.visualsort.core.export;
 
+import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 
 import java.io.File;
@@ -21,5 +22,13 @@ public class SortingExporter {
         this.handler = handler;
         this.outputFile = outputFile;
         this.steps = new ArrayList<>();
+    }
+
+    public void addStep(DataEntry[] entries) {
+        steps.add(new SortingStep(entries));
+    }
+
+    public void export() {
+
     }
 }

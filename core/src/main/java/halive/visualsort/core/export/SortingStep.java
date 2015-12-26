@@ -37,17 +37,6 @@ public class SortingStep {
     }
 
     public Color convertValueToColor(short val, SortingHandler handler) {
-        int r = 0, g = 0, b = 0;
-        int cv = (short) (val * (handler.getMaxValue() / 765.0D));
-        r = cv & 0xFF;
-        if (cv > 255) {
-            cv = cv - 255;
-            g = cv & 0xFF;
-            if (cv > 255) {
-                cv = cv - 255;
-                b = cv & 0xFF;
-            }
-        }
-        return new Color(r, g, b);
+        return Color.getHSBColor(val / (float) handler.getMaxValue(), 1.0F, 1.0F);
     }
 }

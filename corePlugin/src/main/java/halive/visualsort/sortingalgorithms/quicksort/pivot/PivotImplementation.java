@@ -18,4 +18,9 @@ class PivotImplementation {
         int len = right - left;
         return (int) (left + (Math.random() * (len + 1)));
     }
+
+    public static int getMedianOfThreePivot(int i, int i1, DataEntry[] dataEntries, SortingHandler handler) {
+        //TODO Implement Median of 3 Heuristic
+        return getLastElementPivot(i, i1, dataEntries, handler);
+    }
 }

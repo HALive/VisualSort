@@ -7,7 +7,8 @@ package halive.visualsort.sortingalgorithms.quicksort.pivot;
 
 public enum QuickSortHeuristic {
     LAST_ELEMENT("Last Element", PivotImplementation::getLastElementPivot),
-    RANDOM_ELEMENT("Random Element", PivotImplementation::getRandomPivot);
+    RANDOM_ELEMENT("Random Element", PivotImplementation::getRandomPivot),
+    MEDIAN_OF_THREE("Median of three", PivotImplementation::getMedianOfThreePivot);
 
     private String category;
     private IQSPivotHeuristic heuristic;

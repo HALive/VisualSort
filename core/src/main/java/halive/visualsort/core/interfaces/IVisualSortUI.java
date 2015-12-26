@@ -3,7 +3,7 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.core;
+package halive.visualsort.core.interfaces;
 
 import javax.swing.JButton;
 

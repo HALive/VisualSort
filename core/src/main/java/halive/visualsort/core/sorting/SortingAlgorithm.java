@@ -6,7 +6,7 @@
 package halive.visualsort.core.sorting;
 
 import halive.visualsort.core.DataEntry;
-import halive.visualsort.core.INamable;
+import halive.visualsort.core.interfaces.INamable;
 import halive.visualsort.core.SortingHandler;
 
 /**

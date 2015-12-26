@@ -6,6 +6,7 @@
 package halive.visualsort.core;
 
 import halive.visualsort.core.datageneration.DataGenerator;
+import halive.visualsort.core.interfaces.IVisualSortUI;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 
 import java.text.DateFormat;

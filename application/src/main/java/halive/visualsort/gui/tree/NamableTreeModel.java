@@ -5,7 +5,7 @@
 
 package halive.visualsort.gui.tree;
 
-import halive.visualsort.core.INamable;
+import halive.visualsort.core.interfaces.INamable;
 import halive.visualsort.core.plugins.IVisualSortPlugin;
 import halive.visualsort.core.plugins.PluginHandler;
 

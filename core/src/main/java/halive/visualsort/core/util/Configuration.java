@@ -3,7 +3,7 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.core;
+package halive.visualsort.core.util;
 
 import com.google.gson.Gson;
 

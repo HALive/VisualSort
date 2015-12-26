@@ -7,8 +7,8 @@ package halive.visualsort;
 
 import halive.nativeloader.NativeLoader;
 import halive.nativeloader.NativeLoaderUtils;
-import halive.visualsort.core.Configuration;
-import halive.visualsort.core.VSLog;
+import halive.visualsort.core.util.Configuration;
+import halive.visualsort.core.util.VSLog;
 import halive.visualsort.core.plugins.PluginHandler;
 import halive.visualsort.gui.VisualSortUI;
 

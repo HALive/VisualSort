@@ -6,7 +6,7 @@
 package halive.visualsort.core.plugins;
 
 import halive.visualsort.core.interfaces.INamable;
-import halive.visualsort.core.VSLog;
+import halive.visualsort.core.util.VSLog;
 import halive.visualsort.core.datageneration.DataGenerator;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 

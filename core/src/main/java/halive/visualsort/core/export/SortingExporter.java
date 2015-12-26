@@ -8,7 +8,12 @@ package halive.visualsort.core.export;
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 
+import javax.imageio.ImageIO;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +34,26 @@ public class SortingExporter {
     }
 
     public void export() {
-
+        //Initialize
+        handler.getGui().displayStatus("Exporting....");
+        BufferedImage image = new BufferedImage(steps.size(), steps.get(0).getLength() + 50,
+                BufferedImage.TYPE_INT_ARGB);
+        //Render the Background
+        Graphics g = image.getGraphics();
+        g.setColor(Color.black);
+        g.fillRect(0, 0, image.getWidth(), image.getHeight());
+        //Render Every Step
+        for (int i = 0; i < steps.size(); i++) {
+            handler.getGui().displayStatus("Rendering Step " + (i + 1) + "/" + steps.size());
+            SortingStep step = steps.get(i);
+            step.render(g, handler, i);
+        }
+        //Write The Image
+        try {
+            ImageIO.write(image, "png", outputFile);
+        } catch (IOException e) {
+            handler.getGui().displayStatus("IO-Error during Export");
+            e.printStackTrace();
+        }
     }
 }

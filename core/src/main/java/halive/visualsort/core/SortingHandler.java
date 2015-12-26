@@ -92,9 +92,15 @@ public class SortingHandler implements Runnable {
         statusUpdater.schedule(new StatusUpdater(this, gui), 0, TIMER_INTERVAL);
         gui.displayStatus("Sorting");
 
+        logStep();
         currentAlgorithm.doSort(entries, this);
 
         statusUpdater.cancel();
+
+        if (export) {
+            exporter.export();
+        }
+
         gui.displayStatus("Done");
         this.manualDataUptdate();
         gui.getStartButton().setEnabled(true);
@@ -285,6 +291,10 @@ public class SortingHandler implements Runnable {
     public void setSortingExporter(SortingExporter exporter) {
         export = true;
         this.exporter = exporter;
+    }
+
+    public IVisualSortUI getGui() {
+        return gui;
     }
 
     private static class StatusUpdater extends TimerTask {

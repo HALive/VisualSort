@@ -7,6 +7,7 @@ package halive.visualsort;
 
 import halive.visualsort.core.plugins.IVisualSortPlugin;
 import halive.visualsort.sortingalgorithms.quicksort.heuristics.LastElementHeuristic;
+import halive.visualsort.sortingalgorithms.quicksort.heuristics.MedianOf3Heuristic;
 import halive.visualsort.sortingalgorithms.quicksort.heuristics.RandomElementHeuristic;
 
 /**
@@ -39,7 +40,9 @@ public class QuickSortPlugin implements IVisualSortPlugin {
                 LastElementHeuristic.QuickSortR2Last.class,
                 LastElementHeuristic.ParallelQuickSortLast.class,
                 RandomElementHeuristic.QuickSortR2Rand.class,
-                RandomElementHeuristic.ParallelQuickSortRand.class
+                RandomElementHeuristic.ParallelQuickSortRand.class,
+                MedianOf3Heuristic.QuickSortR2Med3.class,
+                MedianOf3Heuristic.ParallelQuickSortMed3.class
         };
     }
 }

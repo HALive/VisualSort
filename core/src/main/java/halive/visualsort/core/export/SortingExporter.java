@@ -54,6 +54,7 @@ public class SortingExporter {
         }
         //Write the Footer
         g.setColor(Color.white);
+        int fontSize = steps.size() < 3000 ? 12 : 42;
         g.setFont(new Font("Arial", Font.BOLD, 42));
         g.drawString("Created with VisualSort -- Used Sorting Algorithm: " + handler.getCurrentAlgorithm().getName() +
                         "-- Data Generator: " + handler.getDataGenerator().getName() + " -- " +

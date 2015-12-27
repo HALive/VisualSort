@@ -227,6 +227,9 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
             chooser.setDialogTitle("Where should the exported visualisation get stored?");
             if (chooser.showDialog(this, "Select") == JFileChooser.APPROVE_OPTION) {
                 exportFile = chooser.getSelectedFile();
+                if (!exportFile.getName().toLowerCase().endsWith(".png")) {
+                    exportFile = new File(exportFile.getAbsolutePath() + ".png");
+                }
             } else {
                 displayStatus("Canceled...");
                 return;

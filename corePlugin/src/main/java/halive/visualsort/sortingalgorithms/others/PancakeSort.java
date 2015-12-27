@@ -62,11 +62,13 @@ public class PancakeSort extends SortingAlgorithm {
     private MinMax getMinAndMax(int n, DataEntry[] data, SortingHandler h) {
         MinMax minMax = new MinMax();
         for (int i = 0; i < n; i++) {
+            data[i].setRenderColor(Color.magenta);
             if (h.compare(data[minMax.min].getValue() > data[i].getValue())) {
                 minMax.min = i;
             } else if (h.compare(data[minMax.max].getValue() < data[i].getValue())) {
                 minMax.max = i;
             }
+            data[i].setRenderColor(Color.blue);
         }
         return minMax;
     }

@@ -273,7 +273,9 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         //<editor-fold desc="Initialize the SortingHandler">
         sortingHandler.setSortingAlgorithm((SortingAlgorithm) algorithm.getUserObject());
         sortingHandler.setDataGenerator((DataGenerator) dataGen.getUserObject());
-        sortingHandler.setSortingExporter(new SortingExporter(sortingHandler, exportFile));
+        if (visualize) {
+            sortingHandler.setSortingExporter(new SortingExporter(sortingHandler, exportFile));
+        }
         boolean delayOnSwap = applyDelayOnSwapCheckBox.isSelected();
         boolean delayOnComp = applyDelayOnCompCheckBox.isSelected();
         sortingHandler.setDelayOnComp(delayOnComp);

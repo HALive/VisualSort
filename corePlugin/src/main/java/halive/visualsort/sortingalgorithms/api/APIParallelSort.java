@@ -23,4 +23,9 @@ public class APIParallelSort extends APISort {
     public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
         Arrays.parallelSort(data, this);
     }
+
+    @Override
+    public boolean allowExport() {
+        return false;
+    }
 }

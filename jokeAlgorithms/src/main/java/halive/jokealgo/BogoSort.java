@@ -41,6 +41,11 @@ public class BogoSort extends SortingAlgorithm {
     }
 
     @Override
+    public boolean allowExport() {
+        return false;
+    }
+
+    @Override
     public String getCategory() {
         return null;
     }

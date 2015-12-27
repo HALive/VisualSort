@@ -35,4 +35,9 @@ public class APISort extends SortingAlgorithm implements Comparator<DataEntry> {
     public String getCategory() {
         return "Java API";
     }
+
+    @Override
+    public boolean allowExport() {
+        return false;
+    }
 }

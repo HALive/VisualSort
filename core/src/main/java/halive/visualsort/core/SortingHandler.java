@@ -293,6 +293,14 @@ public class SortingHandler implements Runnable {
         this.exporter = exporter;
     }
 
+    public long getSwaps() {
+        return swaps;
+    }
+
+    public long getComparisons() {
+        return comparisons;
+    }
+
     public IVisualSortUI getGui() {
         return gui;
     }

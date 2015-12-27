@@ -10,6 +10,7 @@ import halive.visualsort.core.SortingHandler;
 
 import javax.imageio.ImageIO;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -51,7 +52,16 @@ public class SortingExporter {
                 step.render(g, handler, i);
             }
         }
+        //Write the Footer
+        g.setColor(Color.white);
+        g.setFont(new Font("Arial", Font.BOLD, 42));
+        g.drawString("Created with VisualSort -- Used Sorting Algorithm: " + handler.getCurrentAlgorithm().getName() +
+                        "-- Data Generator: " + handler.getDataGenerator().getName() + " -- " +
+                        String.format("Entries: %d -- Swaps: %d Comparisons: %d", handler.getAmtEntries(),
+                                handler.getSwaps(), handler.getComparisons()),
+                10, image.getHeight() - 10);
         //Write The Image
+        handler.getGui().displayStatus("Saving to Filesystem...");
         try {
             ImageIO.write(image, "png", outputFile);
         } catch (IOException e) {

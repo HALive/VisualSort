@@ -7,9 +7,9 @@ package halive.visualsort;
 
 import halive.nativeloader.NativeLoader;
 import halive.nativeloader.NativeLoaderUtils;
+import halive.visualsort.core.plugins.PluginHandler;
 import halive.visualsort.core.util.Configuration;
 import halive.visualsort.core.util.VSLog;
-import halive.visualsort.core.plugins.PluginHandler;
 import halive.visualsort.gui.VisualSortUI;
 
 import javax.swing.ProgressMonitor;
@@ -25,6 +25,11 @@ public class VisualSort {
 
     public static PluginHandler pluginHandler;
 
+    /**
+     * Main Method, used to Launch the Application
+     *
+     * @param args Not used
+     */
     public static void main(String[] args) {
         boolean force = true;
         VSLog.logger.info("Loading Configuration");
@@ -38,6 +43,13 @@ public class VisualSort {
         launchApplication(force, cfg, handler);
     }
 
+    /**
+     * Opens the GUI
+     *
+     * @param force
+     * @param cfg
+     * @param handler
+     */
     private static void launchApplication(boolean force, Configuration cfg, PluginHandler handler) {
         final boolean finalForce = force;
         SwingUtilities.invokeLater(() -> {

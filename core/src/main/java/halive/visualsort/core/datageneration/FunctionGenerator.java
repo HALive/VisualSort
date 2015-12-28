@@ -17,8 +17,8 @@ public abstract class FunctionGenerator extends DataGenerator {
     /**
      * See DataGenerator
      *
-     * @param name
-     * @param description
+     * @param name        See Data Generator
+     * @param description See Data Generator
      */
     public FunctionGenerator(String name, String description) {
         super(name, description);

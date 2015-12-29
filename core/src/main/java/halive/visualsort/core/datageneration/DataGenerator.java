@@ -19,8 +19,8 @@ import halive.visualsort.core.interfaces.INamable;
  */
 public abstract class DataGenerator implements INamable {
 
-    private String name;
-    private String description;
+    protected String name;
+    protected String description;
 
     /**
      * Creates a new Datagen

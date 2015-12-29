@@ -35,8 +35,9 @@ public abstract class FunctionGenerator extends DataGenerator {
      * This method returns a doubleValue for a specific x > 0.
      * the Returned value can be anything as long as it is greater or equal to zero and is not larger then max
      *
-     * @param x   the current x to calculate from
-     * @param max the Maximum Value
+     * @param x         the current x to calculate from
+     * @param len       the Length of the array
+     * @param maxHeight the Maximum Value of the element
      * @return the Calculated value
      */
     public abstract double func(int x, int len, int maxHeight);

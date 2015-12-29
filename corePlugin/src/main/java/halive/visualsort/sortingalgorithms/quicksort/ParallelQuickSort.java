@@ -36,17 +36,15 @@ public class ParallelQuickSort extends QuickSortR2 {
             int div = partitionAndGetPivot(left, right, data, c);
             data[div].setRenderColor(Color.green);
             int lLen = (div - 1) - left;
+            //If the length of the Left Partition is bigger then the Minimum size for a new thread
+            //A new thread gets created. otherwise Quicksort for the left partition is performs in this thread
             if (lLen >= (getSizeForNewThread(data.length))) {
                 svc.submit(new QSTask(left, div - 1, data, c));
             } else {
                 quicksort(left, div - 1, data, c);
             }
-            int rLen = right - (div + 1);
-            if (rLen >= (getSizeForNewThread(data.length))) {
-                svc.submit(new QSTask(div + 1, right, data, c));
-            } else {
-                quicksort(div + 1, right, data, c);
-            }
+            //Perform Quicksort for The right partition in the Current thread.
+            quicksort(div + 1, right, data, c);
             data[right].setRenderColor(Color.green);
             data[left].setRenderColor(Color.green);
         }

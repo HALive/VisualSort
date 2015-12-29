@@ -7,6 +7,7 @@ package halive.visualsort.core;
 
 import java.awt.Color;
 
+//TODO Document DataEntry
 public class DataEntry implements Comparable<DataEntry> {
 
     private int value;

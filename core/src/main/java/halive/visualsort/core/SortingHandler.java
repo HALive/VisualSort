@@ -2,7 +2,7 @@
  * Copyright (c) HALive 2015
  * See LICENCE For Licence information.
  */
-
+//
 package halive.visualsort.core;
 
 import halive.visualsort.core.datageneration.DataGenerator;
@@ -16,14 +16,14 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
-
+//TODO Document SortingHandler
 /**
  * This class is Responsible for Handling/invoking the DataGeneration and sorting.
  * It also counts the swaps and comparisons.
  * <p>
  * This class can be used In testing mode when the given gui is null.
  */
-@SuppressWarnings("FieldCanBeLocal")
+@SuppressWarnings({"FieldCanBeLocal", "EmptyCatchBlock"})
 public class SortingHandler implements Runnable {
 
     public static final int MAX_HEIGHT_VAL = 1000;
@@ -46,6 +46,7 @@ public class SortingHandler implements Runnable {
 
     private boolean stopOnNextComp = false;
     private boolean stopOnNextSwap = false;
+    private boolean paused = false;
 
     private boolean allowRendering = false;
 
@@ -159,6 +160,7 @@ public class SortingHandler implements Runnable {
     /**
      * Does the same as compare() is just does not return the value
      */
+    @SuppressWarnings("Duplicates")
     public void onCompared() {
         comparisons++;
         if (delayOnComp) {
@@ -167,8 +169,12 @@ public class SortingHandler implements Runnable {
             } catch (InterruptedException e) {
             }
         }
-        while (stopOnNextComp) {
-            Thread.yield();
+        if (stopOnNextComp) {
+            pauseOrUnpause();
+            while (stopOnNextComp) {
+                Thread.yield();
+            }
+            pauseOrUnpause();
         }
     }
 
@@ -219,8 +225,8 @@ public class SortingHandler implements Runnable {
     public void setRenderWidth(int renderWidth) {
         this.renderWidth = renderWidth;
         if (entries != null) {
-            for (int i = 0; i < entries.length; i++) {
-                entries[i].setWidth(renderWidth);
+            for (DataEntry entry : entries) {
+                entry.setWidth(renderWidth);
             }
         }
     }
@@ -243,9 +249,10 @@ public class SortingHandler implements Runnable {
     }
 
     public boolean isRunning() {
-        return !(stopOnNextComp || stopOnNextSwap);
+        return !paused;
     }
 
+    @SuppressWarnings("Duplicates")
     public void onSwapped() {
         swaps++;
         logStep();
@@ -255,9 +262,17 @@ public class SortingHandler implements Runnable {
             } catch (InterruptedException e) {
             }
         }
-        while (stopOnNextSwap) {
-            Thread.yield();
+        if (stopOnNextSwap) {
+            pauseOrUnpause();
+            while (stopOnNextSwap) {
+                Thread.yield();
+            }
+            pauseOrUnpause();
         }
+    }
+
+    private void pauseOrUnpause() {
+        paused = !paused;
     }
 
     public SortingAlgorithm getCurrentAlgorithm() {
@@ -325,8 +340,6 @@ public class SortingHandler implements Runnable {
                 Date d = new Date(handler.elapsedTime);
                 String result = outFormat.format(d);
                 ui.updateStatusLabels(handler.comparisons, handler.swaps, result);
-            } else {
-                Thread.yield();
             }
         }
     }

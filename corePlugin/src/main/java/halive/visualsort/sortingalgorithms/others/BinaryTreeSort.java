@@ -15,6 +15,7 @@ import java.awt.Color;
  * This Class Sorts The Data By Storing it in a Binary Tree (sorted using Binary Search)
  * The visualisation is prettty much identical to Counting Sort
  */
+@SuppressWarnings({"ConstantConditions", "ForLoopReplaceableByForEach"})
 public class BinaryTreeSort extends SortingAlgorithm {
 
     public BinaryTreeSort() {
@@ -30,14 +31,15 @@ public class BinaryTreeSort extends SortingAlgorithm {
             } else {
                 mainNode.insertValue(data[i].getValue(), sortingHandler);
             }
-            data[i].setRenderColor(Color.GRAY);
-            sortingHandler.incrementSwapsAndDelay();
+            sortingHandler.onSwapped();
+            data[i].setTemporaryColor(Color.GRAY);
         }
         int[] values = mainNode.getContents();
         for (int i = 0; i < values.length; i++) {
             data[i].setValue(values[i]);
-            data[i].setRenderColor(Color.red);
-            sortingHandler.incrementSwapsAndDelay();
+            data[i].removeTemporaryColor();
+            data[i].setPrimaryColor(Color.red);
+            sortingHandler.onSwapped();
         }
     }
 

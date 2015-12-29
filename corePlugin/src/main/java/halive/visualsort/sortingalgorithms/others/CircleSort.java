@@ -10,6 +10,8 @@ import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.interfaces.IVisualSortUI;
 import halive.visualsort.core.sorting.SortingAlgorithm;
 
+import java.awt.Color;
+
 /**
  * This Class Implements Circle Sort.
  * The Implementation is taken from:
@@ -18,7 +20,7 @@ import halive.visualsort.core.sorting.SortingAlgorithm;
 public class CircleSort extends SortingAlgorithm {
 
     public CircleSort() {
-        super("CircleSort", "");
+        super("Circle Sort", "");
     }
 
     @Override
@@ -47,8 +49,12 @@ public class CircleSort extends SortingAlgorithm {
                 handler.swap(l, r);
                 swp++;
             }
+            entries[l].removeTemporaryColor();
             l++;
+            entries[l].setTemporaryColor(Color.CYAN);
+            entries[r].removeTemporaryColor();
             r--;
+            entries[r].setTemporaryColor(Color.yellow);
         }
 
         if (r == l && entries[l].compareTo(entries[r + 1]) > 0) {
@@ -56,6 +62,9 @@ public class CircleSort extends SortingAlgorithm {
             swp++;
         }
 
+        for (int i = low; i <= high; i++) {
+            entries[i].removeTemporaryColor();
+        }
 
         swp = circleSort(low, low + mid, swp, entries, handler);
         swp = circleSort(low + mid + 1, high, swp, entries, handler);

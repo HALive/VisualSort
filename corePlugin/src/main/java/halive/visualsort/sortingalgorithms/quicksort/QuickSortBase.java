@@ -32,11 +32,11 @@ public abstract class QuickSortBase extends SortingAlgorithm {
     public void quicksort(int left, int right, DataEntry[] data, SortingHandler c) {
         if (c.compare(left < right)) {
             int div = partitionAndGetPivot(left, right, data, c);
-            data[div].setRenderColor(Color.green);
+            data[div].setPrimaryColor(Color.green);
             quicksort(left, div - 1, data, c);
             quicksort(div + 1, right, data, c);
-            data[right].setRenderColor(Color.green);
-            data[left].setRenderColor(Color.green);
+            data[right].setTemporaryColor(Color.green);
+            data[left].setTemporaryColor(Color.green);
         }
     }
 

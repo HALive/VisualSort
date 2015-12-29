@@ -67,11 +67,11 @@ public class MergeSort extends SortingAlgorithm {
             } else {
                 a[k++] = b[j++];
             }
-            h.incrementSwapsAndDelay();
+            h.onSwapped();
         }
         while (h.compare(i <= m)) {
             a[k++] = b[i++];
-            h.incrementSwapsAndDelay();
+            h.onSwapped();
         }
     }
 

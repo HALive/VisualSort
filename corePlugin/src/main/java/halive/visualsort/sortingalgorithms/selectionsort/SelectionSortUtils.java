@@ -15,9 +15,9 @@ public class SelectionSortUtils {
     public static int getMinimumPos(DataEntry[] d, int startPos, int endPos, SortingHandler h) {
         int minp = startPos;
         for (int i = startPos; h.compare(i <= endPos); i++) {
-            d[i].setRenderColor(Color.cyan);
+            d[i].setTemporaryColor(Color.cyan);
             if (h.compare(i > 0)) {
-                d[i].setRenderColor(Color.blue);
+                d[i].removeTemporaryColor();
             }
             if (h.compare(d[i].getValue() < d[minp].getValue())) {
                 minp = i;
@@ -29,9 +29,9 @@ public class SelectionSortUtils {
     public static int getMaximumPos(DataEntry[] d, int startPos, int endPos, SortingHandler h) {
         int maxp = startPos;
         for (int i = startPos; h.compare(i <= endPos); i++) {
-            d[i].setRenderColor(Color.yellow);
+            d[i].setTemporaryColor(Color.yellow);
             if (h.compare(i > 0)) {
-                d[i].setRenderColor(Color.blue);
+                d[i].removeTemporaryColor();
             }
             if (h.compare(d[i].getValue() > d[maxp].getValue())) {
                 maxp = i;

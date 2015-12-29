@@ -25,15 +25,14 @@ public class CountingSort extends SortingAlgorithm {
         int[] valueCount = new int[sortingHandler.getMaxValue() + 1];
         //count the Values
         for (int i = 0; i < data.length; i++) {
-            data[i].setRenderColor(Color.blue);
             int val = data[i].getValue();
             if (sortingHandler.compare(val > sortingHandler.getMaxValue())) {
                 continue;
             }
             if (i > 0 && i < data.length - 1) {
-                data[i - 1].setRenderColor(Color.BLACK);
+                data[i - 1].setTemporaryColor(Color.BLACK);
             }
-            sortingHandler.incrementSwapsAndDelay();
+            sortingHandler.onSwapped();
             valueCount[val]++;
         }
         //Recreate the array
@@ -42,15 +41,17 @@ public class CountingSort extends SortingAlgorithm {
             int v = valueCount[i];
             for (int j = 0; j < v; j++) {
                 data[ptr].setValue(i);
-                data[ptr].setRenderColor(Color.green);
-                sortingHandler.incrementSwapsAndDelay();
+                data[ptr].removeTemporaryColor();
+                data[ptr].setPrimaryColor(Color.green);
+                sortingHandler.onSwapped();
                 ptr++;
             }
         }
+        //Create Red Items if not everythin was counted
         if (ptr < data.length) {
             for (int i = ptr; i < data.length; i++) {
-                data[i].setValue(0);
-                data[i].setRenderColor(Color.red);
+                data[i].setValue(sortingHandler.getMaxValue());
+                data[i].setPrimaryColor(Color.red);
             }
         }
     }

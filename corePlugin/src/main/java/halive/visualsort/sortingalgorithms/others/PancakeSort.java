@@ -11,6 +11,11 @@ import halive.visualsort.core.sorting.SortingAlgorithm;
 
 import java.awt.Color;
 
+/**
+ * This Class Implements Pancake Sort
+ * The implementation is Mostly taken from:
+ * http://rosettacode.org/wiki/Sorting_algorithms/Pancake_sort
+ */
 public class PancakeSort extends SortingAlgorithm {
 
     public PancakeSort() {
@@ -51,11 +56,11 @@ public class PancakeSort extends SortingAlgorithm {
 
     private void flip(int n, DataEntry[] data, SortingHandler h) {
         for (int i = 0; i < (n + 1) / 2; i++) {
-            data[i].setRenderColor(Color.red);
-            data[i].setRenderColor(Color.green);
+            data[i].setTemporaryColor(Color.red);
+            data[n - 1].setTemporaryColor(Color.green);
             h.swap(i, n - i);
-            data[i].setRenderColor(Color.blue);
-            data[i].setRenderColor(Color.blue);
+            data[i].removeTemporaryColor();
+            data[n - 1].removeTemporaryColor();
         }
     }
 

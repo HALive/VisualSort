@@ -129,7 +129,7 @@ public class SortingHandler implements Runnable {
         int v1 = entries[p1].getValue();
         entries[p1].setValue(entries[p2].getValue());
         entries[p2].setValue(v1);
-        incrementSwapsAndDelay();
+        onSwapped();
     }
 
     /**
@@ -142,7 +142,7 @@ public class SortingHandler implements Runnable {
         DataEntry entry = entries[p1];
         entries[p1] = entries[p2];
         entries[p2] = entry;
-        incrementSwapsAndDelay();
+        onSwapped();
     }
 
     /**
@@ -246,7 +246,7 @@ public class SortingHandler implements Runnable {
         return !(stopOnNextComp || stopOnNextSwap);
     }
 
-    public void incrementSwapsAndDelay() {
+    public void onSwapped() {
         swaps++;
         logStep();
         if (delayOnSwap) {

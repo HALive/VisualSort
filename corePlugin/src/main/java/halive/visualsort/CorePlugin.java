@@ -21,6 +21,7 @@ import halive.visualsort.sortingalgorithms.api.APIParallelSort;
 import halive.visualsort.sortingalgorithms.api.APISort;
 import halive.visualsort.sortingalgorithms.bubblesort.BiDiBubbleSort;
 import halive.visualsort.sortingalgorithms.others.CircleSort;
+import halive.visualsort.sortingalgorithms.others.CycleSort;
 import halive.visualsort.sortingalgorithms.others.PancakeSort;
 import halive.visualsort.sortingalgorithms.selectionsort.BiDiSelectionSort;
 import halive.visualsort.sortingalgorithms.others.BinaryTreeSort;
@@ -98,7 +99,8 @@ public class CorePlugin implements IVisualSortPlugin {
                 APISort.class,
                 APIParallelSort.class,
                 PancakeSort.class,
-                CircleSort.class
+                CircleSort.class,
+                CycleSort.class
         };
     }
 }

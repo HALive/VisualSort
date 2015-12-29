@@ -15,6 +15,8 @@ public class DataEntry implements Comparable<DataEntry> {
     private Color renderColor;
     private Color invertedColor;
 
+    private Color oldColor;
+
     private SortingHandler handler;
 
     public DataEntry(int width, SortingHandler handler) {
@@ -42,6 +44,29 @@ public class DataEntry implements Comparable<DataEntry> {
 
     public Color getRenderColor() {
         return renderColor;
+    }
+
+    public void setTemporaryColor(Color c) {
+        if (oldColor == null) {
+            oldColor = renderColor;
+        }
+        setRenderColor(c);
+    }
+
+    public void removeTemporaryColor() {
+        if (oldColor == null) {
+            return;
+        }
+        setRenderColor(oldColor);
+        oldColor = null;
+    }
+
+    public void setPrimaryColor(Color c) {
+        if (oldColor != null) {
+            oldColor = c;
+        } else {
+            setRenderColor(c);
+        }
     }
 
     public synchronized void setValue(int value) {

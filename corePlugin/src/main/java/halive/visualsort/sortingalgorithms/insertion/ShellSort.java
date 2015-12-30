@@ -23,16 +23,16 @@ public class ShellSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
         int[] cols = {1391376, 463792, 198768, 86961, 33936, 13776, 4592, 1968, 861, 336, 112, 48, 21, 7, 3, 1};
-        shellsort(data, sortingHandler, cols);
+        shellsort(data, sortingHandler, cols, l, r);
     }
 
-    protected void shellsort(DataEntry[] d, SortingHandler h, int[] cols) {
+    protected void shellsort(DataEntry[] d, SortingHandler h, int[] cols, int l, int r) {
         for (int i = 0; i < cols.length; i++) {
             int step = cols[i];
-            for (int j = 0; j < step; j++) {
-                InsertionSortUtils.insertionSort(d, h, j, step);
+            for (int j = l; j < step; j++) {
+                InsertionSortUtils.insertionSort(d, h, j, step, r);
             }
         }
         //InsertionSortUtils.insertionSort(d, h, 0, 1);

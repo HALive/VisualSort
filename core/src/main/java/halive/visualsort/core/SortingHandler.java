@@ -6,9 +6,9 @@
 package halive.visualsort.core;
 
 import halive.visualsort.core.algorithms.datageneration.DataGenerator;
+import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
 import halive.visualsort.core.export.SortingExporter;
 import halive.visualsort.core.interfaces.IVisualSortUI;
-import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -17,6 +17,7 @@ import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 //TODO Document SortingHandler
+
 /**
  * This class is Responsible for Handling/invoking the DataGeneration and sorting.
  * It also counts the swaps and comparisons.
@@ -94,7 +95,7 @@ public class SortingHandler implements Runnable {
         gui.displayStatus("Sorting");
 
         logStep();
-        currentAlgorithm.doSort(entries, this);
+        currentAlgorithm.doSort(entries, this, 0, entries.length);
 
         statusUpdater.cancel();
 

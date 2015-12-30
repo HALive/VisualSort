@@ -21,8 +21,8 @@ public class StoogeSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
-        stoogesort(data, sortingHandler, 0, data.length);
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
+        stoogesort(data, sortingHandler, l, r);
     }
 
     public void stoogesort(DataEntry[] d, SortingHandler h, int i, int j) {

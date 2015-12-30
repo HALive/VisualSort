@@ -23,12 +23,12 @@ public class PancakeSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
-        pancakeSort(data.length, 1, data, sortingHandler);
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
+        pancakeSort(l, r, 1, data, sortingHandler);
     }
 
-    private void pancakeSort(int n, int d, DataEntry[] entries, SortingHandler h) {
-        if (n == 0) {
+    private void pancakeSort(int l, int n, int d, DataEntry[] entries, SortingHandler h) {
+        if (n == l) {
             return;
         }
         MinMax minMax = getMinAndMax(n, entries, h);
@@ -39,23 +39,23 @@ public class PancakeSort extends SortingAlgorithm {
         if (bestX == (n - 1)) {
             n--;
         } else if (bestX == 0) {
-            flip(n - 1, entries, h);
+            flip(l, n - 1, entries, h);
             n--;
         } else if (alternateX == (n - 1)) {
             d = 1 - d;
             n--;
             flipped = true;
         } else {
-            flip(bestX, entries, h);
+            flip(l, bestX, entries, h);
         }
-        pancakeSort(n, d, entries, h);
+        pancakeSort(l, n, d, entries, h);
         if (flipped) {
-            flip(n, entries, h);
+            flip(l, n, entries, h);
         }
     }
 
-    private void flip(int n, DataEntry[] data, SortingHandler h) {
-        for (int i = 0; i < (n + 1) / 2; i++) {
+    private void flip(int l, int n, DataEntry[] data, SortingHandler h) {
+        for (int i = l; i < (n + 1) / 2; i++) {
             data[i].setTemporaryColor(Color.red);
             data[n - 1].setTemporaryColor(Color.green);
             h.swap(i, n - i);

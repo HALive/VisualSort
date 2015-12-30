@@ -23,9 +23,9 @@ public class BinaryTreeSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
         TreeNode mainNode = null;
-        for (int i = 0; i < data.length; i++) {
+        for (int i = l; i < r; i++) {
             if (mainNode == null) {
                 mainNode = new TreeNode(data[i].getValue());
             } else {
@@ -35,7 +35,7 @@ public class BinaryTreeSort extends SortingAlgorithm {
             data[i].setTemporaryColor(Color.GRAY);
         }
         int[] values = mainNode.getContents();
-        for (int i = 0; i < values.length; i++) {
+        for (int i = l; i < values.length; i++) {
             data[i].setValue(values[i]);
             data[i].removeTemporaryColor();
             data[i].setPrimaryColor(Color.red);

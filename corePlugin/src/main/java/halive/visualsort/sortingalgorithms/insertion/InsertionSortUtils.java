@@ -12,8 +12,8 @@ import java.awt.Color;
 
 public class InsertionSortUtils {
 
-    public static void insertionSort(DataEntry[] d, SortingHandler h, int l, int step) {
-        for (int i = l + step; i < d.length; i = i + step) {
+    public static void insertionSort(DataEntry[] d, SortingHandler h, int l, int step, int r) {
+        for (int i = l + step; i < r; i = i + step) {
             d[i].setPrimaryColor(Color.BLACK);
             int val = d[i].getValue();
             d[i].setTemporaryColor(Color.magenta);

@@ -21,8 +21,8 @@ public class SelectionSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler h) {
-        for (int i = 0; h.compare(i < data.length); i++) {
+    public void doSort(DataEntry[] data, SortingHandler h, int l, int r) {
+        for (int i = l; h.compare(i < r); i++) {
             int mpos = SelectionSortUtils.getMinimumPos(data, i, data.length - 1, h);
             h.swap(i, mpos);
             data[i].setRenderColor(Color.green);

@@ -7,8 +7,8 @@ package halive.visualsort.visualsort;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
-import halive.visualsort.core.plugins.IVisualSortPlugin;
 import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
+import halive.visualsort.core.plugins.IVisualSortPlugin;
 import halive.visualsort.datageneration.misc.SineGenerator;
 import halive.visualsort.sortingalgorithms.slow.SlowSort;
 import halive.visualsort.visualsort.util.SortingTestUtils;
@@ -58,7 +58,7 @@ public class SortingAlgorithmTest {
         //Sort the generated Array
         int[] v1 = SortingTestUtils.countValues(DataGeneratorTest.MAX_VALUE, dataEntries);
         System.out.println(algo + ": Sorting");
-        handler.getCurrentAlgorithm().doSort(dataEntries, handler);
+        handler.getCurrentAlgorithm().doSort(dataEntries, handler, 0, dataEntries.length);
         //Check if the Array is Sorted
         System.out.println(algo + ": Validating");
         SortingTestUtils.isSorted(dataEntries, handler);

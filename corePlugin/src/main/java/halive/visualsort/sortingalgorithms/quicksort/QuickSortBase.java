@@ -25,8 +25,8 @@ public abstract class QuickSortBase extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
-        quicksort(0, data.length - 1, data, sortingHandler);
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
+        quicksort(l, r - 1, data, sortingHandler);
     }
 
     public void quicksort(int left, int right, DataEntry[] data, SortingHandler c) {

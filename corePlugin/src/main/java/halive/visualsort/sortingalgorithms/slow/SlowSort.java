@@ -21,8 +21,8 @@ public class SlowSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
-        slowsort(data, sortingHandler, 0, data.length - 1);
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
+        slowsort(data, sortingHandler, l, r - 1);
     }
 
     public void slowsort(DataEntry[] entries, SortingHandler handler, int i, int j) {

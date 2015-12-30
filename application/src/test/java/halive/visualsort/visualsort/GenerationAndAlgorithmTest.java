@@ -57,7 +57,7 @@ public class GenerationAndAlgorithmTest {
         System.out.println(comb + ": Validating gernerated Data");
         assertTrue("The Generated data is Invalid.", DataGeneratorTest.isDataValid(entries));
         System.out.println(comb + ": Sorting");
-        comb.b.doSort(entries, handler);
+        comb.b.doSort(entries, handler, 0, entries.length);
         System.out.println(comb + ": Validating Sorted Data");
         SortingTestUtils.isSorted(entries, handler);
         SortingTestUtils.compareCountArrays(v1,

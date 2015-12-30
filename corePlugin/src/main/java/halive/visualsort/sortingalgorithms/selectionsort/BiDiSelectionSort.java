@@ -22,9 +22,9 @@ public class BiDiSelectionSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
-        int i = 0;
-        int j = data.length - 1;
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
+        int i = l;
+        int j = r - 1;
         while (i < j) {
             //Minimum
             int pos = SelectionSortUtils.getMinimumPos(data, i, j, sortingHandler);

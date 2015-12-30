@@ -6,7 +6,7 @@
 package halive.jokealgo;
 
 import halive.visualsort.core.plugins.IVisualSortPlugin;
-import halive.visualsort.core.algorithms.datageneration.sorting.SortingAlgorithm;
+import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
 
 public class JokeAlgorithms implements IVisualSortPlugin {
 

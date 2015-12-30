@@ -139,7 +139,7 @@ public class OpenGLRenderCanvas implements IVisualSortRenderer, Game {
             for (int i = renderPos; i < max; i++) {
                 DataEntry e = handler.getEntries()[i];
                 int value = (int) ((double) e.getValue() * heightScale);
-                g.setColor(new Color(e.getRenderColor().getRGB()));
+                g.setColor(new Color(e.getCurrentColor().getRGB()));
                 g.fillRect((i - renderPos) * e.getWidth(), height - value, e.getWidth(), value);
                 if (e.getWidth() > 2) {
                     g.setColor(new Color(e.getInvertedColor().getRGB()));

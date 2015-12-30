@@ -45,7 +45,7 @@ public class SortingRenderCanvas extends ActiveRenderingCanvas implements IVisua
             double heightScale = (double) height / SortingHandler.MAX_HEIGHT_VAL;
             for (int i = renderPos; i < max; i++) {
                 DataEntry e = sortingHandler.getEntries()[i];
-                g.setColor(e.getRenderColor());
+                g.setColor(e.getCurrentColor());
                 int value = (int) ((double) e.getValue() * heightScale);
                 g.fillRect((i - renderPos) * e.getWidth(), height - value, e.getWidth(), value);
                 if (e.getWidth() > 2) {

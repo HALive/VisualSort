@@ -18,7 +18,6 @@ import javax.swing.UnsupportedLookAndFeelException;
  * Simple Test Class to test the Basci Funtionality of the Option Dialog
  */
 public class OptionDialogLoader {
-
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
             if (info.getName().equals("Nimbus")) {

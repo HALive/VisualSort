@@ -5,10 +5,10 @@
 
 package halive.visualsort.core.plugins;
 
-import halive.visualsort.core.interfaces.INamable;
+import halive.visualsort.core.algorithms.datageneration.DataGenerator;
+import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
+import halive.visualsort.core.interfaces.IAlgorithm;
 import halive.visualsort.core.util.VSLog;
-import halive.visualsort.core.datageneration.DataGenerator;
-import halive.visualsort.core.sorting.SortingAlgorithm;
 
 import java.io.File;
 import java.io.IOException;
@@ -111,8 +111,8 @@ public class PluginHandler {
             Class c = classes[i];
             try {
                 Object o = c.newInstance();
-                if (o instanceof INamable) {
-                    pluginLog(p, ((INamable) o).getName() + " Instantiated.");
+                if (o instanceof IAlgorithm) {
+                    pluginLog(p, ((IAlgorithm) o).getName() + " Instantiated.");
                     outList.add(o);
                 }
             } catch (InstantiationException | IllegalAccessException e) {

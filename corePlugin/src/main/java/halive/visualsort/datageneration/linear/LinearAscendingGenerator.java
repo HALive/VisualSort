@@ -5,7 +5,7 @@
 
 package halive.visualsort.datageneration.linear;
 
-import halive.visualsort.core.datageneration.FunctionGenerator;
+import halive.visualsort.core.algorithms.datageneration.FunctionGenerator;
 
 public class LinearAscendingGenerator extends FunctionGenerator {
 

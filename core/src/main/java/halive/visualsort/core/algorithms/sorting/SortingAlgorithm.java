@@ -3,10 +3,10 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.core.sorting;
+package halive.visualsort.core.algorithms.sorting;
 
 import halive.visualsort.core.DataEntry;
-import halive.visualsort.core.interfaces.INamable;
+import halive.visualsort.core.interfaces.IAlgorithm;
 import halive.visualsort.core.SortingHandler;
 
 /**
@@ -17,7 +17,7 @@ import halive.visualsort.core.SortingHandler;
  *
  * @author HALive
  */
-public abstract class SortingAlgorithm implements INamable {
+public abstract class SortingAlgorithm implements IAlgorithm {
 
     protected String name;
     protected String description;

@@ -3,10 +3,10 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.core.datageneration;
+package halive.visualsort.core.algorithms.datageneration;
 
 import halive.visualsort.core.DataEntry;
-import halive.visualsort.core.interfaces.INamable;
+import halive.visualsort.core.interfaces.IAlgorithm;
 
 /**
  * This Class Describes a Abstract Class thats used to Generate data that can be sorted using different
@@ -17,7 +17,7 @@ import halive.visualsort.core.interfaces.INamable;
  *
  * @author HALive
  */
-public abstract class DataGenerator implements INamable {
+public abstract class DataGenerator implements IAlgorithm {
 
     protected String name;
     protected String description;

@@ -6,7 +6,7 @@
 package halive.jokealgo;
 
 import halive.visualsort.core.DataEntry;
-import halive.visualsort.core.datageneration.DataGenerator;
+import halive.visualsort.core.algorithms.datageneration.DataGenerator;
 
 public class TrashGen extends DataGenerator {
 

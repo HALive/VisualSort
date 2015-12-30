@@ -7,7 +7,7 @@ package halive.jokealgo;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
-import halive.visualsort.core.sorting.SortingAlgorithm;
+import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
 
 import java.awt.Color;
 import java.util.Random;

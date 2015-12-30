@@ -7,7 +7,7 @@ package halive.visualsort.sortingalgorithms.quicksort;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
-import halive.visualsort.core.sorting.SortingAlgorithm;
+import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
 import halive.visualsort.sortingalgorithms.quicksort.pivot.IQSPivotHeuristic;
 import halive.visualsort.sortingalgorithms.quicksort.pivot.QuickSortHeuristic;
 

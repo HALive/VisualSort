@@ -5,7 +5,7 @@
 
 package halive.visualsort.core.interfaces;
 
-public interface INamable {
+public interface IAlgorithm {
 
     String getName();
 

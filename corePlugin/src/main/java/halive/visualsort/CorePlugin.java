@@ -5,9 +5,7 @@
 
 package halive.visualsort;
 
-import halive.visualsort.core.datageneration.DataGenerator;
 import halive.visualsort.core.plugins.IVisualSortPlugin;
-import halive.visualsort.core.sorting.SortingAlgorithm;
 import halive.visualsort.datageneration.triangle.InvertedTriangleGenerator;
 import halive.visualsort.datageneration.linear.LinearAscendingGenerator;
 import halive.visualsort.datageneration.linear.LinearDescendingGenerator;
@@ -40,9 +38,6 @@ import halive.visualsort.sortingalgorithms.insertion.ShellSort;
 import halive.visualsort.sortingalgorithms.insertion.ShellSortParallel;
 import halive.visualsort.sortingalgorithms.mergesort.BitonicMergeSort;
 import halive.visualsort.sortingalgorithms.mergesort.MergeSort;
-import halive.visualsort.sortingalgorithms.quicksort.ParallelQuickSort;
-import halive.visualsort.sortingalgorithms.quicksort.QuickSortR1;
-import halive.visualsort.sortingalgorithms.quicksort.QuickSortR2;
 
 /**
  * This class Represents the CorePlugin containing the default Datagenerators and Sorting algorithms

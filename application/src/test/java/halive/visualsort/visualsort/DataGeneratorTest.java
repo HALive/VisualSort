@@ -8,7 +8,7 @@ package halive.visualsort.visualsort;
 import halive.visualsort.CorePlugin;
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
-import halive.visualsort.core.datageneration.DataGenerator;
+import halive.visualsort.core.algorithms.datageneration.DataGenerator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

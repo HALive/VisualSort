@@ -3,7 +3,7 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.core.datageneration;
+package halive.visualsort.core.algorithms.datageneration;
 
 import halive.visualsort.core.DataEntry;
 

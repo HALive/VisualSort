@@ -7,11 +7,11 @@ package halive.visualsort.gui;
 
 import halive.visualsort.VisualSort;
 import halive.visualsort.core.SortingHandler;
-import halive.visualsort.core.datageneration.DataGenerator;
+import halive.visualsort.core.algorithms.datageneration.DataGenerator;
 import halive.visualsort.core.export.SortingExporter;
 import halive.visualsort.core.interfaces.IVisualSortUI;
 import halive.visualsort.core.plugins.PluginHandler;
-import halive.visualsort.core.sorting.SortingAlgorithm;
+import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
 import halive.visualsort.core.util.Configuration;
 import halive.visualsort.core.util.VSLog;
 import halive.visualsort.gui.rendering.IVisualSortRenderer;

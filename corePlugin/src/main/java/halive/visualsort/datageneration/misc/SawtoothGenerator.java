@@ -7,7 +7,7 @@ package halive.visualsort.datageneration.misc;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
-import halive.visualsort.core.datageneration.DataGenerator;
+import halive.visualsort.core.algorithms.datageneration.DataGenerator;
 
 public class SawtoothGenerator extends DataGenerator {
 

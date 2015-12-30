@@ -5,10 +5,10 @@
 
 package halive.pluginloader.test;
 
-import halive.visualsort.core.datageneration.DataGenerator;
+import halive.visualsort.core.algorithms.datageneration.DataGenerator;
 import halive.visualsort.core.plugins.IVisualSortPlugin;
 import halive.visualsort.core.plugins.PluginHandler;
-import halive.visualsort.core.sorting.SortingAlgorithm;
+import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

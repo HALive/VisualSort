@@ -5,7 +5,7 @@
 
 package halive.visualsort.gui.tree;
 
-import halive.visualsort.core.interfaces.INamable;
+import halive.visualsort.core.interfaces.IAlgorithm;
 import halive.visualsort.core.plugins.IVisualSortPlugin;
 import halive.visualsort.core.plugins.PluginHandler;
 
@@ -47,17 +47,17 @@ public class NamableTreeModel extends DefaultTreeModel {
         List<IVisualSortPlugin> plugins = handler.getPlugins();
         for (IVisualSortPlugin plugin : plugins) {
             DefaultMutableTreeNode pluginNode = new DefaultMutableTreeNode(plugin.getPluginName());
-            List<INamable> algos = (List<INamable>) ref.getNamables().get(plugin);
+            List<IAlgorithm> algos = (List<IAlgorithm>) ref.getNamables().get(plugin);
             if (algos.size() == 0) {
                 continue;
             }
-            Map<String, List<INamable>> categories = new HashMap<>();
-            for (INamable algo : algos) {
+            Map<String, List<IAlgorithm>> categories = new HashMap<>();
+            for (IAlgorithm algo : algos) {
                 String cat = algo.getCategory();
                 if (cat == null || cat.isEmpty()) {
                     cat = "Default";
                 }
-                List<INamable> list = categories.get(cat);
+                List<IAlgorithm> list = categories.get(cat);
                 if (list == null) {
                     categories.put(cat, new ArrayList<>());
                     list = categories.get(cat);

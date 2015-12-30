@@ -5,10 +5,10 @@
 //
 package halive.visualsort.core;
 
-import halive.visualsort.core.datageneration.DataGenerator;
+import halive.visualsort.core.algorithms.datageneration.DataGenerator;
 import halive.visualsort.core.export.SortingExporter;
 import halive.visualsort.core.interfaces.IVisualSortUI;
-import halive.visualsort.core.sorting.SortingAlgorithm;
+import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

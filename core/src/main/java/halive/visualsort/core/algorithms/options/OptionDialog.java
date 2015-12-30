@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import java.awt.Frame;
@@ -22,6 +23,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class OptionDialog extends JDialog {
 
@@ -34,6 +36,8 @@ public class OptionDialog extends JDialog {
 
     private List<ComponentPair> pairs;
     private boolean initialized = false;
+
+    private OptionDialogResult result = null;
 
     public OptionDialog(Frame parent, String title) {
         super(parent);
@@ -60,6 +64,7 @@ public class OptionDialog extends JDialog {
 
         contentPane.registerKeyboardAction(e -> onCancel(),
                 KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        setResizable(false);
     }
 
     public void initialize() {
@@ -80,9 +85,40 @@ public class OptionDialog extends JDialog {
         initialized = true;
     }
 
-    private void onOK() {
+    private List<String> validateResults() {
+        List<String> invalidComponents = new ArrayList<>();
+        pairs.stream()
+                .filter(this::isComponent)
+                .forEach(pair -> {
+                    IOptionDialogComponent component = (IOptionDialogComponent) pair.component;
+                    if (!component.isSelectionValid()) {
+                        invalidComponents.add(pair.label.replace(":", ""));
+                    }
+                });
+        return invalidComponents;
+    }
 
-        dispose();
+    private boolean isComponent(ComponentPair p) {
+        return (p != null && (p.component != null) && (p.component instanceof IOptionDialogComponent));
+    }
+
+    private void onOK() {
+        List<String> invalidComponents = validateResults();
+        if (invalidComponents.size() == 0) {
+            OptionDialogResult result = new OptionDialogResult();
+            Stream<ComponentPair> stream = pairs.stream();
+            stream = stream.filter(this::isComponent);
+            stream.forEach(p -> result.addToResults((IOptionDialogComponent) p.component));
+            this.result = result;
+            dispose();
+        } else {
+            StringBuilder out = new StringBuilder();
+            out.append("The Following Components have a Invalid Selection:\n");
+            invalidComponents.forEach(s -> {
+                out.append("     - ").append(s).append("\n");
+            });
+            JOptionPane.showMessageDialog(this, out.toString(), "Warning!", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     private void onCancel() {
@@ -96,6 +132,10 @@ public class OptionDialog extends JDialog {
         }
         this.pack();
         this.setVisible(true);
+    }
+
+    public OptionDialogResult getResult() {
+        return result;
     }
 
     public void addComponentPair(String label, JComponent component) {
@@ -124,14 +164,14 @@ public class OptionDialog extends JDialog {
         final Spacer spacer1 = new Spacer();
         buttonPanel.add(spacer1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1, true, false));
+        panel1.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         buttonPanel.add(panel1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         buttonOK = new JButton();
         buttonOK.setText("OK");
-        panel1.add(buttonOK, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(buttonOK, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         buttonCancel = new JButton();
         buttonCancel.setText("Cancel");
-        panel1.add(buttonCancel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(buttonCancel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         mainPane = new JPanel();
         mainPane.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         contentPane.add(mainPane, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));

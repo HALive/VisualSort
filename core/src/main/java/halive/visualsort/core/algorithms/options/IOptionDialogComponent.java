@@ -10,4 +10,6 @@ public interface IOptionDialogComponent<T> {
     T getSelectedValue();
 
     String getReturnKey();
+
+    boolean isSelectionValid();
 }

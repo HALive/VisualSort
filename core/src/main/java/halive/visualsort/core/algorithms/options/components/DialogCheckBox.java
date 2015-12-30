@@ -57,4 +57,9 @@ public class DialogCheckBox extends JCheckBox implements IOptionDialogComponent<
     public String getReturnKey() {
         return returnKey;
     }
+
+    @Override
+    public boolean isSelectionValid() {
+        return true;
+    }
 }

@@ -21,8 +21,8 @@ public class GnomeSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler h) {
-        int pos = 0;
+    public void doSort(DataEntry[] data, SortingHandler h, int l, int r) {
+        int pos = l;
         do {
             if (h.compare(data[pos].getValue() > data[pos + 1].getValue())) {
                 h.swap(pos, pos + 1);
@@ -34,7 +34,7 @@ public class GnomeSort extends SortingAlgorithm {
                 pos++;
                 data[pos].setRenderColor(Color.blue);
             }
-        } while (h.compare(pos < data.length - 1));
+        } while (h.compare(pos < r - 1));
     }
 
     @Override

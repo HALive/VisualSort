@@ -6,9 +6,10 @@
 package halive.visualsort.core;
 
 import halive.visualsort.core.algorithms.datageneration.DataGenerator;
+import halive.visualsort.core.algorithms.options.OptionDialogResult;
+import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
 import halive.visualsort.core.export.SortingExporter;
 import halive.visualsort.core.interfaces.IVisualSortUI;
-import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -17,6 +18,7 @@ import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 //TODO Document SortingHandler
+
 /**
  * This class is Responsible for Handling/invoking the DataGeneration and sorting.
  * It also counts the swaps and comparisons.
@@ -35,7 +37,9 @@ public class SortingHandler implements Runnable {
     private long elapsedTime = 0;
 
     private SortingAlgorithm currentAlgorithm;
+    private OptionDialogResult algorithmResult = null;
     private DataGenerator dataGenerator;
+    private OptionDialogResult dataGenResult = null;
 
     private DataEntry[] entries;
     private int renderWidth;
@@ -78,6 +82,10 @@ public class SortingHandler implements Runnable {
         elapsedTime = -TIMER_INTERVAL;
         allowRendering = false;
         entries = null;
+
+        dataGenerator.init(dataGenResult, this);
+        currentAlgorithm.init(algorithmResult, this);
+
         entries = new DataEntry[amtEntries];
         for (int i = 0; i < entries.length; i++) {
             entries[i] = new DataEntry(this.renderWidth, this);
@@ -94,7 +102,7 @@ public class SortingHandler implements Runnable {
         gui.displayStatus("Sorting");
 
         logStep();
-        currentAlgorithm.doSort(entries, this);
+        currentAlgorithm.doSort(entries, this, 0, entries.length);
 
         statusUpdater.cancel();
 
@@ -108,8 +116,13 @@ public class SortingHandler implements Runnable {
         gui.enableAlgorithmSelection(true);
         gui.enableStopButtons(false);
 
+        currentAlgorithm.clearOptions();
+        dataGenerator.clearOptions();
+
         currentAlgorithm = null;
         dataGenerator = null;
+        algorithmResult = null;
+        dataGenResult = null;
         export = false;
         exporter = null;
     }
@@ -318,6 +331,14 @@ public class SortingHandler implements Runnable {
 
     public IVisualSortUI getGui() {
         return gui;
+    }
+
+    public void setAlgorithmResult(OptionDialogResult algorithmResult) {
+        this.algorithmResult = algorithmResult;
+    }
+
+    public void setDataGenResult(OptionDialogResult dataGenResult) {
+        this.dataGenResult = dataGenResult;
     }
 
     private static class StatusUpdater extends TimerTask {

@@ -22,9 +22,9 @@ public class ParallelQuickSort extends QuickSortR2 {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
         svc = new ForkJoinPool();
-        super.doSort(data, sortingHandler);
+        super.doSort(data, sortingHandler, l, r);
         while (!svc.isQuiescent()) {
             Thread.yield();
         }

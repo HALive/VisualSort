@@ -23,7 +23,7 @@ public class CombSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
         //Get all Primenumbers in 2 to data.length
         Deque<Integer> deque = getPrimes(data.length);
         final int[] cnt = {1};
@@ -41,12 +41,12 @@ public class CombSort extends SortingAlgorithm {
         //Copy the data in the array
         cols = deque.toArray(cols);
         //Sort
-        combsort(data, sortingHandler, cols);
+        combsort(data, sortingHandler, cols, l, r);
     }
 
-    public void combsort(DataEntry[] data, SortingHandler sortingHandler, Integer[] cols) {
+    public void combsort(DataEntry[] data, SortingHandler sortingHandler, Integer[] cols, int l, int r) {
         int i = 0;
-        while (i < cols.length && data.length - 1 > cols[i]) {
+        while (i < cols.length && r - 1 > cols[i]) {
             i++;
         }
         if (i == cols.length) {
@@ -58,12 +58,12 @@ public class CombSort extends SortingAlgorithm {
             if (i > 0) {
                 i--;
             }
-        } while (sortingHandler.compare(comb(step, data, sortingHandler) || i > 0));
+        } while (sortingHandler.compare(comb(step, data, sortingHandler, l, r) || i > 0));
     }
 
-    private boolean comb(int step, DataEntry[] d, SortingHandler h) {
+    private boolean comb(int step, DataEntry[] d, SortingHandler h, int l, int r) {
         boolean swapped = false;
-        for (int i = 0; i < d.length - step; i++) {
+        for (int i = l; i < r - step; i++) {
             d[i].setRenderColor(Color.green);
             d[i + step].setRenderColor(Color.red);
             if (h.compare(d[i].getValue() > d[i + step].getValue())) {

@@ -20,7 +20,7 @@ public class APIParallelSort extends APISort {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
         Arrays.parallelSort(data, this);
     }
 

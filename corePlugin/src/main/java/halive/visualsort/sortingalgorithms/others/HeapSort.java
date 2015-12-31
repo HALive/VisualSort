@@ -20,25 +20,25 @@ public class HeapSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
-        createHeap(data, sortingHandler);
-        for (int i = data.length - 1; i > 0; i--) {
-            sortingHandler.swap(0, i);
-            createHeapK(data, 0, i - 1, sortingHandler);
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
+        createHeap(data, sortingHandler, l, r);
+        for (int i = r - 1; i > 0; i--) {
+            sortingHandler.swap(l, i);
+            createHeapK(data, l, i - 1, sortingHandler);
         }
         //For Some Reason the First 2 values and the last 2 might be in the wrong
         //Order this is to prevent taht.
-        if (data[0].getValue() > data[1].getValue()) {
-            sortingHandler.swap(0, 1);
+        if (data[l].getValue() > data[l + 1].getValue()) {
+            sortingHandler.swap(l, l + 1);
         }
-        if (data[data.length - 2].getValue() > data[data.length - 1].getValue()) {
-            sortingHandler.swap(data.length - 2, data.length - 1);
+        if (data[r - 2].getValue() > data[r - 1].getValue()) {
+            sortingHandler.swap(r - 2, r - 1);
         }
     }
 
-    public void createHeap(DataEntry[] data, SortingHandler a) {
-        for (int i = (data.length / 2); i >= 0; i--) {
-            createHeapK(data, i, data.length - 1, a);
+    public void createHeap(DataEntry[] data, SortingHandler a, int l, int r) {
+        for (int i = (r / 2); i >= l; i--) {
+            createHeapK(data, i, r - 1, a);
         }
     }
 

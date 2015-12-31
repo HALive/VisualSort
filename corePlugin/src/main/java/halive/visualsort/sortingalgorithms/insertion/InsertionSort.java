@@ -19,8 +19,8 @@ public class InsertionSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
-        InsertionSortUtils.insertionSort(data, sortingHandler, 0, 1);
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
+        InsertionSortUtils.insertionSort(data, sortingHandler, l, 1, r);
     }
 
     @Override

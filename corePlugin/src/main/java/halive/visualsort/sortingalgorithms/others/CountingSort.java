@@ -21,10 +21,10 @@ public class CountingSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
         int[] valueCount = new int[sortingHandler.getMaxValue() + 1];
         //count the Values
-        for (int i = 0; i < data.length; i++) {
+        for (int i = l; i < r; i++) {
             int val = data[i].getValue();
             if (sortingHandler.compare(val > sortingHandler.getMaxValue())) {
                 continue;
@@ -36,7 +36,7 @@ public class CountingSort extends SortingAlgorithm {
             valueCount[val]++;
         }
         //Recreate the array
-        int ptr = 0;
+        int ptr = l;
         for (int i = 0; i < valueCount.length; i++) {
             int v = valueCount[i];
             for (int j = 0; j < v; j++) {
@@ -48,7 +48,7 @@ public class CountingSort extends SortingAlgorithm {
             }
         }
         //Create Red Items if not everythin was counted
-        if (ptr < data.length) {
+        if (ptr < r) {
             for (int i = ptr; i < data.length; i++) {
                 data[i].setValue(sortingHandler.getMaxValue());
                 data[i].setPrimaryColor(Color.red);

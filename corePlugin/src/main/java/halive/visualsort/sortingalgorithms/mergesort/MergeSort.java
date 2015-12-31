@@ -15,6 +15,7 @@ import java.awt.Color;
  * This Class Implements Merge Sort in the Basic Implementation
  */
 @SuppressWarnings("EmptyCatchBlock")
+//TODO Add support for Variable Left, Right value
 public class MergeSort extends SortingAlgorithm {
 
     public MergeSort() {
@@ -22,7 +23,7 @@ public class MergeSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
         int[] a = new int[data.length];
         int[] b = new int[data.length];
         for (int i = 0; i < data.length; i++) {

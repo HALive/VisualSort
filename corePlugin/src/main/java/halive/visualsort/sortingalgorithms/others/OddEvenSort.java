@@ -21,11 +21,11 @@ public class OddEvenSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
         boolean sorted = false;
         while (!sorted) {
             sorted = true;
-            for (int i = 1; i < data.length - 1; i += 2) {
+            for (int i = l + 1; i < r - 1; i += 2) {
                 data[i - 1].setRenderColor(Color.blue);
                 if (sortingHandler.compare(data[i].getValue() > data[i + 1].getValue())) {
                     sortingHandler.swap(i, i + 1);
@@ -33,7 +33,7 @@ public class OddEvenSort extends SortingAlgorithm {
                 }
                 data[i].setRenderColor(Color.DARK_GRAY);
             }
-            for (int i = 0; i < data.length - 1; i += 2) {
+            for (int i = l; i < r - 1; i += 2) {
                 if (i > 0) {
                     data[i - 1].setRenderColor(Color.blue);
                 }
@@ -44,7 +44,7 @@ public class OddEvenSort extends SortingAlgorithm {
                 data[i].setRenderColor(Color.ORANGE);
             }
         }
-        for (int i = 0; i < data.length; i++) {
+        for (int i = l; i < r; i++) {
             data[i].setRenderColor(Color.darkGray);
         }
     }

@@ -24,10 +24,10 @@ public class CircleSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
         int cycleNo = 0;
         IVisualSortUI ui = sortingHandler.getGui();
-        while (circleSort(0, data.length - 1, 0, data, sortingHandler) != 0) {
+        while (circleSort(l, r - 1, 0, data, sortingHandler) != 0) {
             cycleNo++;
             if (ui != null) {
                 ui.displayStatus(String.format("Cycle %d done", cycleNo));

@@ -6,6 +6,7 @@
 package halive.visualsort;
 
 import halive.visualsort.core.plugins.IVisualSortPlugin;
+import halive.visualsort.datageneration.random.RandomDistribution;
 import halive.visualsort.datageneration.triangle.InvertedTriangleGenerator;
 import halive.visualsort.datageneration.linear.LinearAscendingGenerator;
 import halive.visualsort.datageneration.linear.LinearDescendingGenerator;
@@ -59,7 +60,8 @@ public class CorePlugin implements IVisualSortPlugin {
 
     @Override
     public Class[] getDataGeneratorClasses() {
-        return new Class[]{InvertedTriangleGenerator.class,
+        return new Class[]{
+                InvertedTriangleGenerator.class,
                 LinearAscendingGenerator.class,
                 LinearDescendingGenerator.class,
                 NegativeParabolicGenerator.class,
@@ -67,13 +69,15 @@ public class CorePlugin implements IVisualSortPlugin {
                 RandomDataGenerator.class,
                 SawtoothGenerator.class,
                 SineGenerator.class,
-                TriangleGenerator.class};
+                TriangleGenerator.class,
+                RandomDistribution.class
+        };
     }
 
     @Override
     public Class[] getSortingAlgorithmClasses() {
         return new Class[]{
-                MergeSort.class,
+                //MergeSort.class,
                 BitonicMergeSort.class,
                 HeapSort.class,
                 OddEvenSort.class,

@@ -21,31 +21,31 @@ public class BiDiBubbleSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler h) {
-        boolean swaped = false;
-        int start = 0, stop = data.length - 1;
+    public void doSort(DataEntry[] data, SortingHandler h, int l, int r) {
+        boolean swapped;
+        int start = l, stop = r - 1;
         do {
-            swaped = false;
+            swapped = false;
             for (int i = start; h.compare(i < stop); i++) {
                 if (h.compare(data[i].getValue() > data[i + 1].getValue())) {
                     h.swap(i, i + 1);
-                    swaped = true;
+                    swapped = true;
                 }
             }
             data[stop].setRenderColor(Color.CYAN);
-            if (h.compare(!swaped)) {
+            if (h.compare(!swapped)) {
                 break;
             }
             stop--;
             for (int i = stop; h.compare(i > start); i--) {
                 if (h.compare(data[i].getValue() < data[i - 1].getValue())) {
                     h.swap(i, i - 1);
-                    swaped = true;
+                    swapped = true;
                 }
             }
             data[start].setRenderColor(Color.green);
             start++;
-        } while (h.compare(swaped));
+        } while (h.compare(swapped));
     }
 
     @Override

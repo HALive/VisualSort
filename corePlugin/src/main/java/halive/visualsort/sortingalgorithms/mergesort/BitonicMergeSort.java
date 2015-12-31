@@ -21,8 +21,8 @@ public class BitonicMergeSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
-        bitonicMergeSort(0, data.length, ASC, data, sortingHandler);
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
+        bitonicMergeSort(l, r, ASC, data, sortingHandler);
     }
 
     private void bitonicMergeSort(int l, int r, boolean direction, DataEntry[] entries, SortingHandler handler) {

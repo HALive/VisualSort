@@ -22,7 +22,7 @@ public class APISort extends SortingAlgorithm implements Comparator<DataEntry> {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
         Arrays.sort(data, this);
     }
 

@@ -21,8 +21,8 @@ public class BinaryInsertionSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
-        for (int i = 0; i < data.length; i++) {
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
+        for (int i = l; i < r; i++) {
             int number = data[i].getValue();
             data[i].setRenderColor(Color.red);
             int insPos = getBinaryInsertionPos(0, i, number, data, sortingHandler);

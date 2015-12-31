@@ -42,7 +42,7 @@ public abstract class SortingAlgorithm implements IAlgorithm {
      *                       a boolean. this allows the programm to count swaps and comparisons. it also allows the
      *                       programm to pause the algoritm at a specific point.
      */
-    public abstract void doSort(DataEntry[] data, SortingHandler sortingHandler);
+    public abstract void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r);
 
     public String getDescription() {
         return description;

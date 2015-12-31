@@ -24,6 +24,7 @@ subprojects {
 project(":core") {
     dependencies {
         compile 'com.google.code.gson:gson:2.5'
+        compile 'com.intellij:forms_rt:7.0.3'
     }
 }
 

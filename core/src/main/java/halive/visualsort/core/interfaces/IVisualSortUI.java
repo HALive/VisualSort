@@ -5,6 +5,8 @@
 
 package halive.visualsort.core.interfaces;
 
+import halive.visualsort.core.plugins.PluginHandler;
+
 import javax.swing.JButton;
 
 public interface IVisualSortUI {
@@ -45,4 +47,6 @@ public interface IVisualSortUI {
      * @param b
      */
     void enableStopButtons(boolean b);
+
+    PluginHandler getPluginHandler();
 }

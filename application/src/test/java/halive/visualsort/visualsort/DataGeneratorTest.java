@@ -5,16 +5,15 @@
 
 package halive.visualsort.visualsort;
 
-import halive.visualsort.CorePlugin;
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.algorithms.datageneration.DataGenerator;
+import halive.visualsort.visualsort.util.InstanceGenerator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 import static org.junit.Assert.assertTrue;
@@ -30,9 +29,9 @@ public class DataGeneratorTest {
     private DataGenerator dataGen;
     private DataEntry[] dataEntries = new DataEntry[1000];
 
-    public DataGeneratorTest(Class<? extends DataGenerator> gen)
+    public DataGeneratorTest(DataGenerator gen)
             throws IllegalAccessException, InstantiationException {
-        dataGen = gen.newInstance();
+        dataGen = gen;
     }
 
     @Before
@@ -62,7 +61,8 @@ public class DataGeneratorTest {
     }
 
     @Parameterized.Parameters(name = "{index}: {0}")
-    public static Collection<Class<? extends DataGenerator>> getAlgorithms() {
-        return Arrays.asList(new CorePlugin().getDataGeneratorClasses());
+    public static Collection<DataGenerator> getAlgorithms()
+            throws IllegalAccessException, InstantiationException {
+        return InstanceGenerator.getDataGeneratorInstances();
     }
 }

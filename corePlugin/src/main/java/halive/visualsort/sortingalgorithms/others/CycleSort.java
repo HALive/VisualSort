@@ -23,11 +23,11 @@ public class CycleSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler h) {
-        for (int startPos = 0; startPos < data.length; startPos++) {
+    public void doSort(DataEntry[] data, SortingHandler h, int l, int r) {
+        for (int startPos = l; startPos < r; startPos++) {
             int value = data[startPos].getValue();
             int pos = startPos;
-            for (int i = startPos; i < data.length; i++) {
+            for (int i = startPos; i < r; i++) {
                 data[i].setRenderColor(Color.red);
                 if (h.compare(data[i].getValue() < value)) {
                     pos = incrementPos(data, pos);
@@ -55,7 +55,7 @@ public class CycleSort extends SortingAlgorithm {
                 pos = startPos;
                 data[pos].setTemporaryColor(Color.MAGENTA);
 
-                for (int i = startPos + 1; i < data.length; i++) {
+                for (int i = startPos + 1; i < r; i++) {
                     if (h.compare(data[i].getValue() < value)) {
                         pos = incrementPos(data, pos);
                     }

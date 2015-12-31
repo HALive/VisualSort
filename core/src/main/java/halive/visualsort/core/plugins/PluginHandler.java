@@ -134,6 +134,18 @@ public class PluginHandler {
         return dataGenerators;
     }
 
+    public List<DataGenerator> getDataGeneratorsAsList() {
+        ArrayList<DataGenerator> list = new ArrayList<>();
+        dataGenerators.entrySet().forEach(e -> list.addAll(e.getValue()));
+        return list;
+    }
+
+    public List<SortingAlgorithm> getSortingAlgorithmsAsList() {
+        ArrayList<SortingAlgorithm> list = new ArrayList<>();
+        sortingAlgorithms.entrySet().forEach(e -> list.addAll(e.getValue()));
+        return list;
+    }
+
     private void pluginLog(IVisualSortPlugin p, String msg) {
         VSLog.logger.info("[" + p.getPluginName() + "]: " + msg);
     }

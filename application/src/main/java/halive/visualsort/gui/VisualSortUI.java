@@ -8,10 +8,12 @@ package halive.visualsort.gui;
 import halive.visualsort.VisualSort;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.algorithms.datageneration.DataGenerator;
+import halive.visualsort.core.algorithms.options.OptionDialog;
+import halive.visualsort.core.algorithms.options.OptionDialogResult;
+import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
 import halive.visualsort.core.export.SortingExporter;
 import halive.visualsort.core.interfaces.IVisualSortUI;
 import halive.visualsort.core.plugins.PluginHandler;
-import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
 import halive.visualsort.core.util.Configuration;
 import halive.visualsort.core.util.VSLog;
 import halive.visualsort.gui.rendering.IVisualSortRenderer;
@@ -78,6 +80,8 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
      */
     private SortingHandler sortingHandler;
 
+    private PluginHandler pluginHandler;
+
     /**
      * Is true if Resizing is allowed, false otherwise
      */
@@ -116,6 +120,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
      * @param handler the PluginHandler Storing All Plugins with their DataGenerators and SortingALgortihms
      */
     public VisualSortUI(PluginHandler handler, Configuration config) {
+        pluginHandler = handler;
         sortingHandler = new SortingHandler(this);
         initComponents();
         algorithmSelector.setModel(new NamableTreeModel(handler, handler::getSortingAlgorithms));
@@ -196,7 +201,8 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         boolean visualize = this.saveVisualisationCheckbox.isSelected();
 
         if (visualize && !((SortingAlgorithm) algorithm.getUserObject()).allowExport()) {
-            int option = JOptionPane.showOptionDialog(this, "The Selected Sorting algorithm cannot get exported.\n" +
+            int option = JOptionPane.showOptionDialog(this,
+                    "The Selected Sorting algorithm cannot get exported.\n" +
                             "Do you want to continue witout exporting?", "Warning!",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.WARNING_MESSAGE, null, null, null);
@@ -234,6 +240,32 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
                 displayStatus("Canceled...");
                 return;
             }
+        }
+        //</editor-fold>
+
+        //<editor-fold desc="Show the Option Dialogs for the Algortihms if a Option DIalog Exists">
+        OptionDialog generatorOptionDialog =
+                ((DataGenerator) dataGen.getUserObject()).getOptionDialog(sortingHandler, this);
+        if (generatorOptionDialog != null) {
+            generatorOptionDialog.setLocationRelativeTo(this);
+            generatorOptionDialog.showDialog();
+            OptionDialogResult result = generatorOptionDialog.getResult();
+            if (result == null) {
+                return;
+            }
+            sortingHandler.setDataGenResult(result);
+        }
+
+        OptionDialog algoOptionDialog =
+                ((SortingAlgorithm) algorithm.getUserObject()).getOptionDialog(sortingHandler, this);
+        if (algoOptionDialog != null) {
+            algoOptionDialog.setLocationRelativeTo(this);
+            algoOptionDialog.showDialog();
+            OptionDialogResult result = algoOptionDialog.getResult();
+            if (result == null) {
+                return;
+            }
+            sortingHandler.setAlgorithmResult(result);
         }
         //</editor-fold>
 
@@ -819,6 +851,11 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
     public void enableStopButtons(boolean b) {
         JComponent[] c = new JComponent[]{pauseOnNextCompButton, pauseOnNextSwapButton};
         setStateOfJComponents(c, b);
+    }
+
+    @Override
+    public PluginHandler getPluginHandler() {
+        return pluginHandler;
     }
 
     /**

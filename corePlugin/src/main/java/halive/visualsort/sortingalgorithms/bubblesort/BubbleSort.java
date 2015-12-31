@@ -21,9 +21,9 @@ public class BubbleSort extends SortingAlgorithm {
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler) {
-        for (int i = 0; sortingHandler.compare(i < data.length - 1); i++) {
-            for (int j = 0; sortingHandler.compare(j < data.length - (1 + i)); j++) {
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
+        for (int i = l; sortingHandler.compare(i < r - 1); i++) {
+            for (int j = l; sortingHandler.compare(j < r - (1 + i)); j++) {
                 if (sortingHandler.compare(data[j].getValue() > data[j + 1].getValue())) {
                     sortingHandler.swap(j, j + 1);
                 }

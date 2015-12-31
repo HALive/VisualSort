@@ -48,7 +48,7 @@ public interface IAlgorithm {
      * @param result  the Result from the dialog
      * @param handler reference of the SortingHandler
      */
-    default void initilaize(OptionDialogResult result, SortingHandler handler) {
+    default void init(OptionDialogResult result, SortingHandler handler) {
 
     }
 }

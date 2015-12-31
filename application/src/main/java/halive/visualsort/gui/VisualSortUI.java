@@ -247,6 +247,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         OptionDialog generatorOptionDialog =
                 ((DataGenerator) dataGen.getUserObject()).getOptionDialog(sortingHandler, this);
         if (generatorOptionDialog != null) {
+            generatorOptionDialog.setLocationRelativeTo(this);
             generatorOptionDialog.showDialog();
             OptionDialogResult result = generatorOptionDialog.getResult();
             if (result == null) {
@@ -258,6 +259,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
         OptionDialog algoOptionDialog =
                 ((SortingAlgorithm) algorithm.getUserObject()).getOptionDialog(sortingHandler, this);
         if (algoOptionDialog != null) {
+            algoOptionDialog.setLocationRelativeTo(this);
             algoOptionDialog.showDialog();
             OptionDialogResult result = algoOptionDialog.getResult();
             if (result == null) {

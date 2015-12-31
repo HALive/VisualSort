@@ -8,18 +8,16 @@ package halive.visualsort.visualsort;
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
-import halive.visualsort.core.plugins.IVisualSortPlugin;
 import halive.visualsort.datageneration.misc.SineGenerator;
 import halive.visualsort.sortingalgorithms.slow.SlowSort;
+import halive.visualsort.visualsort.util.InstanceGenerator;
 import halive.visualsort.visualsort.util.SortingTestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 /**
  * This test tests if every SortingAlgorithm sorts Properly
@@ -31,9 +29,8 @@ public class SortingAlgorithmTest {
     private SortingHandler handler;
     private DataEntry[] dataEntries = new DataEntry[1000];
 
-    public SortingAlgorithmTest(Class<? extends SortingAlgorithm> algo)
-            throws IllegalAccessException, InstantiationException {
-        this.algo = algo.newInstance();
+    public SortingAlgorithmTest(SortingAlgorithm algo) {
+        this.algo = algo;
         //Reduce the amount of entries for SlowSort due to its horrible performance
         if (this.algo instanceof SlowSort) {
             dataEntries = new DataEntry[100];
@@ -68,12 +65,7 @@ public class SortingAlgorithmTest {
 
 
     @Parameterized.Parameters(name = "{index}: {0}")
-    public static Collection<Class<? extends SortingAlgorithm>> getAlgorithms() throws IllegalAccessException, InstantiationException {
-        ArrayList list = new ArrayList<>();
-        for (Class cl : SortingTestUtils.pluginsToTest) {
-            IVisualSortPlugin plugin = (IVisualSortPlugin) cl.newInstance();
-            Collections.addAll(list, plugin.getSortingAlgorithmClasses());
-        }
-        return list;
+    public static Collection<SortingAlgorithm> getAlgorithms() throws IllegalAccessException, InstantiationException {
+        return InstanceGenerator.getSortingAlgorithmInstances();
     }
 }

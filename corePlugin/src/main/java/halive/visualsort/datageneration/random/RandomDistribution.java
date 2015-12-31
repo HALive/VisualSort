@@ -21,8 +21,8 @@ import java.util.Random;
 
 public class RandomDistribution extends DataGenerator {
 
-    private static final String SELECTED_ALGORITHM_KEY = "algorithm";
-    private static final String SHUFFLE_CYLCES_KEY = "shuffles";
+    public static final String SELECTED_ALGORITHM_KEY = "algorithm";
+    public static final String SHUFFLE_CYLCES_KEY = "shuffles";
 
     private DataGenerator dataGenerator;
     private int shuffleCount;

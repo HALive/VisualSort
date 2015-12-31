@@ -11,6 +11,8 @@ import halive.visualsort.core.algorithms.datageneration.DataGenerator;
 import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
 import halive.visualsort.core.plugins.IVisualSortPlugin;
 import halive.visualsort.sortingalgorithms.slow.SlowSort;
+import halive.visualsort.sortingalgorithms.slow.StoogeSort;
+import halive.visualsort.visualsort.util.InstanceGenerator;
 import halive.visualsort.visualsort.util.SortingTestUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +21,7 @@ import org.junit.runners.Parameterized;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
@@ -42,6 +45,9 @@ public class GenerationAndAlgorithmTest {
         handler.setSortingAlgorithm(comb.b);
         handler.setDataGenerator(comb.a);
         int amtEntries = comb.b instanceof SlowSort ? 100 : 1000;
+        if (comb.b instanceof StoogeSort) {
+            amtEntries = amtEntries / 2;
+        }
         this.entries = new DataEntry[amtEntries];
         for (int i = 0; i < entries.length; i++) {
             entries[i] = new DataEntry(1, handler);
@@ -68,20 +74,9 @@ public class GenerationAndAlgorithmTest {
     @Parameterized.Parameters(name = "{index}: {0}")
     public static Collection<Combination<DataGenerator, SortingAlgorithm>> data()
             throws IllegalAccessException, InstantiationException {
-        ArrayList<Combination<DataGenerator, SortingAlgorithm>> combinations = new ArrayList<>();
-        ArrayList<SortingAlgorithm> sortingAlgorithms = new ArrayList<>();
-        ArrayList<DataGenerator> dataGenerators = new ArrayList<>();
-        for (int i = 0; i < SortingTestUtils.pluginsToTest.length; i++) {
-            IVisualSortPlugin plugin = (IVisualSortPlugin) SortingTestUtils.pluginsToTest[i].newInstance();
-            for (Class c : plugin.getDataGeneratorClasses()) {
-                DataGenerator gen = (DataGenerator) c.newInstance();
-                dataGenerators.add(gen);
-            }
-            for (Class a : plugin.getSortingAlgorithmClasses()) {
-                SortingAlgorithm alg = (SortingAlgorithm) a.newInstance();
-                sortingAlgorithms.add(alg);
-            }
-        }
+        List<Combination<DataGenerator, SortingAlgorithm>> combinations = new ArrayList<>();
+        List<SortingAlgorithm> sortingAlgorithms = InstanceGenerator.getSortingAlgorithmInstances();
+        List<DataGenerator> dataGenerators = InstanceGenerator.getDataGeneratorInstances();
         dataGenerators.forEach(dataGenerator -> {
             sortingAlgorithms.forEach(sortingAlgorithm -> {
                 Combination<DataGenerator, SortingAlgorithm> combination =

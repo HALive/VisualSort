@@ -9,6 +9,8 @@ import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.algorithms.options.OptionDialog;
 import halive.visualsort.core.algorithms.options.OptionDialogResult;
 
+import javax.swing.JFrame;
+
 public interface IAlgorithm {
 
     /**
@@ -35,8 +37,16 @@ public interface IAlgorithm {
      * @param handler the Sorting Handler of the Applicaton
      * @return the created Option dialog, null if no dialog should be shown
      */
-    default OptionDialog getOptionDialog(SortingHandler handler) {
+    default OptionDialog getOptionDialog(SortingHandler handler, JFrame parent) {
         return null;
+    }
+
+    default boolean hasOptionDialog() {
+        return false;
+    }
+
+    default void clearOptions() {
+
     }
 
     /**

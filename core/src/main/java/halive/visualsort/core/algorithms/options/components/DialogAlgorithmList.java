@@ -16,12 +16,14 @@ public class DialogAlgorithmList<A extends IAlgorithm> extends DialogList<A> {
 
     private List<A> algorithms;
     private Class<? extends IAlgorithm>[] validAlgorithms;
+    private boolean inverted;
 
     public DialogAlgorithmList(String returnKey, List<A> algorithms,
-                               Class<? extends IAlgorithm>[] algoClasses) {
+                               Class<? extends IAlgorithm>[] algoClasses, boolean inverted) {
         super(returnKey);
         this.validAlgorithms = algoClasses;
         this.algorithms = new ArrayList<>();
+        this.inverted = inverted;
         algorithms.stream().filter(this::isAlgorithmValid).forEach(a -> {
             this.algorithms.add(a);
         });
@@ -30,11 +32,14 @@ public class DialogAlgorithmList<A extends IAlgorithm> extends DialogList<A> {
 
     private boolean isAlgorithmValid(IAlgorithm algorithm) {
         for (Class<? extends IAlgorithm> algo : validAlgorithms) {
-            if (algo.isInstance(algo)) {
-                return true;
+            if (algorithm.hasOptionDialog()) {
+                return false;
+            }
+            if (algo.isInstance(algorithm)) {
+                return !inverted;
             }
         }
-        return false;
+        return inverted;
     }
 
     private class AlgorithmListModel implements ListModel<A> {

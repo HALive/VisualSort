@@ -50,7 +50,7 @@ public class ParallelQuickSort extends QuickSortR2 {
         }
     }
 
-    private int getSizeForNewThread(int len) {
+    public static int getSizeForNewThread(int len) {
         if (len / 16 > 40) {
             return 40;
         }

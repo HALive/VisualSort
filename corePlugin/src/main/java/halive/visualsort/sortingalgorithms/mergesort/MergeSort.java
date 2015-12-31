@@ -22,10 +22,15 @@ public class MergeSort extends SortingAlgorithm {
 
     public static String MERGER_KEY = "merger";
 
-    private MergingMethods merger;
+    protected MergingMethods merger;
 
     public MergeSort() {
         super("Merge Sort", "");
+    }
+
+    public MergeSort(String name) {
+        this();
+        this.name = name;
     }
 
     @Override

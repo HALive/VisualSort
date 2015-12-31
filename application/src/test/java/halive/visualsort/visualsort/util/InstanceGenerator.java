@@ -13,6 +13,8 @@ import halive.visualsort.core.plugins.IVisualSortPlugin;
 import halive.visualsort.datageneration.random.RandomDistribution;
 import halive.visualsort.sortingalgorithms.mergesort.MergeSort;
 import halive.visualsort.sortingalgorithms.mergesort.MergingMethods;
+import halive.visualsort.sortingalgorithms.mergesort.ParallelMergeSort;
+import halive.visualsort.sortingalgorithms.quicksort.ParallelQuickSort;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +29,7 @@ public class InstanceGenerator {
         resultGenerators.put(RandomDistribution.class,
                 InstanceGenerator::getResultsForRandomDistribution);
         resultGenerators.put(MergeSort.class, InstanceGenerator::getResultsForMergeSort);
+        resultGenerators.put(ParallelMergeSort.class, InstanceGenerator::getResultsForMergeSort);
     }
     private static List<OptionDialogResult> getResultsForMergeSort
             (List<DataGenerator> dataGenerators, List<SortingAlgorithm> algorithms) {

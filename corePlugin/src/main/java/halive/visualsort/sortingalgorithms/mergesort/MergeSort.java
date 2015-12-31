@@ -7,105 +7,81 @@ package halive.visualsort.sortingalgorithms.mergesort;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
+import halive.visualsort.core.algorithms.options.OptionDialog;
+import halive.visualsort.core.algorithms.options.OptionDialogResult;
+import halive.visualsort.core.algorithms.options.components.DialogList;
 import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
 
-import java.awt.Color;
+import javax.swing.JFrame;
 
 /**
  * This Class Implements Merge Sort in the Basic Implementation
  */
 @SuppressWarnings("EmptyCatchBlock")
-//TODO Add support for Variable Left, Right value
 public class MergeSort extends SortingAlgorithm {
 
+    public static String MERGER_KEY = "merger";
+
+    private MergingMethods merger;
+
     public MergeSort() {
-        super("Merge sort", " ");
-    }
-
-    @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
-        int[] a = new int[data.length];
-        int[] b = new int[data.length];
-        for (int i = 0; i < data.length; i++) {
-            data[i].setRenderColor(Color.black);
-            int val = data[i].getValue();
-            a[i] = val;
-            b[i] = val;
-        }
-        ValueUpdater updater = new ValueUpdater(data, a);
-        Thread t = new Thread(updater, "VisualSort Value Updater");
-        t.start();
-        mergesort(0, data.length - 1, a, b, sortingHandler);
-        try {
-            Thread.sleep(20);
-        } catch (InterruptedException e) {
-        }
-        t.interrupt();
-    }
-
-    public void mergesort(int l, int r, int[] a, int[] b, SortingHandler h) {
-        if (h.compare(l < r)) {
-            int q = (l + r) / 2;
-            mergesort(l, q, a, b, h);
-            mergesort(q + 1, r, a, b, h);
-            merge(l, r, q, a, b, h);
-        }
-    }
-
-
-    public void merge(int lo, int hi, int m, int[] a, int[] b, SortingHandler h) {
-        int i, j, k;
-
-        for (i = lo; i <= hi; i++) {
-            b[i] = a[i];
-        }
-        i = lo;
-        j = m + 1;
-        k = lo;
-        while (h.compare(i <= m && j <= hi)) {
-            if (h.compare(b[i] <= b[j])) {
-                a[k++] = b[i++];
-            } else {
-                a[k++] = b[j++];
-            }
-            h.onSwapped();
-        }
-        while (h.compare(i <= m)) {
-            a[k++] = b[i++];
-            h.onSwapped();
-        }
-    }
-
-    private static class ValueUpdater implements Runnable {
-
-        private DataEntry[] toUpdate;
-        private int[] updateFrom;
-
-        private ValueUpdater(DataEntry[] toUpdate, int[] updateFrom) {
-            this.toUpdate = toUpdate;
-            this.updateFrom = updateFrom;
-        }
-
-        @Override
-        public void run() {
-            try {
-                Thread.sleep(5);
-            } catch (InterruptedException e) {
-            }
-            while (!Thread.currentThread().isInterrupted()) {
-                for (int i = 0; i < updateFrom.length; i++) {
-                    toUpdate[i].setValue(updateFrom[i]);
-                }
-                try {
-                    Thread.sleep(5);
-                } catch (InterruptedException e) {
-                }
-            }
-        }
+        super("Merge Sort", "");
     }
 
     @Override
     public String getCategory() {
         return "MergeSort";
+    }
+
+    @Override
+    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
+        mergeSort(l, r - 1, data, sortingHandler);
+    }
+
+    public void mergeSort(int l, int r, DataEntry[] data, SortingHandler h) {
+        int diff = r - l;
+        if (diff == 0) {
+            return;
+        } else if (diff == 1) {
+            if (h.compare(data[l].getValue() > data[r].getValue())) {
+                h.swap(l, r);
+            }
+        } else {
+            int m = ((r - l) / 2) + l;
+            mergeSort(l, m, data, h);
+            mergeSort(m + 1, r, data, h);
+            merger.getMergeMethod().merge(l, r, data, h);
+        }
+    }
+
+    @Override
+    public void init(OptionDialogResult result, SortingHandler handler) {
+        merger = (MergingMethods) result.getResultForKey(MERGER_KEY);
+    }
+
+    @Override
+    public String getName() {
+        if (merger != null) {
+            return super.getName() + " (" + merger + ") ";
+        }
+        return super.getName();
+    }
+
+    @Override
+    public boolean hasOptionDialog() {
+        return true;
+    }
+
+    @Override
+    public OptionDialog getOptionDialog(SortingHandler handler, JFrame parent) {
+        OptionDialog dialog = new OptionDialog(parent, "Select Merging Method");
+        DialogList<MergingMethods> methodList = new DialogList<>(MergingMethods.values(), MERGER_KEY);
+        dialog.addComponentPair("Select Merge Method:", methodList.getInScrollPane());
+        return dialog;
+    }
+
+    @Override
+    public void clearOptions() {
+        merger = null;
     }
 }

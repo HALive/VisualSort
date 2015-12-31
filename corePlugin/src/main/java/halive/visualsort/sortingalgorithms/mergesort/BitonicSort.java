@@ -14,22 +14,22 @@ import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
  * The Implementation has been Taken from:
  * http://www.iti.fh-flensburg.de/lang/algorithmen/sortieren/bitonic/oddn.htm
  */
-public class BitonicMergeSort extends SortingAlgorithm {
+public class BitonicSort extends SortingAlgorithm {
 
-    public BitonicMergeSort() {
-        super("Bitonic Merge Sort", "");
+    public BitonicSort() {
+        super("Bitonic Sort", "");
     }
 
     @Override
     public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
-        bitonicMergeSort(l, r, ASC, data, sortingHandler);
+        bitonicSort(l, r, ASC, data, sortingHandler);
     }
 
-    private void bitonicMergeSort(int l, int r, boolean direction, DataEntry[] entries, SortingHandler handler) {
+    private void bitonicSort(int l, int r, boolean direction, DataEntry[] entries, SortingHandler handler) {
         if (r > 1) {
             int middle = r / 2;
-            bitonicMergeSort(l, middle, !direction, entries, handler);
-            bitonicMergeSort(l + middle, r - middle, direction, entries, handler);
+            bitonicSort(l, middle, !direction, entries, handler);
+            bitonicSort(l + middle, r - middle, direction, entries, handler);
             merge(l, r, direction, entries, handler);
         }
     }
@@ -62,7 +62,7 @@ public class BitonicMergeSort extends SortingAlgorithm {
 
     @Override
     public String getName() {
-        return "Bitonic Merge sort";
+        return name;
     }
 
     //Direction Constants

@@ -42,4 +42,9 @@ public class QuickSortR2 extends QuickSortBase {
         c.swap(i, right);
         return i;
     }
+
+    @Override
+    public String getName() {
+        return super.getName() + " (" + heuristic + ")";
+    }
 }

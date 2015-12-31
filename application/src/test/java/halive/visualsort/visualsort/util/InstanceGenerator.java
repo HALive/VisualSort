@@ -11,6 +11,8 @@ import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
 import halive.visualsort.core.interfaces.IAlgorithm;
 import halive.visualsort.core.plugins.IVisualSortPlugin;
 import halive.visualsort.datageneration.random.RandomDistribution;
+import halive.visualsort.sortingalgorithms.mergesort.MergeSort;
+import halive.visualsort.sortingalgorithms.mergesort.MergingMethods;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +26,19 @@ public class InstanceGenerator {
     static {
         resultGenerators.put(RandomDistribution.class,
                 InstanceGenerator::getResultsForRandomDistribution);
+        resultGenerators.put(MergeSort.class, InstanceGenerator::getResultsForMergeSort);
     }
+    private static List<OptionDialogResult> getResultsForMergeSort
+            (List<DataGenerator> dataGenerators, List<SortingAlgorithm> algorithms) {
+        List<OptionDialogResult> results = new ArrayList<>();
+        for (MergingMethods method : MergingMethods.values()) {
+            OptionDialogResult result = new OptionDialogResult();
+            result.getData().put(MergeSort.MERGER_KEY, method);
+            results.add(result);
+        }
+        return results;
+    }
+
     private static List<OptionDialogResult> getResultsForRandomDistribution(List<DataGenerator> gens,
                                                                             List<SortingAlgorithm> algorithms) {
         ArrayList<OptionDialogResult> results = new ArrayList<>();
@@ -87,6 +101,7 @@ public class InstanceGenerator {
         }
         List<SortingAlgorithm> optSorterInstances = new ArrayList<>();
         for (Class<? extends SortingAlgorithm> gClass : optSorter) {
+            System.out.println("Iterating");
             InstanceGenerator.IResultGenerator resultGenerator =
                     InstanceGenerator.resultGenerators.get(gClass);
             if (resultGenerator == null) {

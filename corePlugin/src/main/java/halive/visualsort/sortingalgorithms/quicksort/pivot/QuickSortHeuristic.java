@@ -25,4 +25,9 @@ public enum QuickSortHeuristic {
     public String getCategory() {
         return category;
     }
+
+    @Override
+    public String toString() {
+        return getCategory();
+    }
 }

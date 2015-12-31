@@ -77,7 +77,7 @@ public class CorePlugin implements IVisualSortPlugin {
     @Override
     public Class[] getSortingAlgorithmClasses() {
         return new Class[]{
-                MergeSort.class,
+                //MergeSort.class,
                 BitonicMergeSort.class,
                 HeapSort.class,
                 OddEvenSort.class,

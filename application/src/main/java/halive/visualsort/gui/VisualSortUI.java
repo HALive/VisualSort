@@ -162,10 +162,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
     private void barWidthSpinnerStateChanged(ChangeEvent e) {
         int newVal = (Integer) barWidthSpinner.getValue();
         int amtVal = (Integer) entrySpinner.getValue();
-        if ((VisualSort.MAX_ENTRIES / newVal) < amtVal) {
-            amtVal = VisualSort.MAX_ENTRIES / newVal;
-        }
-        entrySpinner.setModel(new SpinnerNumberModel(amtVal, 10, VisualSort.MAX_ENTRIES / newVal, 1));
+        entrySpinner.setModel(new SpinnerNumberModel(amtVal, 10, VisualSort.MAX_ENTRIES, 1));
         sortingHandler.setRenderWidth(newVal);
     }
 
@@ -591,7 +588,7 @@ public class VisualSortUI extends JFrame implements IVisualSortUI {
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
 
-        entrySpinner.setModel(new SpinnerNumberModel(600, 10, 6000, 1));
+        entrySpinner.setModel(new SpinnerNumberModel(600, 10, VisualSort.MAX_ENTRIES, 1));
         entrySpinner.addChangeListener(this::entrySpinnerStateChanged);
         optionPanel.add(entrySpinner, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,

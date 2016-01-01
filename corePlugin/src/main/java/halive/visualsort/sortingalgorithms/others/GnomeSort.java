@@ -26,7 +26,7 @@ public class GnomeSort extends SortingAlgorithm {
         do {
             if (h.compare(data[pos].getValue() > data[pos + 1].getValue())) {
                 h.swap(pos, pos + 1);
-                if (h.compare(pos > 0)) {
+                if (h.compare(pos > l)) {
                     data[pos].setRenderColor(Color.red);
                     pos--;
                 }

@@ -25,7 +25,7 @@ public class BinaryInsertionSort extends SortingAlgorithm {
         for (int i = l; i < r; i++) {
             int number = data[i].getValue();
             data[i].setRenderColor(Color.red);
-            int insPos = getBinaryInsertionPos(0, i, number, data, sortingHandler);
+            int insPos = getBinaryInsertionPos(l, i, number, data, sortingHandler);
             data[insPos].setRenderColor(Color.green);
             for (int j = i; j > insPos; j--) {
                 sortingHandler.swap(j, j - 1);

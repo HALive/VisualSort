@@ -11,10 +11,12 @@ import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
 import halive.visualsort.core.interfaces.IAlgorithm;
 import halive.visualsort.core.plugins.IVisualSortPlugin;
 import halive.visualsort.datageneration.random.RandomDistribution;
+import halive.visualsort.sortingalgorithms.mergesort.CombinationMergeSort;
 import halive.visualsort.sortingalgorithms.mergesort.MergeSort;
 import halive.visualsort.sortingalgorithms.mergesort.MergingMethods;
 import halive.visualsort.sortingalgorithms.mergesort.ParallelMergeSort;
 import halive.visualsort.sortingalgorithms.quicksort.ParallelQuickSort;
+import halive.visualsort.sortingalgorithms.slow.SlowSort;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +32,43 @@ public class InstanceGenerator {
                 InstanceGenerator::getResultsForRandomDistribution);
         resultGenerators.put(MergeSort.class, InstanceGenerator::getResultsForMergeSort);
         resultGenerators.put(ParallelMergeSort.class, InstanceGenerator::getResultsForMergeSort);
+        resultGenerators.put(CombinationMergeSort.class, InstanceGenerator::getResultsForCombinationMerge);
     }
+    private static List<OptionDialogResult> getResultsForCombinationMerge
+            (List<DataGenerator> dataGenerators, List<SortingAlgorithm> algorithms) {
+        List<OptionDialogResult> results = new ArrayList<>();
+        for (MergingMethods method : MergingMethods.values()) {
+            for (SortingAlgorithm algorithm : algorithms) {
+                if (!isInvalidAlgorithm(algorithm, CombinationMergeSort.invalidAlgorithms)) {
+                    boolean parallel = false;
+                    do {
+                        OptionDialogResult result = new OptionDialogResult();
+                        result.getData().put(MergeSort.MERGER_KEY, method);
+                        result.getData().put(CombinationMergeSort.ALGORITHM_KEY, algorithm);
+                        int value = 128;
+                        if (algorithm instanceof SlowSort) {
+                            value = 16;
+                        }
+                        result.getData().put(CombinationMergeSort.SUB_ALGORITHM_TOGGLE_KEY, value);
+                        result.getData().put(CombinationMergeSort.PARALLEL_KEY, parallel);
+                        results.add(result);
+                        parallel = !parallel;
+                    } while (parallel);
+                }
+            }
+        }
+        return results;
+    }
+
+    private static boolean isInvalidAlgorithm(SortingAlgorithm s, Class[] invalids) {
+        for (Class invalid : invalids) {
+            if (invalid.isInstance(s)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static List<OptionDialogResult> getResultsForMergeSort
             (List<DataGenerator> dataGenerators, List<SortingAlgorithm> algorithms) {
         List<OptionDialogResult> results = new ArrayList<>();

@@ -22,7 +22,7 @@ public class HeapSort extends SortingAlgorithm {
     @Override
     public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
         createHeap(data, sortingHandler, l, r);
-        for (int i = r - 1; i > 0; i--) {
+        for (int i = r - 1; i > l; i--) {
             sortingHandler.swap(l, i);
             createHeapK(data, l, i - 1, sortingHandler);
         }

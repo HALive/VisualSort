@@ -17,6 +17,10 @@ public class ParallelMergeSort extends MergeSort {
 
     private ExecutorService pool;
 
+    public ParallelMergeSort(String name) {
+        super(name);
+    }
+
     public ParallelMergeSort() {
         super("Merge Sort Parallel");
     }
@@ -57,7 +61,7 @@ public class ParallelMergeSort extends MergeSort {
         }
     }
 
-    private class MergeTask implements Runnable {
+    protected class MergeTask implements Runnable {
 
         private int l;
         private int r;

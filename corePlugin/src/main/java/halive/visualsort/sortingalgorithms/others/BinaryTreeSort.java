@@ -35,8 +35,8 @@ public class BinaryTreeSort extends SortingAlgorithm {
             data[i].setTemporaryColor(Color.GRAY);
         }
         int[] values = mainNode.getContents();
-        for (int i = l; i < values.length; i++) {
-            data[i].setValue(values[i]);
+        for (int i = l; (i - l) < values.length; i++) {
+            data[i].setValue(values[i - l]);
             data[i].removeTemporaryColor();
             data[i].setPrimaryColor(Color.red);
             sortingHandler.onSwapped();

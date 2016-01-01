@@ -8,9 +8,8 @@ package halive.visualsort.sortingalgorithms.mergesort;
 //TODO Implement other Merging Methods
 public enum MergingMethods {
     IN_PLACE(MergeUtils::mergeInPlace, "In-Place Merging"),
-    OP_MERGE_V1(MergeUtils::merge, "Efficient Non In-Place Merge"),
-    OP_MERGE_V2(MergeUtils::merge, "Inefficient Non In-Place Merge"),
-    BITONIC_OP_MERGE(MergeUtils::merge, "Bitonic Non In-Place Merge");
+    OP_MERGE_V1(MergeUtils::mergeOPEfficient, "Efficient Non In-Place Merge"),
+    BITONIC_OP_MERGE(MergeUtils::mergeBitonic, "Bitonic Non In-Place Merge");
 
     private String name;
     private MergeUtils.IMerge mergeMethod;

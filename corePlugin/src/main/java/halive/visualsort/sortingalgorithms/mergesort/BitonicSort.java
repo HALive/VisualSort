@@ -7,22 +7,22 @@ package halive.visualsort.sortingalgorithms.mergesort;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
-import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
+import halive.visualsort.core.algorithms.sorting.SubArraySortingAlgortihm;
 
 /**
  * This CLass implements Bitonic Merge Sort.
  * The Implementation has been Taken from:
  * http://www.iti.fh-flensburg.de/lang/algorithmen/sortieren/bitonic/oddn.htm
  */
-public class BitonicSort extends SortingAlgorithm {
+public class BitonicSort extends SubArraySortingAlgortihm {
 
     public BitonicSort() {
         super("Bitonic Sort", "");
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
-        bitonicSort(l, r, ASC, data, sortingHandler);
+    public void sort(DataEntry[] entries, SortingHandler handler) {
+        bitonicSort(0, entries.length, ASC, entries, handler);
     }
 
     private void bitonicSort(int l, int r, boolean direction, DataEntry[] entries, SortingHandler handler) {
@@ -39,7 +39,7 @@ public class BitonicSort extends SortingAlgorithm {
             int middle = determineMiddleForMerge(r);
             for (int i = l; i < (l + r) - middle; i++) {
                 if (handler.compare(direction == (entries[i].getValue() > entries[i + middle].getValue()))) {
-                    handler.swap(i, i + middle);
+                    swap(entries, i, i + middle, handler);
                 }
             }
             merge(l, middle, direction, entries, handler);

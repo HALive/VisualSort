@@ -36,7 +36,7 @@ public class ShellSortParallel extends ShellSort {
                 Thread.yield();
             }
         }
-        InsertionSortUtils.insertionSort(d, h, l, 1, r);
+        InsertionSortUtils.insertionSort(d, h, swapper, l, 1, r);
     }
 
     private class ShellSortingHandler implements Runnable {
@@ -57,7 +57,7 @@ public class ShellSortParallel extends ShellSort {
 
         @Override
         public void run() {
-            InsertionSortUtils.insertionSort(d, h, l, step, r);
+            InsertionSortUtils.insertionSort(d, h, swapper, l, step, r);
         }
     }
 }

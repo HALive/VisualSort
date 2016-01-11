@@ -7,32 +7,33 @@ package halive.visualsort.sortingalgorithms.others;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
-import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
+import halive.visualsort.core.algorithms.sorting.SubArraySortingAlgortihm;
 
 /**
  * This Class Implements the HeapSort Algorithm.
  * This needs some more work in terms of visualisation of the Heap
  */
-public class HeapSort extends SortingAlgorithm {
+public class HeapSort extends SubArraySortingAlgortihm {
 
     public HeapSort() {
         super("HeapSort", " ");
     }
 
+
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
-        createHeap(data, sortingHandler, l, r);
-        for (int i = r - 1; i > l; i--) {
-            sortingHandler.swap(l, i);
-            createHeapK(data, l, i - 1, sortingHandler);
+    public void sort(DataEntry[] data, SortingHandler sortingHandler) {
+        createHeap(data, sortingHandler, 0, data.length);
+        for (int i = data.length - 1; i > 0; i--) {
+            swap(data, 0, i, sortingHandler);
+            createHeapK(data, 0, i - 1, sortingHandler);
         }
         //For Some Reason the First 2 values and the last 2 might be in the wrong
         //Order this is to prevent taht.
-        if (data[l].getValue() > data[l + 1].getValue()) {
-            sortingHandler.swap(l, l + 1);
+        if (data[0].getValue() > data[1].getValue()) {
+            swap(data, 0, 1, sortingHandler);
         }
-        if (data[r - 2].getValue() > data[r - 1].getValue()) {
-            sortingHandler.swap(r - 2, r - 1);
+        if (data[data.length - 2].getValue() > data[data.length - 1].getValue()) {
+            swap(data, data.length - 2, data.length - 1, sortingHandler);
         }
     }
 
@@ -47,13 +48,13 @@ public class HeapSort extends SortingAlgorithm {
         int right = left + 1;
         int middle;
         if (left <= size && right > size) {
-            if (data[left].getValue() < data[knot].getValue()) {
-                a.swap(left, knot);
+            if (a.compare(data[left].getValue() < data[knot].getValue())) {
+                swap(data, left, knot, a);
             }
         } else if (right <= size) {
             middle = a.compare(data[left].getValue() > data[right].getValue()) ? left : right;
             if (a.compare(data[middle].getValue() > data[knot].getValue())) {
-                a.swap(middle, knot);
+                swap(data, middle, knot, a);
                 createHeapK(data, middle, size, a);
             }
         }

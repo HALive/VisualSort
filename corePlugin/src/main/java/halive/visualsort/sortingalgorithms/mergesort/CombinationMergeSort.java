@@ -43,12 +43,9 @@ public class CombinationMergeSort extends ParallelMergeSort {
             LastElementHeuristic.ParallelQuickSortLast.class,
             RandomElementHeuristic.ParallelQuickSortRand.class,
             ShellSortParallel.class,
-            ShellSort.class,
+            //ShellSort.class,
             APIParallelSort.class,
-            APISort.class,
-            BitonicSort.class,  //TODO BitonicSort: Investigate Functionality when running in a Range
-            PancakeSort.class,  //TODO PancakeSort: Investigate Functionality when running in a Range
-            HeapSort.class      //TODO HeapSort: Investigate Functionality wen running in a Range
+            APISort.class
     };
 
     private boolean parallel = false;

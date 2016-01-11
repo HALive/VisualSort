@@ -7,7 +7,7 @@ package halive.visualsort.sortingalgorithms.others;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
-import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
+import halive.visualsort.core.algorithms.sorting.SubArraySortingAlgortihm;
 
 import java.awt.Color;
 
@@ -16,15 +16,15 @@ import java.awt.Color;
  * The implementation is Mostly taken from:
  * http://rosettacode.org/wiki/Sorting_algorithms/Pancake_sort
  */
-public class PancakeSort extends SortingAlgorithm {
+public class PancakeSort extends SubArraySortingAlgortihm {
 
     public PancakeSort() {
         super("Pancake Sort", "");
     }
 
     @Override
-    public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
-        pancakeSort(l, r, 1, data, sortingHandler);
+    public void sort(DataEntry[] data, SortingHandler sortingHandler) {
+        pancakeSort(0, data.length, 1, data, sortingHandler);
     }
 
     private void pancakeSort(int l, int n, int d, DataEntry[] entries, SortingHandler h) {
@@ -58,7 +58,7 @@ public class PancakeSort extends SortingAlgorithm {
         for (int i = l; i < (n + 1) / 2; i++) {
             data[i].setTemporaryColor(Color.red);
             data[n - 1].setTemporaryColor(Color.green);
-            h.swap(i, n - i);
+            swap(data, i, n - i, h);
             data[i].removeTemporaryColor();
             data[n - 1].removeTemporaryColor();
         }

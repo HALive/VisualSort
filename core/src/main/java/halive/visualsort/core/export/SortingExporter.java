@@ -32,12 +32,19 @@ public class SortingExporter {
     }
 
     public void addStep(DataEntry[] entries) {
+        if (!handler.getCurrentAlgorithm().allowExport()) {
+            throw new RuntimeException("The Selected Algorithm is not Exportable");
+        }
         steps.add(new SortingStep(entries));
+    }
+
+    public File getOutputFile() {
+        return outputFile;
     }
 
     public void export() {
         //Initialize
-        handler.getGui().displayStatus("Exporting....");
+        handler.updateStatus("Exporting....");
         BufferedImage image = new BufferedImage(steps.size(), steps.get(0).getLength() + 50,
                 BufferedImage.TYPE_INT_ARGB);
         //Render the Background
@@ -46,7 +53,7 @@ public class SortingExporter {
         g.fillRect(0, 0, image.getWidth(), image.getHeight());
         //Render Every Step
         for (int i = 0; i < steps.size(); i++) {
-            handler.getGui().displayStatus("Rendering Step " + (i + 1) + "/" + steps.size());
+            handler.updateStatus("Rendering Step " + (i + 1) + "/" + steps.size());
             SortingStep step = steps.get(i);
             if (step != null) {
                 step.render(g, handler, i);
@@ -55,18 +62,18 @@ public class SortingExporter {
         //Write the Footer
         g.setColor(Color.white);
         int fontSize = steps.size() < 3000 ? 12 : 42;
-        g.setFont(new Font("Arial", Font.BOLD, 42));
+        g.setFont(new Font("Arial", Font.BOLD, fontSize));
         g.drawString("Created with VisualSort -- Used Sorting Algorithm: " + handler.getCurrentAlgorithm().getName() +
                         "-- Data Generator: " + handler.getDataGenerator().getName() + " -- " +
                         String.format("Entries: %d -- Swaps: %d Comparisons: %d", handler.getAmtEntries(),
                                 handler.getSwaps(), handler.getComparisons()),
                 10, image.getHeight() - 10);
         //Write The Image
-        handler.getGui().displayStatus("Saving to Filesystem...");
+        handler.updateStatus("Saving to Filesystem...");
         try {
             ImageIO.write(image, "png", outputFile);
         } catch (IOException e) {
-            handler.getGui().displayStatus("IO-Error during Export");
+            handler.updateStatus("IO-Error during Export");
             e.printStackTrace();
         }
     }

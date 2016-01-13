@@ -1,14 +1,14 @@
 /*
- * Copyright (c) HALive 2015
+ * Copyright (c) HALive 2016
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.test;
+package halive.visualsort.test.algorithms;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.algorithms.datageneration.DataGenerator;
-import halive.visualsort.test.util.InstanceGenerator;
+import halive.visualsort.test.algorithms.util.InstanceGenerator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

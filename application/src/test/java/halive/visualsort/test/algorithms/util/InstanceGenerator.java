@@ -3,7 +3,7 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.test.util;
+package halive.visualsort.test.algorithms.util;
 
 import halive.visualsort.core.algorithms.datageneration.DataGenerator;
 import halive.visualsort.core.algorithms.options.OptionDialogResult;

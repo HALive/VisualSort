@@ -316,6 +316,14 @@ public class SortingHandler implements Runnable {
         return exporter;
     }
 
+    public void updateStatus(String msg) {
+        if (gui != null) {
+            gui.displayStatus(msg);
+        } else {
+            System.out.println(msg);
+        }
+    }
+
     public void setSortingExporter(SortingExporter exporter) {
         export = true;
         this.exporter = exporter;

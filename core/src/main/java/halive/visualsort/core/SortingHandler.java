@@ -288,7 +288,7 @@ public class SortingHandler implements Runnable {
         paused = !paused;
     }
 
-    public SortingAlgorithm getCurrentAlgorithm() {
+    public SortingAlgorithm getSortingAlgorithm() {
         return currentAlgorithm;
     }
 

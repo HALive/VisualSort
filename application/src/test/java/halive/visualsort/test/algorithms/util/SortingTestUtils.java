@@ -21,7 +21,7 @@ public class SortingTestUtils {
 
     public static void isSorted(DataEntry[] dataEntries, SortingHandler handler) {
         for (int i = 0; i < dataEntries.length - 1; i++) {
-            assertTrue(handler.getCurrentAlgorithm().getName() + ": Has not sorted Properly" +
+            assertTrue(handler.getSortingAlgorithm().getName() + ": Has not sorted Properly" +
                             "at Index " + i,
                     !(dataEntries[i].getValue() > dataEntries[i + 1].getValue()));
         }

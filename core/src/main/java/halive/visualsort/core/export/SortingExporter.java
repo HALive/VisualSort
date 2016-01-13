@@ -32,7 +32,7 @@ public class SortingExporter {
     }
 
     public void addStep(DataEntry[] entries) {
-        if (!handler.getCurrentAlgorithm().allowExport()) {
+        if (!handler.getSortingAlgorithm().allowExport()) {
             throw new RuntimeException("The Selected Algorithm is not Exportable");
         }
         steps.add(new SortingStep(entries));
@@ -63,7 +63,7 @@ public class SortingExporter {
         g.setColor(Color.white);
         int fontSize = steps.size() < 3000 ? 12 : 42;
         g.setFont(new Font("Arial", Font.BOLD, fontSize));
-        g.drawString("Created with VisualSort -- Used Sorting Algorithm: " + handler.getCurrentAlgorithm().getName() +
+        g.drawString("Created with VisualSort -- Used Sorting Algorithm: " + handler.getSortingAlgorithm().getName() +
                         "-- Data Generator: " + handler.getDataGenerator().getName() + " -- " +
                         String.format("Entries: %d -- Swaps: %d Comparisons: %d", handler.getAmtEntries(),
                                 handler.getSwaps(), handler.getComparisons()),

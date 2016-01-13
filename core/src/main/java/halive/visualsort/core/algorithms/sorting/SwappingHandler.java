@@ -17,7 +17,7 @@ public class SwappingHandler {
     }
 
     public static SwappingHandler getForAlgorithm(SortingHandler h) {
-        return getForAlgorithm(h.getCurrentAlgorithm());
+        return getForAlgorithm(h.getSortingAlgorithm());
     }
 
     public static SwappingHandler getForAlgorithm(SortingAlgorithm al) {

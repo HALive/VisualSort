@@ -55,7 +55,7 @@ public class SortingAlgorithmTest {
         //Sort the generated Array
         int[] v1 = SortingTestUtils.countValues(DataGeneratorTest.MAX_VALUE, dataEntries);
         System.out.println(algo + ": Sorting");
-        handler.getCurrentAlgorithm().doSort(dataEntries, handler, 0, dataEntries.length);
+        handler.getSortingAlgorithm().doSort(dataEntries, handler, 0, dataEntries.length);
         //Check if the Array is Sorted
         System.out.println(algo + ": Validating");
         SortingTestUtils.isSorted(dataEntries, handler);

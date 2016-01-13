@@ -63,7 +63,7 @@ public class ExporterTest {
         System.out.println("Running Invalid Argument Test");
         handler.setSortingAlgorithm(new BinaryTreeSort());
         System.out.println("Sorting...");
-        handler.getCurrentAlgorithm().doSort(data, handler, -1, -1);
+        handler.getSortingAlgorithm().doSort(data, handler, -1, -1);
     }
 
     /**
@@ -75,14 +75,14 @@ public class ExporterTest {
     public void testRendering() throws Exception {
         System.out.println("Running Render Test");
         System.out.println("Sorting For File 1...");
-        handler.getCurrentAlgorithm().doSort(data, handler, 0, data.length);
+        handler.getSortingAlgorithm().doSort(data, handler, 0, data.length);
         System.out.println("Rendering File 1...");
         exporter.export();
         System.out.println("Reinitializing for File 2...");
         SortingExporter old = exporter;
         init();
         System.out.println("Sorting File 2...");
-        handler.getCurrentAlgorithm().doSort(data, handler, 0, data.length);
+        handler.getSortingAlgorithm().doSort(data, handler, 0, data.length);
         System.out.println("Rendering File 2...");
         exporter.export();
         System.out.println("Validating...");

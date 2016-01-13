@@ -1,9 +1,9 @@
 /*
- * Copyright (c) HALive 2015
+ * Copyright (c) HALive 2016
  * See LICENCE For Licence information.
  */
 
-package halive.nativeloader.test;
+package halive.visualsort.test.nativeloader;
 
 import halive.nativeloader.NativeLoader;
 import org.junit.Before;

@@ -3,7 +3,7 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.visualsort.util;
+package halive.visualsort.test.util;
 
 import halive.visualsort.core.algorithms.datageneration.DataGenerator;
 import halive.visualsort.core.algorithms.options.OptionDialogResult;
@@ -15,7 +15,6 @@ import halive.visualsort.sortingalgorithms.mergesort.CombinationMergeSort;
 import halive.visualsort.sortingalgorithms.mergesort.MergeSort;
 import halive.visualsort.sortingalgorithms.mergesort.MergingMethods;
 import halive.visualsort.sortingalgorithms.mergesort.ParallelMergeSort;
-import halive.visualsort.sortingalgorithms.quicksort.ParallelQuickSort;
 import halive.visualsort.sortingalgorithms.slow.SlowSort;
 
 import java.util.ArrayList;

@@ -3,13 +3,12 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.visualsort.util;
+package halive.visualsort.test.util;
 
 import halive.visualsort.CorePlugin;
 import halive.visualsort.QuickSortPlugin;
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
-import halive.visualsort.core.plugins.IVisualSortPlugin;
 
 import static org.junit.Assert.assertTrue;
 

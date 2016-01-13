@@ -3,15 +3,15 @@
  * See LICENCE For Licence information.
  */
 
-package halive.visualsort.visualsort;
+package halive.visualsort.test;
 
 import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
 import halive.visualsort.datageneration.misc.SineGenerator;
 import halive.visualsort.sortingalgorithms.slow.SlowSort;
-import halive.visualsort.visualsort.util.InstanceGenerator;
-import halive.visualsort.visualsort.util.SortingTestUtils;
+import halive.visualsort.test.util.InstanceGenerator;
+import halive.visualsort.test.util.SortingTestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,9 +1,9 @@
 /*
- * Copyright (c) HALive 2015
+ * Copyright (c) HALive 2016
  * See LICENCE For Licence information.
  */
 
-package halive.pluginloader.test;
+package halive.visualsort.test.pluginloader;
 
 import halive.visualsort.core.algorithms.datageneration.DataGenerator;
 import halive.visualsort.core.plugins.IVisualSortPlugin;

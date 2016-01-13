@@ -16,7 +16,6 @@ import halive.visualsort.core.plugins.PluginHandler;
 
 import javax.swing.JFrame;
 import javax.swing.SpinnerNumberModel;
-import java.awt.Frame;
 import java.util.Random;
 
 public class RandomDistribution extends DataGenerator {

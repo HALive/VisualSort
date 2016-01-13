@@ -15,11 +15,11 @@ import halive.visualsort.core.algorithms.sorting.SwappingHandler;
  */
 public class ShellSort extends SubArraySortingAlgortihm {
 
+    protected SwappingHandler swapper = SwappingHandler.getForAlgorithm(this);
+
     public ShellSort() {
         super("Shell Sort", "");
     }
-
-    protected SwappingHandler swapper = SwappingHandler.getForAlgorithm(this);
 
     protected ShellSort(String name, String description) {
         super(name, description);

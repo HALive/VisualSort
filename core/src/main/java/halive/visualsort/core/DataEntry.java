@@ -141,15 +141,6 @@ public class DataEntry implements Comparable<DataEntry> {
     }
 
     /**
-     * Sets the Value Attribute to the given Value
-     *
-     * @param value the Value to set
-     */
-    public synchronized void setValue(int value) {
-        this.value = value;
-    }
-
-    /**
      * Returns the Value Attribute
      *
      * @return the value Attribute
@@ -159,12 +150,12 @@ public class DataEntry implements Comparable<DataEntry> {
     }
 
     /**
-     * Sets thw width attribut
+     * Sets the Value Attribute to the given Value
      *
-     * @param width the width attribute
+     * @param value the Value to set
      */
-    public void setWidth(int width) {
-        this.width = width;
+    public synchronized void setValue(int value) {
+        this.value = value;
     }
 
     /**
@@ -174,6 +165,15 @@ public class DataEntry implements Comparable<DataEntry> {
      */
     public int getWidth() {
         return width;
+    }
+
+    /**
+     * Sets thw width attribut
+     *
+     * @param width the width attribute
+     */
+    public void setWidth(int width) {
+        this.width = width;
     }
 
     @Override

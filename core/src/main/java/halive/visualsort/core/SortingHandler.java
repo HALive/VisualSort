@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
-//TODO Document SortingHandler
 
 /**
  * This class is Responsible for Handling/invoking the DataGeneration and sorting.
@@ -25,42 +24,130 @@ import java.util.TimerTask;
  * <p>
  * This class can be used In testing mode when the given gui is null.
  */
-@SuppressWarnings({"FieldCanBeLocal", "EmptyCatchBlock"})
+@SuppressWarnings({"FieldCanBeLocal", "EmptyCatchBlock", "JavaDoc"})
 public class SortingHandler implements Runnable {
 
+    /**
+     * Stores the MAximum Value to Sort at max.
+     * This is 1000 by default
+     */
     public static final int MAX_HEIGHT_VAL = 1000;
+    /**
+     * Stores the Intervall of the Timer to Update the Values
+     * This is 20 Milliseconds
+     */
     private static final int TIMER_INTERVAL = 20;
+
+    /**
+     * This Timer is used to Update the Status Values
+     */
     private Timer statusUpdater;
 
+    /**
+     * Counts the Current Swaps
+     */
     private long swaps = 0;
+    /**
+     * Counts the Current Comparisons
+     */
     private long comparisons = 0;
+    /**
+     * The Elapsed Time in Milliseconds. this gets Updated by the Timer
+     */
     private long elapsedTime = 0;
 
+    /**
+     * Stores the Current Algorithm
+     */
     private SortingAlgorithm sortingAlgorithm;
+    /**
+     * Stores the Options selected for the Algorithm.
+     * This is null if the Algortihm does not Have any Options
+     */
     private OptionDialogResult algorithmResult = null;
+
+    /**
+     * Stores the current DataGenerator
+     */
     private DataGenerator dataGenerator;
+    /**
+     * Stores the Options selected for the Datagenerator.
+     * This is null if the DataGenerator does not Have any Options
+     */
     private OptionDialogResult dataGenResult = null;
 
+    /**
+     * Main Data Array. This is Generated in the Run Method (By the Handler Thread)
+     */
     private DataEntry[] entries;
+    /**
+     * The width in Pixels with which every Value should be Rendered
+     */
     private int renderWidth;
-    private int delay;
 
+    /**
+     * True if delay should be Appiled on every Swap
+     */
     private boolean delayOnSwap;
+    /**
+     * True if delay should be Applied on every Comparison
+     */
     private boolean delayOnComp;
 
+    /**
+     * The Delay in MS to Apply. No delay will be Applied if this is Zero
+     */
+    private int delay;
+
+    /**
+     * True if the Sorting should Pause on the next Comparison.
+     * The thread will yield while this is true
+     */
     private boolean stopOnNextComp = false;
+    /**
+     * True if the Sorting should Pause on the next Swap.
+     * The thread will yield while this is true
+     */
     private boolean stopOnNextSwap = false;
+    /**
+     * True if the Sorting is Currently Paused. This is Mainly used to
+     * pause the Timer. The Sorting will not unpause if this gets set from true
+     * to false
+     */
     private boolean paused = false;
 
+    /**
+     * True if the data should get Rendered
+     */
     private boolean allowRendering = false;
 
+    /**
+     * Reference to the Thread in which the Sorting and Datageneraton is Performer
+     */
     private Thread sortingThread;
 
+    /**
+     * Reference to the GUI
+     */
     private IVisualSortUI gui;
+
+    /**
+     * Stores the Amount of Entres to sort. This is used to Generate the
+     * entries Array
+     */
     private int amtEntries;
+    /**
+     * The Maximum Value of the DataEntries
+     */
     private int maxValue = SortingHandler.MAX_HEIGHT_VAL;
 
+    /**
+     * Reference to the Current Exporter
+     */
     private SortingExporter exporter;
+    /**
+     * True if the Current Sorting Progess should be Exported
+     */
     private boolean export = false;
 
     public SortingHandler(IVisualSortUI ui) {
@@ -68,7 +155,7 @@ public class SortingHandler implements Runnable {
     }
 
     /**
-     * Initializes the Sorting Thread
+     * Initializes and Starts the Sorting Thread
      */
     public void init() {
         statusUpdater = new Timer("Status Updater");
@@ -219,15 +306,6 @@ public class SortingHandler implements Runnable {
     }
 
     /**
-     * Sets the Current SortingAlgorithm
-     *
-     * @param currentAlgorithm the Sorting algortihm to set To
-     */
-    public void setSortingAlgorithm(SortingAlgorithm currentAlgorithm) {
-        this.sortingAlgorithm = currentAlgorithm;
-    }
-
-    /**
      * @return true this sorting Handler Has a DataGenerator set
      */
     public boolean hasDataGenerator() {
@@ -342,7 +420,11 @@ public class SortingHandler implements Runnable {
         return !paused;
     }
 
-
+    /**
+     * This is Called if a Value gets Swapped.
+     * It Delays if thats set and it also Yields the thread if the Sorting should Pause
+     * The Swap Counter will also be Incremented
+     */
     @SuppressWarnings("Duplicates")
     public void onSwapped() {
         swaps++;
@@ -362,38 +444,90 @@ public class SortingHandler implements Runnable {
         }
     }
 
+    /**
+     * Negates the Paused Attribute
+     */
     private void pauseOrUnpause() {
         paused = !paused;
     }
 
+    /**
+     * @return The Cureent Sorting Algorithm
+     */
     public SortingAlgorithm getSortingAlgorithm() {
         return sortingAlgorithm;
     }
 
+    /**
+     * Sets the Current SortingAlgorithm
+     *
+     * @param currentAlgorithm the Sorting algortihm to set To
+     */
+    public void setSortingAlgorithm(SortingAlgorithm currentAlgorithm) {
+        this.sortingAlgorithm = currentAlgorithm;
+    }
+
+    /**
+     * @return the Current DataGenerator
+     */
     public DataGenerator getDataGenerator() {
         return dataGenerator;
     }
 
+    /**
+     * Sets the DataGenerator
+     *
+     * @param dataGenerator The Datagen to Set
+     */
     public void setDataGenerator(DataGenerator dataGenerator) {
         this.dataGenerator = dataGenerator;
     }
 
+    /**
+     * @return This Returns the maximum Value the DataEntries should have at maximum
+     */
     public int getMaxValue() {
         return maxValue;
     }
 
+    /**
+     * @return hte Delay that will be Applied on either Swaps or Comparisons. The Value is in Milliseconds
+     */
     public int getDelay() {
         return delay;
     }
 
+    /**
+     * Sets the Delay
+     *
+     * @param delay the delay to Set
+     */
     public void setDelay(int delay) {
         this.delay = delay;
     }
 
+    /**
+     * @return the Current Sorting Exporter
+     */
     public SortingExporter getSortingExporter() {
         return exporter;
     }
 
+    /**
+     * Sets the Sorting Exporter. The Handler is Also told to Start exporting Values
+     *
+     * @param exporter the exporter to set to
+     */
+    public void setSortingExporter(SortingExporter exporter) {
+        export = true;
+        this.exporter = exporter;
+    }
+
+    /**
+     * Updates the Status Label on the UI. If there is no ui (unit Tests) its printed to stdout
+     *
+     * @param msg the messagt to set to
+     */
     public void updateStatus(String msg) {
         if (gui != null) {
             gui.displayStatus(msg);
@@ -402,31 +536,48 @@ public class SortingHandler implements Runnable {
         }
     }
 
-    public void setSortingExporter(SortingExporter exporter) {
-        export = true;
-        this.exporter = exporter;
-    }
-
+    /**
+     * @return The counted Swaps done while Sorting
+     */
     public long getSwaps() {
         return swaps;
     }
 
+    /**
+     * @return the Counted comparisons done while Sorting
+     */
     public long getComparisons() {
         return comparisons;
     }
 
+    /**
+     * @return the Gui in its InterFace form. this has to be cast if you want to use the Something from VisualSortUi
+     */
     public IVisualSortUI getGui() {
         return gui;
     }
 
+    /**
+     * Sets the Result of the OptionDialog for the SortingAlgorithm
+     *
+     * @param algorithmResult
+     */
     public void setAlgorithmResult(OptionDialogResult algorithmResult) {
         this.algorithmResult = algorithmResult;
     }
 
+    /**
+     * Sets the Result of the OptionDialog for the DataGenerator
+     *
+     * @param dataGenResult
+     */
     public void setDataGenResult(OptionDialogResult dataGenResult) {
         this.dataGenResult = dataGenResult;
     }
 
+    /**
+     * Timer Task to Update the Swaps, Comparions and time Values on the UI
+     */
     private static class StatusUpdater extends TimerTask {
 
         private SortingHandler handler;

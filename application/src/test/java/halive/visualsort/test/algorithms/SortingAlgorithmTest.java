@@ -37,6 +37,11 @@ public class SortingAlgorithmTest {
         }
     }
 
+    @Parameterized.Parameters(name = "{index}: {0}")
+    public static Collection<SortingAlgorithm> getAlgorithms() throws IllegalAccessException, InstantiationException {
+        return InstanceGenerator.getSortingAlgorithmInstances();
+    }
+
     @Before
     public void setUp() {
         handler = new SortingHandler(null);
@@ -61,11 +66,5 @@ public class SortingAlgorithmTest {
         SortingTestUtils.isSorted(dataEntries, handler);
         SortingTestUtils.compareCountArrays(v1, SortingTestUtils.countValues(DataGeneratorTest.MAX_VALUE, dataEntries));
         System.out.println(algo + ": Passed!");
-    }
-
-
-    @Parameterized.Parameters(name = "{index}: {0}")
-    public static Collection<SortingAlgorithm> getAlgorithms() throws IllegalAccessException, InstantiationException {
-        return InstanceGenerator.getSortingAlgorithmInstances();
     }
 }

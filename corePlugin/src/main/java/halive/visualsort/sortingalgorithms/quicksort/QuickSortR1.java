@@ -9,8 +9,6 @@ import halive.visualsort.core.DataEntry;
 import halive.visualsort.core.SortingHandler;
 import halive.visualsort.sortingalgorithms.quicksort.pivot.QuickSortHeuristic;
 
-import java.awt.Color;
-
 /**
  * Implements one Implementation of Quick Sort. It uses The last Element as A privot element.
  */

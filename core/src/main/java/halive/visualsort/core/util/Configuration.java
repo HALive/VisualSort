@@ -21,22 +21,6 @@ public class Configuration {
     private boolean allowExternalPlugins = true;
     private boolean allowVisualisationExport = true;
 
-    public boolean isAllowExternalPlugins() {
-        return allowExternalPlugins;
-    }
-
-    public boolean isLoadOpenGL() {
-        return loadOpenGL;
-    }
-
-    public int getMaxValues() {
-        return maxValues;
-    }
-
-    public boolean isAllowVisualisationExport() {
-        return allowVisualisationExport;
-    }
-
     public static Configuration loadFormFile(File f) {
         Gson gson = new Gson();
         if (!f.exists()) {
@@ -65,5 +49,21 @@ public class Configuration {
                 VSLog.logger.log(Level.INFO, "Error Loading Config", e);
             }
         }
+    }
+
+    public boolean isAllowExternalPlugins() {
+        return allowExternalPlugins;
+    }
+
+    public boolean isLoadOpenGL() {
+        return loadOpenGL;
+    }
+
+    public int getMaxValues() {
+        return maxValues;
+    }
+
+    public boolean isAllowVisualisationExport() {
+        return allowVisualisationExport;
     }
 }

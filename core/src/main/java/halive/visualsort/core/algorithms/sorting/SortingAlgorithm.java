@@ -6,8 +6,8 @@
 package halive.visualsort.core.algorithms.sorting;
 
 import halive.visualsort.core.DataEntry;
-import halive.visualsort.core.interfaces.IAlgorithm;
 import halive.visualsort.core.SortingHandler;
+import halive.visualsort.core.interfaces.IAlgorithm;
 
 /**
  * This Abstract class Allows you to define A Sorting Algortithm used by the VisualSort Programm

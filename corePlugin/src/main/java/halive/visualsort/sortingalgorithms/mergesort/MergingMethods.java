@@ -5,7 +5,6 @@
 
 package halive.visualsort.sortingalgorithms.mergesort;
 
-//TODO Implement other Merging Methods
 public enum MergingMethods {
     IN_PLACE(MergeUtils::mergeInPlace, "In-Place Merging"),
     OP_MERGE_V1(MergeUtils::mergeOPEfficient, "Efficient Non In-Place Merge"),

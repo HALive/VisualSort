@@ -38,6 +38,22 @@ public class GenerationAndAlgorithmTest {
         this.comb = comb;
     }
 
+    @Parameterized.Parameters(name = "{index}: {0}")
+    public static Collection<Combination<DataGenerator, SortingAlgorithm>> data()
+            throws IllegalAccessException, InstantiationException {
+        List<Combination<DataGenerator, SortingAlgorithm>> combinations = new ArrayList<>();
+        List<SortingAlgorithm> sortingAlgorithms = InstanceGenerator.getSortingAlgorithmInstances();
+        List<DataGenerator> dataGenerators = InstanceGenerator.getDataGeneratorInstances();
+        dataGenerators.forEach(dataGenerator -> {
+            sortingAlgorithms.forEach(sortingAlgorithm -> {
+                Combination<DataGenerator, SortingAlgorithm> combination =
+                        new Combination<>(dataGenerator, sortingAlgorithm);
+                combinations.add(combination);
+            });
+        });
+        return combinations;
+    }
+
     @Before
     public void setUp() throws Exception {
         handler = new SortingHandler(null);
@@ -68,22 +84,6 @@ public class GenerationAndAlgorithmTest {
         SortingTestUtils.compareCountArrays(v1,
                 SortingTestUtils.countValues(DataGeneratorTest.MAX_VALUE, entries));
         System.out.println(comb + ": Test Successful");
-    }
-
-    @Parameterized.Parameters(name = "{index}: {0}")
-    public static Collection<Combination<DataGenerator, SortingAlgorithm>> data()
-            throws IllegalAccessException, InstantiationException {
-        List<Combination<DataGenerator, SortingAlgorithm>> combinations = new ArrayList<>();
-        List<SortingAlgorithm> sortingAlgorithms = InstanceGenerator.getSortingAlgorithmInstances();
-        List<DataGenerator> dataGenerators = InstanceGenerator.getDataGeneratorInstances();
-        dataGenerators.forEach(dataGenerator -> {
-            sortingAlgorithms.forEach(sortingAlgorithm -> {
-                Combination<DataGenerator, SortingAlgorithm> combination =
-                        new Combination<>(dataGenerator, sortingAlgorithm);
-                combinations.add(combination);
-            });
-        });
-        return combinations;
     }
 
     private static class Combination<A, B> {

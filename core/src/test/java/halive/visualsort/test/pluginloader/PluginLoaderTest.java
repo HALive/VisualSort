@@ -6,9 +6,9 @@
 package halive.visualsort.test.pluginloader;
 
 import halive.visualsort.core.algorithms.datageneration.DataGenerator;
+import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
 import halive.visualsort.core.plugins.IVisualSortPlugin;
 import halive.visualsort.core.plugins.PluginHandler;
-import halive.visualsort.core.algorithms.sorting.SortingAlgorithm;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,7 +18,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class PluginLoaderTest {
 

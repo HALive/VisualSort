@@ -34,22 +34,6 @@ public class DataGeneratorTest {
         dataGen = gen;
     }
 
-    @Before
-    public void setUp() throws Exception {
-        SortingHandler handler = new SortingHandler(null);
-        for (int i = 0; i < dataEntries.length; i++) {
-            dataEntries[i] = new DataEntry(1, handler);
-        }
-    }
-
-    @Test
-    public void testDataGenerators() throws Exception {
-        System.out.println(dataGen.getName() + " Generating Data");
-        dataGen.generateData(dataEntries, MAX_VALUE);
-        assertTrue(dataGen.getName() + " Did not generate valid data!", isDataValid(dataEntries));
-        System.out.println("Test Sucessful!");
-    }
-
     public static boolean isDataValid(DataEntry[] dataEntries) {
         for (int i = 0; i < dataEntries.length; i++) {
             DataEntry e = dataEntries[i];
@@ -64,5 +48,21 @@ public class DataGeneratorTest {
     public static Collection<DataGenerator> getAlgorithms()
             throws IllegalAccessException, InstantiationException {
         return InstanceGenerator.getDataGeneratorInstances();
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        SortingHandler handler = new SortingHandler(null);
+        for (int i = 0; i < dataEntries.length; i++) {
+            dataEntries[i] = new DataEntry(1, handler);
+        }
+    }
+
+    @Test
+    public void testDataGenerators() throws Exception {
+        System.out.println(dataGen.getName() + " Generating Data");
+        dataGen.generateData(dataEntries, MAX_VALUE);
+        assertTrue(dataGen.getName() + " Did not generate valid data!", isDataValid(dataEntries));
+        System.out.println("Test Sucessful!");
     }
 }

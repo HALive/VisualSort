@@ -16,6 +16,10 @@ import halive.visualsort.core.algorithms.sorting.SubArraySortingAlgortihm;
  */
 public class BitonicSort extends SubArraySortingAlgortihm {
 
+    //Direction Constants
+    private static boolean ASC = true;
+    private static boolean DESC = false;
+
     public BitonicSort() {
         super("Bitonic Sort", "");
     }
@@ -64,8 +68,4 @@ public class BitonicSort extends SubArraySortingAlgortihm {
     public String getName() {
         return name;
     }
-
-    //Direction Constants
-    private static boolean ASC = true;
-    private static boolean DESC = false;
 }

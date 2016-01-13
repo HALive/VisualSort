@@ -54,6 +54,12 @@ public class NativeLoaderTest {
         this.foldername = foldername;
     }
 
+    @Parameterized.Parameters(name = "{index}: Folder: \"{0}\"")
+    public static Collection<String> getFolderNamesToTest() {
+        return Arrays.asList("TestFolder", "ÄTestFolder",
+                "ÜTestFolder", "ÜTestFolder", "Test Folder");
+    }
+
     @Before
     public void setUp() throws Exception {
         workingDir = new File(folder.newFolder(), foldername);
@@ -109,11 +115,5 @@ public class NativeLoaderTest {
     private String getSHAHash(byte[] data) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         return String.format("%064x", new java.math.BigInteger(1, md.digest(data)));
-    }
-
-    @Parameterized.Parameters(name = "{index}: Folder: \"{0}\"")
-    public static Collection<String> getFolderNamesToTest() {
-        return Arrays.asList("TestFolder", "ÄTestFolder",
-                "ÜTestFolder", "ÜTestFolder", "Test Folder");
     }
 }

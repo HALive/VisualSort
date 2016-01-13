@@ -21,6 +21,13 @@ public class ParallelQuickSort extends QuickSortR2 {
         super("Quick Sort Parallel", "", heuristic);
     }
 
+    public static int getSizeForNewThread(int len) {
+        if (len / 16 > 40) {
+            return 40;
+        }
+        return len / 16;
+    }
+
     @Override
     public void doSort(DataEntry[] data, SortingHandler sortingHandler, int l, int r) {
         svc = new ForkJoinPool();
@@ -48,13 +55,6 @@ public class ParallelQuickSort extends QuickSortR2 {
             data[right].setRenderColor(Color.green);
             data[left].setRenderColor(Color.green);
         }
-    }
-
-    public static int getSizeForNewThread(int len) {
-        if (len / 16 > 40) {
-            return 40;
-        }
-        return len / 16;
     }
 
     private class QSTask implements Callable<Long> {

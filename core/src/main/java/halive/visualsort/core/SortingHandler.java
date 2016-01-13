@@ -36,7 +36,7 @@ public class SortingHandler implements Runnable {
     private long comparisons = 0;
     private long elapsedTime = 0;
 
-    private SortingAlgorithm currentAlgorithm;
+    private SortingAlgorithm sortingAlgorithm;
     private OptionDialogResult algorithmResult = null;
     private DataGenerator dataGenerator;
     private OptionDialogResult dataGenResult = null;
@@ -67,6 +67,9 @@ public class SortingHandler implements Runnable {
         this.gui = ui;
     }
 
+    /**
+     * Initializes the Sorting Thread
+     */
     public void init() {
         statusUpdater = new Timer("Status Updater");
         sortingThread = new Thread(this, "Sorting Handler");
@@ -75,6 +78,10 @@ public class SortingHandler implements Runnable {
         gui.displayStatus("Generating Data");
     }
 
+    /**
+     * The SortingThreads Main Routine, Sorting and Datageneration is
+     * Invoked and Mostly Perfomed by this Method
+     */
     @Override
     public void run() {
         swaps = 0;
@@ -84,7 +91,7 @@ public class SortingHandler implements Runnable {
         entries = null;
 
         dataGenerator.init(dataGenResult, this);
-        currentAlgorithm.init(algorithmResult, this);
+        sortingAlgorithm.init(algorithmResult, this);
 
         entries = new DataEntry[amtEntries];
         for (int i = 0; i < entries.length; i++) {
@@ -102,7 +109,7 @@ public class SortingHandler implements Runnable {
         gui.displayStatus("Sorting");
 
         logStep();
-        currentAlgorithm.doSort(entries, this, 0, entries.length);
+        sortingAlgorithm.doSort(entries, this, 0, entries.length);
 
         statusUpdater.cancel();
 
@@ -116,10 +123,10 @@ public class SortingHandler implements Runnable {
         gui.enableAlgorithmSelection(true);
         gui.enableStopButtons(false);
 
-        currentAlgorithm.clearOptions();
+        sortingAlgorithm.clearOptions();
         dataGenerator.clearOptions();
 
-        currentAlgorithm = null;
+        sortingAlgorithm = null;
         dataGenerator = null;
         algorithmResult = null;
         dataGenResult = null;
@@ -127,6 +134,10 @@ public class SortingHandler implements Runnable {
         exporter = null;
     }
 
+    /**
+     * Adds A New Export Step. This is Invoked whenever A Item Gest Swapped.
+     * It is Invoked by the onSwapped() Method
+     */
     public void logStep() {
         if (export) {
             exporter.addStep(entries);
@@ -149,8 +160,8 @@ public class SortingHandler implements Runnable {
     /**
      * Swaps the Objects at the Given Postions
      *
-     * @param p1 pos1
-     * @param p2 pos2
+     * @param p1 pos1 Postion 1
+     * @param p2 pos2 Postion 2
      */
     public void swapObject(int p1, int p2) {
         DataEntry entry = entries[p1];
@@ -191,50 +202,97 @@ public class SortingHandler implements Runnable {
         }
     }
 
+    /**
+     * @return The Data Entry Array that gets Sorted
+     */
     public DataEntry[] getEntries() {
         return entries;
     }
 
+    /**
+     * Sets the entries Array to the Given Parameter
+     *
+     * @param entries see Above
+     */
     public void setEntries(DataEntry[] entries) {
         this.entries = entries;
     }
 
+    /**
+     * Sets the Current SortingAlgorithm
+     *
+     * @param currentAlgorithm the Sorting algortihm to set To
+     */
     public void setSortingAlgorithm(SortingAlgorithm currentAlgorithm) {
-        this.currentAlgorithm = currentAlgorithm;
+        this.sortingAlgorithm = currentAlgorithm;
     }
 
+    /**
+     * @return true this sorting Handler Has a DataGenerator set
+     */
     public boolean hasDataGenerator() {
         return dataGenerator != null;
     }
 
+    /**
+     * @return true this sorting Handler Has a SortingAlgorithm set
+     */
     public boolean hasSortingAlgorithm() {
-        return currentAlgorithm != null;
+        return sortingAlgorithm != null;
     }
 
+    /**
+     * @param delayOnComp If this is true the Sorting will Delay on the next Comparison.
+     *                    If its False the Sorting will not delay
+     */
     public void setDelayOnComp(boolean delayOnComp) {
         this.delayOnComp = delayOnComp;
     }
 
+    /**
+     * @param delayOnSwap If this is true the Sorting will Delay on the next swap.
+     *                    If its False the Sorting will not delay
+     */
     public void setDelayOnSwap(boolean delayOnSwap) {
         this.delayOnSwap = delayOnSwap;
     }
 
+    /**
+     * @param stopOnNextComp If this is true the Sorting will Pause on the next Comparison.
+     *                       If its False the Sorting will Continue (if it was Paused before)
+     */
     public void setStopOnNextComp(boolean stopOnNextComp) {
         this.stopOnNextComp = stopOnNextComp;
     }
 
+    /**
+     * @param stopOnNextSwap If this is true the Sorting will Pause on the next swap.
+     *                       If its False the Sorting will Continue (if it was Paused before)
+     */
     public void setStopOnNextSwap(boolean stopOnNextSwap) {
         this.stopOnNextSwap = stopOnNextSwap;
     }
 
+    /**
+     * @return true if the Data Contained By the Handler is allowed to Be rendered.
+     * In other words this returns true if the data should get Rendered
+     */
     public boolean isAllowRendering() {
         return allowRendering;
     }
 
+    /**
+     * @return the renderWidth for every Value (Bar)
+     */
     public int getRenderWidth() {
         return renderWidth;
     }
 
+    /**
+     * Sets the renderWitdh of the bar of every Vlaues
+     *
+     * @param renderWidth see above
+     */
     public void setRenderWidth(int renderWidth) {
         this.renderWidth = renderWidth;
         if (entries != null) {
@@ -244,26 +302,46 @@ public class SortingHandler implements Runnable {
         }
     }
 
+    /**
+     * @return The Amount of entries to Sort. this si Going to be the Length of the DataEntries Array
+     */
     public int getAmtEntries() {
         return amtEntries;
     }
 
+    /**
+     * Sets the Amount of entries the Soring Handler should have
+     *
+     * @param amtEntries see Above
+     */
     public void setAmtEntries(int amtEntries) {
         this.amtEntries = amtEntries;
     }
 
+    /**
+     * If the Sorting Was Paused in any way this will unpause Sorting
+     * It does nothing if the Soring isnt paused.
+     * or triggered to be Paused on the Next Swap/Comparison
+     */
     public void clearPause() {
         stopOnNextComp = false;
         stopOnNextSwap = false;
     }
 
+    /**
+     * Tells the Gui to Manually update the Data
+     */
     private void manualDataUptdate() {
         gui.updateStatusLabels(comparisons, swaps, null);
     }
 
+    /**
+     * @return true if the Sorting is not Paused. This is also true if the Handler has not been started
+     */
     public boolean isRunning() {
         return !paused;
     }
+
 
     @SuppressWarnings("Duplicates")
     public void onSwapped() {
@@ -289,7 +367,7 @@ public class SortingHandler implements Runnable {
     }
 
     public SortingAlgorithm getSortingAlgorithm() {
-        return currentAlgorithm;
+        return sortingAlgorithm;
     }
 
     public DataGenerator getDataGenerator() {
